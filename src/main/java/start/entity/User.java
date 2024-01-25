@@ -9,6 +9,7 @@ import start.enums.RoleEnum;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,9 +23,15 @@ public class User implements UserDetails {
     private String username;
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "role_id")
+
+    @Enumerated(EnumType.STRING)
     RoleEnum role;
+
+
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    Set<Artwork> artworks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

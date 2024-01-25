@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Component
 public class TokenHandler {
-    private final String SECRET_KEY = "TRAN_GIA_BAO";
+    private final String SECRET_KEY = "CREMO";
 //    1s => 1000ms
 //    private final UUID EXPIRATION = 1 * 60 * 1000;
     private final long EXPIRATION = 1 * 24 * 60 * 60 * 1000;

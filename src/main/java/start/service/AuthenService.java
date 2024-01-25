@@ -13,6 +13,8 @@ import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
 import start.dto.response.LoginResponse;
 import start.entity.User;
+import start.enums.RoleEnum;
+import start.exception.exceptions.EntityNotFound;
 import start.repository.UserRepository;
 import start.utils.TokenHandler;
 
@@ -42,12 +44,12 @@ public class AuthenService implements UserDetailsService {
             );
 
         } catch (Exception e) {
-//            throw new EntityNotFound("Username or password invalid");
-            e.printStackTrace();
+            throw new EntityNotFound("Username or password invalid");
         }
         User user = (User) authentication.getPrincipal();
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setUsername(user.getUsername());
+        loginResponse.setPassword(user.getPassword());
         loginResponse.setRole(user.getRole());
         loginResponse.setToken(tokenHandler.generateToken(user));
         return loginResponse;
@@ -55,6 +57,7 @@ public class AuthenService implements UserDetailsService {
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
         User user = new User();
+        user.setRole(RoleEnum.ADMIN);
         user.setUsername(signUpRequestDTO.getUsername());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         return userRepository.save(user);

@@ -1,5 +1,8 @@
 package start.enums;
 
 public enum RoleEnum {
-    ADMIN
+    ADMIN,
+    AUDIENCE,
+    CREATOR,
+    MOD
 }

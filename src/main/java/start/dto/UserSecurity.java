@@ -12,10 +12,8 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 public class UserSecurity implements UserDetails {
-
     User user;
     Collection<SimpleGrantedAuthority> authorities;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
