@@ -33,6 +33,4 @@ public class ArtworkController {
         return  responseHandler.response(200, "Get All Artwork Successlly!", artworkService.getAllArtWork());
     }
 
-
-
 }
