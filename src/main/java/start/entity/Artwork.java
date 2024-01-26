@@ -1,7 +1,11 @@
 package start.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
@@ -9,7 +13,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Artwork {
     @Id
@@ -35,6 +40,6 @@ public class Artwork {
             name = "artwork_category",
             joinColumns = @JoinColumn(name = "artwork_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-         Set<Category> categories;
-
+    @JsonManagedReference
+     Set<Category> categories;
 }
