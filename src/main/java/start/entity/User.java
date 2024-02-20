@@ -1,5 +1,6 @@
 package start.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,18 +21,23 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+    private String name;
+    @Column(unique = true)
     private String username;
     private String password;
 
-
+    @Column(unique = true)
+    private String email;
+    private Integer postQuantity;
+    private String avt;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     RoleEnum role;
-
-
-
-
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    Set<Artwork> artworks;
+
+
+    @JsonIgnore
+     Set<Artwork> artworks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -1,6 +1,7 @@
 package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,6 +18,8 @@ import start.enums.RoleEnum;
 import start.exception.exceptions.EntityNotFound;
 import start.repository.UserRepository;
 import start.utils.TokenHandler;
+
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @Service
 public class AuthenService implements UserDetailsService {
@@ -57,10 +60,20 @@ public class AuthenService implements UserDetailsService {
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
         User user = new User();
-        user.setRole(RoleEnum.ADMIN);
-        user.setUsername(signUpRequestDTO.getUsername());
+        System.out.println(signUpRequestDTO.getUserName());
+        user.setEmail(signUpRequestDTO.getEmail());
+        user.setRole(signUpRequestDTO.getRole().toLowerCase().trim().equals("creator")?RoleEnum.CREATOR:RoleEnum.AUDIENCE);
+        user.setUsername(signUpRequestDTO.getUserName());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
+        user.setName(signUpRequestDTO.getName());
+        user.setPhoneNumber(signUpRequestDTO.getPhone());
+    try{
         return userRepository.save(user);
+    }catch (DataIntegrityViolationException e) {
+        System.out.println(e.getMessage());
+        if(e.getMessage().contains("user.username_UNIQUE")) throw new DataIntegrityViolationException("Duplicate UserName");
+        else  throw new DataIntegrityViolationException("Duplicate Email");
+    }
     }
 
     @Override

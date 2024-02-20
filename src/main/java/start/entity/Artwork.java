@@ -20,26 +20,29 @@ public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
-
     private String name;
     private String image;
-
     private String description;
-    @ManyToOne
-
-    @JoinColumn(name="user_id")
-    // khoa ngoai
-    User user;
     private Date createDate;
     private float price;
     private StatusEnum status;
+    // user
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    // khoa ngoai
+    User user;
 
+
+    // category
     @ManyToMany
     @JoinTable(
             name = "artwork_category",
             joinColumns = @JoinColumn(name = "artwork_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
-     Set<Category> categories;
+    Set<Category> categories;
+
+
+
+
 }

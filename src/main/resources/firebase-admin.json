@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "artworksharingplatform",
+  "private_key_id": "417cfb011c925272f1399dc85d6dcd9047f8b67b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDZJUyuY0xx9XbM\nPLf67dCdS5xkL6vY5HdapTmSBDtM+8/DEd4z88xt5LLGIO/FjXQnHQR2L+p2MFo2\nOhxCaKPFYbVajyuC8yXd0cFQsNU7jjBs6w88bkL2CZ2dEaED0kvoM6hYq+uJ/Skv\n+eXzqgH2ZiXjxsLhjPGkTcDfLGYzSjr5iMVvHAQMAQpbmMMvVArRRYjyqdrjOta1\n6o+mbdf6Vh7EPPc3bjlrteMCYRm5UkMUIu6uj/Cad5yJt1WLR5FkrudbUn+m8TJ9\nCKiT8VSrDPoS8AbHAWfOCWDb90zHEIq5t3jp78okesI66MUVgixo9oL3UNvU1K4w\nusFhMkV7AgMBAAECggEAEODvg8ilKwss96Aqnt8jGERF0kXLAk9z9ZWiksvbE4H+\npXI7RueG9u3QIErJcx4qhAB4lc/mANeDqPO9uZhqTnqTVF2M63Sx91A0H20MuMCL\nLr7bZCj1RyxP1jiGFFwhhARBQYSPiPN8OEX2TrPiy3/SJyaOhGYRFw081jwcb5UL\nVfuXB+cDStiqt4TfIDaPAPaCo1FNv/AezyJj4nFyaa887cV0vSnN/RqkinTyYOQa\nr4lBThDk1YkN4mzDSJ0xzlVoKagPx86opbKLhckI0B9NIoyrli6+IS2KnupyHSXV\n/NaecfRYEoSYVHP5krepx5hfg3FBu+O35M+vZbTmWQKBgQD3urKyAHWzYR1GaNQ9\n5iI3N+AQrjpMxyzEx7B0PlVl4rC6jBSQAf6YQNhrqSjGicYSpTDlttLmQYj/bGXS\nOH9U2Gix4fk4uVE/VxzXQDaKlTBhxq08f6S7b0WwsksZ6Jq8C2pVfrEAPKCgDmed\n+/O2LEOridMVVftcU+1VcixfQwKBgQDgZTVjtEyE2sRC+t7r7tRYEyscqerZTUjr\n2cfQEXM4HkfDbsF3c44+OyyVSUgpwF7wvQJKqp9rxHjQpo2whBC0xzYCu0MCcHAY\nDMJ00ZyoTqAvgo2LOe+mN9WdF/0J1zN5ZnM7qZ7a+2i4BwzfgQRF6egUZyVR+9Ct\nvcRS2IlRaQKBgGuKbrx7Gp1OUUkZhNmCJ+RUqz5ShBiEdljOXzl3PddG+3VgDiUd\n2In7zHegLYVSldvOPlXacd9nH7PSOLlzsUMB1yExeeE4AZ8/j9OZmpO6hBBOETIs\nLzT27wfvvk52/YUYZ4bJwsjZiNkyp6SblYbF3HKBGFMwyjegb20ibUTFAoGAQpNE\nh9RSb4hIembcBLvTHF5ziAmRt+8KF4+BjOXgfWHegMk3dS0/oo8D5zbaxihhAqPR\nLj35FowwHBeOKjTEkB4alCzi8LJTT49Zkjcud3D8bZwaSphh1brzEaywUl8a0oXm\n4miszOOSaicNVrJ8hhGj3YnMtMo1W5bVzI6aDyECgYBgsvKuBm1r8KTm2na5ZABu\nwKny477E3PJoC4U7vEwPXLqXvld9wrVP6EsE51ZpsrtNJ4d1rMZHI7A2/ig0wuCz\n0faeEo3WymSzCmVmuqTbmWNRH1WCInTJZC4oMTBnWQ5QMSm/tyJ8zSstzXcVtN3T\nt1177GOMz+d8stv7YnaqpA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-ccexy@artworksharingplatform.iam.gserviceaccount.com",
+  "client_id": "105159003326047813078",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-ccexy%40artworksharingplatform.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
