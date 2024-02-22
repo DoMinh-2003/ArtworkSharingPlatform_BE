@@ -1,4 +1,4 @@
-package mail.dto;
+package start.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

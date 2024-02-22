@@ -8,13 +8,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import start.enums.RoleEnum;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -28,9 +28,16 @@ public class User implements UserDetails {
 
     @Column(unique = true)
     private String email;
+
+//    public boolean isActive() {
+//        return active;
+//    }
+
     private Integer postQuantity;
     private String avt;
     private String phoneNumber;
+    private boolean active;
+
     @Enumerated(EnumType.STRING)
     RoleEnum role;
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)

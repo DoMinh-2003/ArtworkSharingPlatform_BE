@@ -1,15 +1,16 @@
-package mail.service;
+package start.service;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import mail.dto.EmailDetail;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class EmailService {
@@ -19,11 +20,14 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
-    public void sendMailTemplate(EmailDetail emailDetail){
+    public void sendMailTemplate(String email,String name){
+
+
         try{
             Context context = new Context();
 
-            context.setVariable("name", "Gia Bảo");
+            context.setVariable("name", name);
+            context.setVariable("email", "http://mycremo.art/account/unverified?email="+email);
 
             String text = templateEngine.process("emailtemplate", context);
 
@@ -33,12 +37,14 @@ public class EmailService {
 
             // Setting up necessary details
             mimeMessageHelper.setFrom("admin@gmail.com");
-            mimeMessageHelper.setTo(emailDetail.getRecipient());
+            mimeMessageHelper.setTo(email);
             mimeMessageHelper.setText(text, true);
-            mimeMessageHelper.setSubject(emailDetail.getSubject());
+            mimeMessageHelper.setSubject("Verify Account");
             javaMailSender.send(mimeMessage);
         }catch (MessagingException messagingException){
             messagingException.printStackTrace();
         }
     }
+
+
 }
