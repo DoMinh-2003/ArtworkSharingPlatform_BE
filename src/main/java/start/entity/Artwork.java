@@ -1,16 +1,12 @@
 package start.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,10 +16,10 @@ public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    private String name;
+    private String title;
     private String image;
     private String description;
-    private Date createDate;
+    private String createDate;
     private float price;
     private StatusEnum status;
     // user
@@ -31,7 +27,6 @@ public class Artwork {
     @JoinColumn(name="user_id")
     // khoa ngoai
     User user;
-
 
     // category
     @ManyToMany
@@ -41,8 +36,4 @@ public class Artwork {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
     Set<Category> categories;
-
-
-
-
 }

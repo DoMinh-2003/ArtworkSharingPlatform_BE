@@ -63,6 +63,7 @@ public class Filter extends OncePerRequestFilter {
                 // tạo 1 đối tượng mà spring security hiểu
                 User user = userRepository.findUserByUsername(id);
                 //token hop le
+
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);

@@ -12,9 +12,10 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArtworkRequestDTO {
-    private String name;
+    private String title;
     private String image;
     private String description;
     private float price;
-    Set<Long> categoriesID;
+    private String createDate;
+    Set<String> categoriesName;
 }
