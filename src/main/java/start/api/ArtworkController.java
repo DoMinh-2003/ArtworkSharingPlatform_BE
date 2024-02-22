@@ -22,7 +22,7 @@ public class ArtworkController {
     @Autowired
     ResponseHandler responseHandler;
 
-    @PostMapping("/artwork")
+    @PostMapping("/postArtwork")
     public ResponseEntity addArtwork(@RequestBody ArtworkRequestDTO artworkRequestDTO){
        Artwork artwork = artworkService.addNewArtwork(artworkRequestDTO);
         return  responseHandler.response(200, "Added Artwork Successlly!", artwork);

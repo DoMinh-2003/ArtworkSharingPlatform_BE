@@ -8,8 +8,8 @@ import start.entity.Artwork;
 import start.entity.Category;
 import start.repository.ArtworkRepository;
 import start.repository.CategoryRepository;
-import start.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -21,13 +21,21 @@ public class ArtworkService  {
     @Autowired
     CategoryRepository categoryRepository;
     public Artwork addNewArtwork(ArtworkRequestDTO artworkRequestDTO) {
+        Set<Category> listCategoryID = new HashSet<>();
+        for (String categoryName : artworkRequestDTO.getCategoriesName()) {
+            Category category = categoryRepository.findAllByName(categoryName);
+            if (category != null) {
+                System.out.println(categoryName);
+                listCategoryID.add(category);
+            }
+        }
         Artwork artwork = new Artwork();
-        artwork.setName(artworkRequestDTO.getName());
+        artwork.setTitle(artworkRequestDTO.getTitle());
         artwork.setImage(artworkRequestDTO.getImage());
+        artwork.setCreateDate(artworkRequestDTO.getCreateDate());
         artwork.setDescription(artworkRequestDTO.getDescription());
         artwork.setPrice(artworkRequestDTO.getPrice());
-        Set<Category> listCategory = categoryRepository.findAllById(artworkRequestDTO.getCategoriesID()).stream().collect(Collectors.toSet());
-        artwork.setCategories(listCategory);
+        artwork.setCategories(listCategoryID);
         return artworkRepository.save(artwork);
     }
 
