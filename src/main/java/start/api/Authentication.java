@@ -20,6 +20,8 @@ import start.service.EmailService;
 import start.service.UserService;
 import start.utils.ResponseHandler;
 
+import java.util.UUID;
+
 @RestController
 public class Authentication {
 
@@ -44,7 +46,7 @@ public class Authentication {
     @PostMapping("/signup")
     public ResponseEntity signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
         User user = authenService.signUp(signUpRequestDTO);
-        emailService.sendMailTemplate(signUpRequestDTO.getEmail(),signUpRequestDTO.getName());
+        emailService.sendMailTemplate(user);
         return responseHandler.response(200, "Sign Up success!", user);
     }
 
@@ -54,9 +56,9 @@ public class Authentication {
         }
 
     @PostMapping("/verify-account")
-    private ResponseEntity checkLoginGoogle(@RequestParam String email){
-        authenService.verifyAccount(email);
-        return responseHandler.response(200, "verify success!","");
+    private ResponseEntity checkLoginGoogle(@RequestParam UUID id){
+        User user = authenService.verifyAccount(id);
+        return responseHandler.response(200, "verify success!",user);
     }
 
 }

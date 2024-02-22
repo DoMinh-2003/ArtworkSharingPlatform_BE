@@ -23,6 +23,7 @@ import start.repository.UserRepository;
 import start.utils.TokenHandler;
 
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.UUID;
 
 @Service
 public class AuthenService implements UserDetailsService {
@@ -74,6 +75,7 @@ public class AuthenService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         user.setName(signUpRequestDTO.getName());
         user.setPhoneNumber(signUpRequestDTO.getPhone());
+
         user.setActive(false);
     try{
         return userRepository.save(user);
@@ -83,10 +85,10 @@ public class AuthenService implements UserDetailsService {
     }
     }
 
-    public void verifyAccount(String email) {
-         User user = userRepository.findByEmail(email);
+    public User verifyAccount(UUID id) {
+         User user = userRepository.findUserById(id);
          user.setActive(true);
-         userRepository.save(user);
+         return userRepository.save(user);
     }
 
 

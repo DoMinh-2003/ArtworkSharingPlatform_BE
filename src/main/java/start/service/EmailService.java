@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import start.entity.User;
 
 
 import javax.mail.MessagingException;
@@ -20,14 +21,14 @@ public class EmailService {
 
     @Autowired
     private JavaMailSender javaMailSender;
-    public void sendMailTemplate(String email,String name){
+    public void sendMailTemplate(User user){
 
 
         try{
             Context context = new Context();
 
-            context.setVariable("name", name);
-            context.setVariable("email", "http://mycremo.art/account/unverified?email="+email);
+            context.setVariable("name", user.getName());
+            context.setVariable("email", "http://mycremo.art/confirm-success?id="+user.getId());
 
             String text = templateEngine.process("emailtemplate", context);
 
@@ -37,7 +38,7 @@ public class EmailService {
 
             // Setting up necessary details
             mimeMessageHelper.setFrom("admin@gmail.com");
-            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setTo(user.getEmail());
             mimeMessageHelper.setText(text, true);
             mimeMessageHelper.setSubject("Verify Account");
             javaMailSender.send(mimeMessage);
