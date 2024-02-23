@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import start.dto.EmailDetail;
 import start.dto.request.LoginGoogleRequest;
 import start.dto.request.LoginRequestDTO;
@@ -23,6 +20,7 @@ import start.utils.ResponseHandler;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*")
 public class Authentication {
 
     @Autowired
@@ -57,6 +55,7 @@ public class Authentication {
 
     @PostMapping("/verify-account")
     private ResponseEntity checkLoginGoogle(@RequestParam UUID id){
+        System.out.println(id);
         User user = authenService.verifyAccount(id);
         return responseHandler.response(200, "verify success!",user);
     }
