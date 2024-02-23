@@ -52,7 +52,6 @@ public class AuthenService implements UserDetailsService {
 
         } catch (Exception e) {
             throw new NullPointerException("Wrong Id Or Password") ;
-
         }
         User user = (User) authentication.getPrincipal();
         System.out.println(user);
@@ -76,6 +75,7 @@ public class AuthenService implements UserDetailsService {
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
         User user = new User();
+
         user.setEmail(signUpRequestDTO.getEmail());
         user.setRole(signUpRequestDTO.getRole().toLowerCase().trim().equals("creator")?RoleEnum.CREATOR:RoleEnum.AUDIENCE);
         user.setUsername(signUpRequestDTO.getUserName());
@@ -87,7 +87,7 @@ public class AuthenService implements UserDetailsService {
     try{
         return userRepository.save(user);
     }catch (DataIntegrityViolationException e) {
-        if(e.getMessage().contains("user.username_UNIQUE")) throw new DataIntegrityViolationException("Duplicate UserName");
+        if(e.getMessage().contains("user.username_UNIQUE") || e.getMessage().contains("user.UK_sb8bbouer5wak8vyiiy4pf2bx")) throw new DataIntegrityViolationException("Duplicate UserName");
         else  throw new DataIntegrityViolationException("Duplicate Email");
     }
     }

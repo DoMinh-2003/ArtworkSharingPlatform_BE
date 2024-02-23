@@ -44,7 +44,14 @@ public class Authentication {
     @PostMapping("/signup")
     public ResponseEntity signUp(@RequestBody SignUpRequestDTO signUpRequestDTO){
         User user = authenService.signUp(signUpRequestDTO);
-        emailService.sendMailTemplate(user);
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                emailService.sendMailTemplate(user);
+            }
+
+        };
+        new Thread(r).start();
         return responseHandler.response(200, "Sign Up success!", user);
     }
 
