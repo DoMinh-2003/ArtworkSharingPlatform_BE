@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import start.dto.request.ApproveRequestDTO;
 import start.dto.request.ArtworkRequestDTO;
 import start.dto.response.LoginResponse;
 import start.entity.Artwork;
@@ -41,8 +42,8 @@ public class ArtworkController {
     }
 
     @PutMapping("/artwork-approve/{id}")
-    public ResponseEntity confirmArtwork(@PathVariable long id, @RequestBody String status){
-        Artwork artwork = artworkService.artworkApprove(id, status);
+    public ResponseEntity confirmArtwork(@PathVariable long id, @RequestBody ApproveRequestDTO approve){
+        Artwork artwork = artworkService.artworkApprove(id, approve);
         return  responseHandler.response(200, "Artwork Approve Successlly!", artwork);
     }
 }

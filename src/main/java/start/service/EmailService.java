@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
+import start.dto.request.ApproveRequestDTO;
 import start.entity.User;
 
 
@@ -40,6 +41,24 @@ public class EmailService {
             mimeMessageHelper.setTo(user.getEmail());
             mimeMessageHelper.setText(text, true);
             mimeMessageHelper.setSubject("Verify Account");
+            javaMailSender.send(mimeMessage);
+        }catch (MessagingException messagingException){
+            messagingException.printStackTrace();
+        }
+    }
+
+    public void sendMail(User user, String description){
+
+        try{
+            // Creating a simple mail message
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+
+            // Setting up necessary details
+            mimeMessageHelper.setFrom("admin@gmail.com");
+            mimeMessageHelper.setTo(user.getEmail());
+            mimeMessageHelper.setText(description);
+            mimeMessageHelper.setSubject("Reason for rejecting the post");
             javaMailSender.send(mimeMessage);
         }catch (MessagingException messagingException){
             messagingException.printStackTrace();
