@@ -62,11 +62,10 @@ public class ArtworkService  {
 
 
 
-    public List<Artwork> getAllArtWork(){
-        List<Artwork> artworkList = artworkRepository.findByStatus(StatusEnum.ACTIVE);
+    public List<Artwork> getAllArtWork(String status){
+        List<Artwork> artworkList = artworkRepository.findByStatus(status.toLowerCase().trim().equals("active")?StatusEnum.ACTIVE:StatusEnum.PENDING);
         return artworkList;
     }
-
 
     public Artwork getArtwokDetaill(long id) {
         Artwork artwork = artworkRepository.findById(id);

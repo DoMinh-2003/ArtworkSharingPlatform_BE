@@ -25,7 +25,6 @@ public class Artwork {
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
     // user
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     // khoa ngoai
