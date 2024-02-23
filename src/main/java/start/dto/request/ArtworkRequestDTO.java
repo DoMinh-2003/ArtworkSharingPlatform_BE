@@ -4,6 +4,7 @@ package start.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import start.dto.response.LoginResponse;
 
 import java.util.List;
 import java.util.Set;
@@ -17,5 +18,6 @@ public class ArtworkRequestDTO {
     private String description;
     private float price;
     private String createDate;
-    Set<String> categoriesName;
+    private Set<String> categoriesName;
+//    private LoginResponse user;
 }

@@ -1,5 +1,6 @@
 package start.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,8 +22,10 @@ public class Artwork {
     private String description;
     private String createDate;
     private float price;
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
     // user
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="user_id")
     // khoa ngoai
