@@ -78,7 +78,15 @@ public class ArtworkService  {
             artwork.setStatus(StatusEnum.ACTIVE);
         }else{
             artwork.setStatus(StatusEnum.REJECT);
-            emailService.sendMail(artwork.getUser(),approve.getDescription());
+            Runnable r = new Runnable() {
+                @Override
+                public void run() {
+                    emailService.sendMail(artwork.getUser(),approve.getDescription());
+                }
+
+            };
+            new Thread(r).start();
+
         }
         return artworkRepository.save(artwork);
     }
