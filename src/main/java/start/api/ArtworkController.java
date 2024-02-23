@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start.dto.request.ApproveRequestDTO;
 import start.dto.request.ArtworkRequestDTO;
+import start.dto.response.LoginResponse;
 import start.entity.Artwork;
 import start.service.ArtworkService;
 import start.utils.ResponseHandler;

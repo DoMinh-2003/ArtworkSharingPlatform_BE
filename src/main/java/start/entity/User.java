@@ -45,8 +45,7 @@ public class User implements UserDetails {
 
 
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
-    @JsonIgnore
-     Set<Artwork> artworks;
+    Set<Artwork> artworks;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -59,6 +58,7 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
+    @JsonIgnore
 
     @Override
     public boolean isAccountNonLocked() {
