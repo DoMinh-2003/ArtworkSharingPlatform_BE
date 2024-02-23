@@ -23,7 +23,6 @@ public class EmailService {
     private JavaMailSender javaMailSender;
     public void sendMailTemplate(User user){
 
-        System.out.println("vo toi day r nha" + email);
         try{
             Context context = new Context();
 
