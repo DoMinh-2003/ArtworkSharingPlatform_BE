@@ -20,6 +20,7 @@ import start.utils.ResponseHandler;
 import java.util.UUID;
 
 @RestController
+@CrossOrigin("*")
 public class Authentication {
 
     @Autowired
@@ -54,6 +55,7 @@ public class Authentication {
 
     @PutMapping("/verify-account")
     private ResponseEntity checkLoginGoogle(@RequestParam UUID id){
+        System.out.println(id);
         User user = authenService.verifyAccount(id);
         return responseHandler.response(200, "verify success!",user);
     }

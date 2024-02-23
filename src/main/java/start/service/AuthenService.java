@@ -51,18 +51,25 @@ public class AuthenService implements UserDetailsService {
             );
 
         } catch (Exception e) {
+            throw new NullPointerException("Wrong Id Or Password") ;
 
         }
         User user = (User) authentication.getPrincipal();
+        System.out.println(user);
 
         if(!user.isActive()){
          throw new AccountNotVerify("Account has not been verified");
         }else{
             LoginResponse loginResponse = new LoginResponse();
             loginResponse.setUsername(user.getUsername());
-            loginResponse.setPassword(user.getPassword());
             loginResponse.setRole(user.getRole());
             loginResponse.setToken(tokenHandler.generateToken(user));
+            loginResponse.setId(user.getId());
+            loginResponse.setName(user.getName());
+            loginResponse.setEmail(user.getEmail());
+            loginResponse.setAvt(user.getAvt());
+            loginResponse.setPhoneNumber(user.getPhoneNumber());
+            loginResponse.setPostQuantity(user.getPostQuantity());
             return loginResponse;
         }
     }
