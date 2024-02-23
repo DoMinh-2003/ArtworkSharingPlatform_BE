@@ -43,7 +43,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     RoleEnum role;
 
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     Set<Artwork> artworks;
 
