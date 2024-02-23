@@ -53,7 +53,7 @@ public class Authentication {
             return ResponseEntity.ok().body(userService.loginGoogle(loginGGRequest.getToken()));
         }
 
-    @PostMapping("/verify-account")
+    @PutMapping("/verify-account")
     private ResponseEntity checkLoginGoogle(@RequestParam UUID id){
         System.out.println(id);
         User user = authenService.verifyAccount(id);
