@@ -4,11 +4,16 @@ package start.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import start.dto.request.ArtworkRequestDTO;
+import start.dto.request.LoginRequestDTO;
+import start.dto.response.LoginResponse;
 import start.entity.Artwork;
 import start.entity.Category;
+import start.entity.User;
 import start.enums.StatusEnum;
 import start.repository.ArtworkRepository;
 import start.repository.CategoryRepository;
+import start.repository.UserRepository;
+import start.utils.AccountUtils;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,9 +23,13 @@ import java.util.stream.Collectors;
 @Service
 public class ArtworkService  {
     @Autowired
+    AccountUtils accountUtils;
+    @Autowired
     ArtworkRepository artworkRepository;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    UserRepository userRepository;
     public Artwork addNewArtwork(ArtworkRequestDTO artworkRequestDTO) {
         Set<Category> listCategoryID = new HashSet<>();
         for (String categoryName : artworkRequestDTO.getCategoriesName()) {
@@ -38,6 +47,9 @@ public class ArtworkService  {
         artwork.setPrice(artworkRequestDTO.getPrice());
         artwork.setCategories(listCategoryID);
         artwork.setStatus(StatusEnum.PENDING);
+
+        artwork.setUser(accountUtils.getCurrentUser());
+
         return artworkRepository.save(artwork);
     }
 

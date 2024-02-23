@@ -12,7 +12,12 @@ import java.sql.SQLIntegrityConstraintViolationException;
 @ControllerAdvice
 public class ApiExceptionHandler {
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<?> duplicate(DataIntegrityViolationException   exception){
-    return new ResponseEntity<String>(exception.getMessage(), HttpStatus.BAD_REQUEST);
-}
+    public ResponseEntity<?> duplicate(DataIntegrityViolationException exception) {
+        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> duplicate(Exception exception) {
+        return new ResponseEntity<String>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

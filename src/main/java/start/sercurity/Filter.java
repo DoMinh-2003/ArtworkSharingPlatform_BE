@@ -41,21 +41,22 @@ public class Filter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
-        boolean isAuthen = authenPath.isAuthen(uri);
-        if(isAuthen){
+        if (uri.contains("/login") || uri.contains("/signup") || uri.contains("swagger-ui") || uri.contains("v3") || uri.contains("job")) {
+            filterChain.doFilter(request, response);
+        } else {
             String id;
             String token = getToken(request);
-            if(token == null) {
-                responseHandler.responseResolver(request,response, new NotAllowException("Empty Token!"));
+            if (token == null) {
+                responseHandler.responseResolver(request, response, new NotAllowException("Empty Token!"));
                 return;
             }
             try {
                 id = tokenHandler.getInfoByToken(token);
             } catch (ExpiredJwtException expiredJwtException) {
-                responseHandler.responseResolver(request,response, new NotAllowException("Expired Token!"));
+                responseHandler.responseResolver(request, response, new NotAllowException("Expired Token!"));
                 return;
             } catch (MalformedJwtException malformedJwtException) {
-                responseHandler.responseResolver(request,response, new NotAllowException("Invalid Token!"));
+                responseHandler.responseResolver(request, response, new NotAllowException("Invalid Token!"));
                 return;
             }
             if (id != null) {
@@ -73,10 +74,8 @@ public class Filter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
             } else {
                 // token tào lao
-                responseHandler.responseResolver(request,response, new NotAllowException("Invalid Token!"));
+                responseHandler.responseResolver(request, response, new NotAllowException("Invalid Token!"));
             }
-        }else{
-            filterChain.doFilter(request, response);
         }
     }
 
