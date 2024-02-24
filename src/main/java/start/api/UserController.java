@@ -31,5 +31,4 @@ public class UserController {
         User user = userService.getCreatorDetail(id);
         return  responseHandler.response(200, "Get Creator detail Successlly!", user);
     }
-
 }
