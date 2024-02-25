@@ -2,6 +2,7 @@ package start.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 import start.enums.StatusEnum;
@@ -25,6 +26,7 @@ public class Artwork {
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
     // user
+
     @ManyToOne
     @JoinColumn(name="user_id")
     // khoa ngoai

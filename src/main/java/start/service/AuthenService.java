@@ -67,7 +67,6 @@ public class AuthenService implements UserDetailsService {
             loginResponse.setName(user.getName());
             loginResponse.setEmail(user.getEmail());
             loginResponse.setAvt(user.getAvt());
-            loginResponse.setPhoneNumber(user.getPhoneNumber());
             loginResponse.setPostQuantity(user.getPostQuantity());
             return loginResponse;
         }
@@ -75,14 +74,11 @@ public class AuthenService implements UserDetailsService {
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
         User user = new User();
-
         user.setEmail(signUpRequestDTO.getEmail());
         user.setRole(signUpRequestDTO.getRole().toLowerCase().trim().equals("creator")?RoleEnum.CREATOR:RoleEnum.AUDIENCE);
         user.setUsername(signUpRequestDTO.getUserName());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         user.setName(signUpRequestDTO.getName());
-        user.setPhoneNumber(signUpRequestDTO.getPhone());
-
         user.setActive(false);
     try{
         return userRepository.save(user);
