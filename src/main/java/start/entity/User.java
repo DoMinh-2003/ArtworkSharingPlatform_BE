@@ -37,7 +37,6 @@ public class User implements UserDetails {
 
     private Integer postQuantity;
     private String avt;
-    private String phoneNumber;
     private boolean active;
 
     @Enumerated(EnumType.STRING)
@@ -46,6 +45,7 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     Set<Artwork> artworks;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -58,7 +58,7 @@ public class User implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
-    @JsonIgnore
+
 
     @Override
     public boolean isAccountNonLocked() {

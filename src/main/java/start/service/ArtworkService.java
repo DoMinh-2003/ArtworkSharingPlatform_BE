@@ -5,8 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import start.dto.request.ApproveRequestDTO;
 import start.dto.request.ArtworkRequestDTO;
-import start.dto.request.LoginRequestDTO;
-import start.dto.response.LoginResponse;
+import start.dto.response.ArtworkResponseDTO;
 import start.entity.Artwork;
 import start.entity.Category;
 import start.entity.User;
@@ -19,7 +18,7 @@ import start.utils.AccountUtils;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ArtworkService  {
@@ -54,9 +53,7 @@ public class ArtworkService  {
         artwork.setPrice(artworkRequestDTO.getPrice());
         artwork.setCategories(listCategoryID);
         artwork.setStatus(StatusEnum.PENDING);
-
         artwork.setUser(accountUtils.getCurrentUser());
-
         return artworkRepository.save(artwork);
     }
 
@@ -67,27 +64,43 @@ public class ArtworkService  {
         return artworkList;
     }
 
-    public Artwork getArtwokDetaill(long id) {
+    public ArtworkResponseDTO getArtwokDetaill(long id) {
         Artwork artwork = artworkRepository.findById(id);
-        return artwork;
+        ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
+        artworkResponseDTO.setId(artwork.getId());
+        artworkResponseDTO.setTitle(artwork.getTitle());
+        artworkResponseDTO.setImage(artwork.getImage());
+        artworkResponseDTO.setDescription(artwork.getDescription());
+        artworkResponseDTO.setCreateDate(artwork.getCreateDate());
+        artworkResponseDTO.setPrice(artwork.getPrice());
+        artworkResponseDTO.setStatus(artwork.getStatus());
+        artworkResponseDTO.setUser(artwork.getUser());
+        artworkResponseDTO.setCategories(artwork.getCategories());
+        return artworkResponseDTO;
+    }
+
+    public void threadSendMail(User user,String subject, String description){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                emailService.sendMail(user,subject,description);
+            }
+
+        };
+        new Thread(r).start();
     }
 
     public Artwork artworkApprove(long id, ApproveRequestDTO approve) {
         Artwork artwork = artworkRepository.findById(id);
         if(approve.getStatus().toLowerCase().trim().equals("active")){
             artwork.setStatus(StatusEnum.ACTIVE);
+            threadSendMail(artwork.getUser(),"Your article has been approved","Thank you for trusting us to use cremo");
         }else{
             artwork.setStatus(StatusEnum.REJECT);
-            Runnable r = new Runnable() {
-                @Override
-                public void run() {
-                    emailService.sendMail(artwork.getUser(),approve.getDescription());
-                }
-
-            };
-            new Thread(r).start();
+            threadSendMail(artwork.getUser(),"Reason for rejecting the post",approve.getDescription());
 
         }
         return artworkRepository.save(artwork);
     }
+
 }

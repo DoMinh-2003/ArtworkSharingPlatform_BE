@@ -62,7 +62,6 @@ public class Authentication {
 
     @PutMapping("/verify-account")
     private ResponseEntity verifyAccount(@RequestParam UUID id){
-        System.out.println("vo verify r" +id);
         User user = authenService.verifyAccount(id);
         return responseHandler.response(200, "verify success!",user);
     }

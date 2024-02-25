@@ -47,7 +47,7 @@ public class EmailService {
         }
     }
 
-    public void sendMail(User user, String description){
+    public void sendMail(User user,String subject, String description){
 
         try{
             // Creating a simple mail message
@@ -58,7 +58,7 @@ public class EmailService {
             mimeMessageHelper.setFrom("admin@gmail.com");
             mimeMessageHelper.setTo(user.getEmail());
             mimeMessageHelper.setText(description);
-            mimeMessageHelper.setSubject("Reason for rejecting the post");
+            mimeMessageHelper.setSubject(subject);
             javaMailSender.send(mimeMessage);
         }catch (MessagingException messagingException){
             messagingException.printStackTrace();
