@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start.dto.request.ApproveRequestDTO;
 import start.dto.request.ArtworkRequestDTO;
+import start.dto.response.ArtworkResponseDTO;
 import start.dto.response.LoginResponse;
 import start.entity.Artwork;
 import start.service.ArtworkService;
@@ -37,7 +38,7 @@ public class ArtworkController {
     }
     @GetMapping("/artwork-detail/{id}")
     public ResponseEntity getArtwokDetaill(@PathVariable long id){
-        Artwork artwork = artworkService.getArtwokDetaill(id);
+        ArtworkResponseDTO artwork = artworkService.getArtwokDetaill(id);
         return  responseHandler.response(200, "Get Artwork Detail Successlly!", artwork);
     }
 

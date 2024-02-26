@@ -1,13 +1,11 @@
 package start.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
@@ -25,6 +23,7 @@ public class Artwork {
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
     // user
+
     @ManyToOne
     @JoinColumn(name="user_id")
     // khoa ngoai
