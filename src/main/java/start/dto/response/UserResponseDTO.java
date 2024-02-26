@@ -24,7 +24,9 @@ public class UserResponseDTO {
     private Integer postQuantity;
     private String avt;
     private boolean active;
+    private String token;
     @Enumerated(EnumType.STRING)
     RoleEnum role;
     Set<Artwork> artworks;
+
 }
