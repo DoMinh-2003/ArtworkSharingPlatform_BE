@@ -32,27 +32,30 @@ public class OrderRequestService {
         OrderRequest orderRequest = new OrderRequest();
         User creator = userRepository.findUserById(orderRequestDTO.getCreatorID());
         User audience = accountUtils.getCurrentUser();
-        orderRequest.setCreator(creator);
-        orderRequest.setAudience(audience);
-        orderRequest.setTitle(orderRequestDTO.getTitle());
-        orderRequest.setDescription(orderRequestDTO.getDescription());
-        orderRequest.setDateStart(orderRequestDTO.getDateStart());
-        orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
-        orderRequest.setPrice(orderRequestDTO.getPrice());
-        orderRequest.setStatus(StatusEnum.PENDING);
+            orderRequest.setCreator(creator);
+            orderRequest.setAudience(audience);
+            orderRequest.setTitle(orderRequestDTO.getTitle());
+            orderRequest.setDescription(orderRequestDTO.getDescription());
+            orderRequest.setDateStart(orderRequestDTO.getDateStart());
+            orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
+            orderRequest.setPrice(orderRequestDTO.getPrice());
+            orderRequest.setStatus(StatusEnum.PENDING);
+
+
+
         return orderRequestRepository.save(orderRequest);
     }
 
     public List<OrderRequest> getOrderRequestCreator() {
         User user = accountUtils.getCurrentUser();
-            List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreatorIdAndStatus(user.getId(),StatusEnum.PENDING);
+            List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreator_IdAndStatus(user.getId(),StatusEnum.PENDING);
 
         return listOrderRequest;
     }
 
     public List<OrderRequest> getOrderRequestAudience() {
         User user = accountUtils.getCurrentUser();
-        List<OrderRequest> listOrderRequest = orderRequestRepository.findByAudienceIdAndStatus(user.getId(),StatusEnum.PENDING);
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByAudience_IdAndStatus(user.getId(),StatusEnum.PENDING);
         return listOrderRequest;
     }
 }

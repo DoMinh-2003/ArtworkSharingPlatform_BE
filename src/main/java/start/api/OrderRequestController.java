@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import start.dto.request.OrderRequestDTO;
-import start.dto.response.OrderResponseDTO;
-import start.entity.Artwork;
 import start.entity.OrderRequest;
 import start.service.OrderRequestService;
 import start.utils.ResponseHandler;
