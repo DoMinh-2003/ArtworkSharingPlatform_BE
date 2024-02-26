@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.UUID;
 
 public interface OrderRequestRepository extends JpaRepository<OrderRequest,Long> {
-    List<OrderRequest> findByAudience_IdAndStatus(UUID userId, StatusEnum status);
+    List<OrderRequest> findByAudienceIdAndStatus(UUID userId, StatusEnum status);
 
-    List<OrderRequest> findByCreator_IdAndStatus(UUID userId, StatusEnum status);
+    List<OrderRequest> findByCreatorIdAndStatus(UUID userId, StatusEnum status);
 
 
 }
