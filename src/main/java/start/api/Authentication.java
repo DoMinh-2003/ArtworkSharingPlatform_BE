@@ -66,10 +66,11 @@ public class Authentication {
         return responseHandler.response(200, "verify success!",user);
     }
 
-    @PutMapping("/forgotPassword")
-    private ResponseEntity forgotPassword(@RequestParam String email){
+    @PutMapping("/forgotPassword/{email}")
+    private ResponseEntity forgotPassword(@PathVariable String email){
+        System.out.println(email);
         User user = authenService.forgotPassword(email);
-        return responseHandler.response(200, "verify success!",user);
+        return responseHandler.response(200, "Your new information has been sent to email",user);
     }
 
 }
