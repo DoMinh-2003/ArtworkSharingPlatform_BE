@@ -18,11 +18,9 @@ import start.dto.response.LoginResponse;
 import start.entity.User;
 import start.enums.RoleEnum;
 import start.exception.exceptions.AccountNotVerify;
-import start.exception.exceptions.EntityNotFound;
 import start.repository.UserRepository;
 import start.utils.TokenHandler;
 
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.UUID;
 
 @Service
@@ -75,14 +73,13 @@ public class AuthenService implements UserDetailsService {
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
         User user = new User();
-
         user.setEmail(signUpRequestDTO.getEmail());
         user.setRole(signUpRequestDTO.getRole().toLowerCase().trim().equals("creator")?RoleEnum.CREATOR:RoleEnum.AUDIENCE);
         user.setUsername(signUpRequestDTO.getUserName());
         user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
         user.setName(signUpRequestDTO.getName());
         user.setPhoneNumber(signUpRequestDTO.getPhone());
-
+        user.setAvt("https://png.pngtree.com/png-clipart/20200701/original/pngtree-character-default-avatar-png-image_5407167.jpg");
         user.setActive(false);
     try{
         return userRepository.save(user);
