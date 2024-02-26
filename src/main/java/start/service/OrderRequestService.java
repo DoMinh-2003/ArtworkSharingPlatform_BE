@@ -48,14 +48,14 @@ public class OrderRequestService {
 
     public List<OrderRequest> getOrderRequestCreator() {
         User user = accountUtils.getCurrentUser();
-            List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreator_IdAndStatus(user.getId(),StatusEnum.PENDING);
+            List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreatorIdAndStatus(user.getId(),StatusEnum.PENDING);
 
         return listOrderRequest;
     }
 
     public List<OrderRequest> getOrderRequestAudience() {
         User user = accountUtils.getCurrentUser();
-        List<OrderRequest> listOrderRequest = orderRequestRepository.findByAudience_IdAndStatus(user.getId(),StatusEnum.PENDING);
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByAudienceIdAndStatus(user.getId(),StatusEnum.PENDING);
         return listOrderRequest;
     }
 }
