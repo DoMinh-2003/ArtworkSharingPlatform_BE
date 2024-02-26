@@ -46,6 +46,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     Set<Artwork> artworks;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "audience", cascade = CascadeType.ALL)
+    private Set<OrderRequest> sentOrders;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    private Set<OrderRequest> receivedOrders;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
