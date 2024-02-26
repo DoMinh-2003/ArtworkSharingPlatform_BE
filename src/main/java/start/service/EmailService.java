@@ -47,7 +47,7 @@ public class EmailService {
         }
     }
 
-    public void sendMail(User user,String subject, String description){
+    public void sendMail(User user, String subject, String description){
 
         try{
             // Creating a simple mail message

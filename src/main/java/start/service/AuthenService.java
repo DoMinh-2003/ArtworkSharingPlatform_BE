@@ -18,6 +18,7 @@ import start.dto.response.LoginResponse;
 import start.entity.User;
 import start.enums.RoleEnum;
 import start.exception.exceptions.AccountNotVerify;
+import start.exception.exceptions.InValidEmail;
 import start.repository.UserRepository;
 import start.utils.TokenHandler;
 
@@ -37,6 +38,9 @@ public class AuthenService implements UserDetailsService {
 
     @Autowired
     TokenHandler tokenHandler;
+
+    @Autowired
+    EmailService emailService;
 
     public LoginResponse login(LoginRequestDTO loginRequestDTO){
         Authentication authentication = null;
@@ -98,5 +102,29 @@ public class AuthenService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByUsername(username);
         return user;
+    }
+
+    public  String generateRandomString() {
+        return UUID.randomUUID().toString().substring(0,6);
+    }
+
+    public User forgotPassword(String email) {
+        User user = userRepository.findByEmail(email);
+       if(user != null){
+           String randomString = generateRandomString();
+           String subject = "UserName: " + user.getUsername() +", Password: " + randomString;
+           Runnable r = new Runnable() {
+               @Override
+               public void run() {
+                   emailService.sendMail(user,"Forgot Password",subject);
+               }
+
+           };
+           new Thread(r).start();
+           user.setPassword(passwordEncoder.encode(randomString));
+       }else{
+      throw new InValidEmail("Email does not exist!!");
+       }
+       return userRepository.save(user);
     }
 }
