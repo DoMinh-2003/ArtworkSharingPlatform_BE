@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
 import start.dto.response.LoginResponse;
+import start.dto.response.UserResponseDTO;
 import start.entity.User;
 import start.enums.RoleEnum;
 import start.exception.exceptions.AccountNotVerify;
@@ -42,7 +43,7 @@ public class AuthenService implements UserDetailsService {
     @Autowired
     EmailService emailService;
 
-    public LoginResponse login(LoginRequestDTO loginRequestDTO){
+    public UserResponseDTO login(LoginRequestDTO loginRequestDTO){
         Authentication authentication = null;
         try {
             authentication = authenticationManager.authenticate(
@@ -56,21 +57,22 @@ public class AuthenService implements UserDetailsService {
             throw new NullPointerException("Wrong Id Or Password") ;
         }
         User user = (User) authentication.getPrincipal();
-        System.out.println(user);
+
 
         if(!user.isActive()){
          throw new AccountNotVerify("Account has not been verified");
         }else{
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setUsername(user.getUsername());
-            loginResponse.setRole(user.getRole());
-            loginResponse.setToken(tokenHandler.generateToken(user));
-            loginResponse.setId(user.getId());
-            loginResponse.setName(user.getName());
-            loginResponse.setEmail(user.getEmail());
-            loginResponse.setAvt(user.getAvt());
-            loginResponse.setPostQuantity(user.getPostQuantity());
-            return loginResponse;
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
+            userResponseDTO.setUsername(user.getUsername());
+            userResponseDTO.setRole(user.getRole());
+            userResponseDTO.setToken(tokenHandler.generateToken(user));
+            userResponseDTO.setId(user.getId());
+            userResponseDTO.setName(user.getName());
+            userResponseDTO.setEmail(user.getEmail());
+            userResponseDTO.setAvt(user.getAvt());
+            userResponseDTO.setPostQuantity(user.getPostQuantity());
+            userResponseDTO.setArtworks(user.getArtworks());
+            return userResponseDTO;
         }
     }
 

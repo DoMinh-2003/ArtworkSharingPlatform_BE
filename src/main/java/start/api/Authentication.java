@@ -10,6 +10,7 @@ import start.dto.request.LoginGoogleRequest;
 import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
 import start.dto.response.LoginResponse;
+import start.dto.response.UserResponseDTO;
 import start.entity.User;
 import start.repository.UserRepository;
 import start.service.AuthenService;
@@ -36,7 +37,7 @@ public class Authentication {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO loginRequestDTO){
-        LoginResponse user = authenService.login(loginRequestDTO);
+        UserResponseDTO user = authenService.login(loginRequestDTO);
         return responseHandler.response(200, "Login success!", user);
     }
 
