@@ -62,7 +62,7 @@ public class UserService {
 
     public User editProfile(UserRequestDTO userRequestDTO) {
           User user = accountUtils.getCurrentUser();
-          
+
           user.setName(userRequestDTO.getName());
           user.setAvt(userRequestDTO.getAvt());
 
