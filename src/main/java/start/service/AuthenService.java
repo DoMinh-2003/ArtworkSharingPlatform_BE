@@ -118,7 +118,7 @@ public class AuthenService implements UserDetailsService {
            Runnable r = new Runnable() {
                @Override
                public void run() {
-                   emailService.sendMail(user,"Forgot Password",subject);
+                   emailService.sendMail(user,"Your New Infomation",subject);
                }
 
            };
