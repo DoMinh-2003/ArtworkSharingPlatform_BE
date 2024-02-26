@@ -1,14 +1,11 @@
 package start.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.Getter;
 import lombok.Setter;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
