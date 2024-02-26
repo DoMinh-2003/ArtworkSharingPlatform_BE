@@ -20,6 +20,7 @@ public class Artwork {
     private String description;
     private String createDate;
     private float price;
+
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
     // user
@@ -37,4 +38,6 @@ public class Artwork {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
     Set<Category> categories;
+
+
 }
