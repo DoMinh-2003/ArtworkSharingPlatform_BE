@@ -9,5 +9,7 @@ import java.util.UUID;
 
 public interface ArtworkRepository extends JpaRepository<Artwork,Long> {
     List<Artwork> findByStatus(StatusEnum status);
+
+    List<Artwork> findByUserIdAndStatus(UUID id,StatusEnum status);
     Artwork findById(long id);
 }

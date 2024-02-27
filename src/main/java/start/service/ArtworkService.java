@@ -64,6 +64,12 @@ public class ArtworkService  {
         return artworkList;
     }
 
+//    public List<Artwork> getAllArtwokStatusByCreator(String status){
+//        User user = accountUtils.getCurrentUser();
+//        List<Artwork> artworkList = artworkRepository.findByUserIdAndStatus(user.getId(),status.toLowerCase().trim().equals("pending")?StatusEnum.PENDING:StatusEnum.REJECT);
+//        return artworkList;
+//    }
+
     public ArtworkResponseDTO getArtwokDetaill(long id) {
         Artwork artwork = artworkRepository.findById(id);
         ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
@@ -97,8 +103,8 @@ public class ArtworkService  {
             threadSendMail(artwork.getUser(),"Your article has been approved","Thank you for trusting us to use cremo");
         }else{
             artwork.setStatus(StatusEnum.REJECT);
+            artwork.setReasonReject(approve.getDescription());
             threadSendMail(artwork.getUser(),"Reason for rejecting the post",approve.getDescription());
-
         }
         return artworkRepository.save(artwork);
     }

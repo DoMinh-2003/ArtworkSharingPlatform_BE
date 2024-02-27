@@ -20,6 +20,7 @@ public class Artwork {
     private String description;
     private String createDate;
     private float price;
+    private String reasonReject;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;

@@ -33,6 +33,7 @@ public class OrderRequest {
     private float price;
     private String dateStart;
     private String dateEnd;
+    private String reasonReject;
 
     @OneToMany(mappedBy = "orderRequest",cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
