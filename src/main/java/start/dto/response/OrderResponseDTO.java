@@ -25,8 +25,8 @@ public class OrderResponseDTO {
     private float price;
     private String dateStart;
     private String dateEnd;
+    private String reasonReject;
     Set<DemoRequest> demoRequests;
-
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 }

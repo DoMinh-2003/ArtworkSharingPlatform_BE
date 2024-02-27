@@ -9,7 +9,8 @@ import java.util.UUID;
 @Getter
 @Setter
 public class OrderRequestDTO {
-    UUID creatorID;
+    long id;
+    UUID userID;
     String title;
     String dateStart;
     String dateEnd;

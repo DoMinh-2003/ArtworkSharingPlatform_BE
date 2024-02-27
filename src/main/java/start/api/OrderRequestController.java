@@ -4,12 +4,10 @@ package start.api;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import start.dto.request.OrderRequestDTO;
 import start.entity.OrderRequest;
+import start.enums.StatusEnum;
 import start.service.OrderRequestService;
 import start.utils.ResponseHandler;
 
@@ -30,14 +28,40 @@ public class OrderRequestController {
         OrderRequest orderRequest = orderRequestService.sendOrderRequest(orderRequestDTO);
         return  responseHandler.response(200, "Send Order Successfully!", orderRequest);
     }
-    @GetMapping("/getOrderRequest-audience")
-    public ResponseEntity getOrderRequestAudience(){
-        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudience();
-        return  responseHandler.response(200, "get Order Audience Successfully!", listOrderRequest);
+    @PutMapping ("/updateOrderRequest-creator")
+    public ResponseEntity updateOrderRequestCreator(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.updateOrderRequestCreator(orderRequestDTO);
+        return  responseHandler.response(200, "Send Order Successfully!", orderRequest);
     }
-    @GetMapping("/getOrderRequest-creator")
+    @GetMapping("/getOrderRequestAudience-pending")
+    public ResponseEntity getOrderRequestAudience(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.PENDING);
+        return  responseHandler.response(200, "Get Order Pending Audience Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestCreator-pending")
     public ResponseEntity getOrderRequestCreator(){
-        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreator();
-        return  responseHandler.response(200, "get Order Creator Successfully!", listOrderRequest);
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.PENDING);
+        return  responseHandler.response(200, "Get Order Pending Creator Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestActiveOrProcessing-creator")
+    public ResponseEntity getOrderRequestCreatorActiveOrProcessing(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorActiveOrProcessing();
+        return  responseHandler.response(200, "Get Order Active Creator Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestActiveOrProcessing-audience")
+    public ResponseEntity getOrderRequestAudienceActiveOrProcessing(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceActiveOrProcessing();
+        return  responseHandler.response(200, "Get Order Active Audience Successfully!", listOrderRequest);
+    }
+
+    @GetMapping("/getOrderRequestCreator-done")
+    public ResponseEntity getOrderRequestDoneCreator(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.DONE);
+        return  responseHandler.response(200, "Get Order Done Creator Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestAudience-done")
+    public ResponseEntity getOrderRequestDoneAudience(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.DONE);
+        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
     }
 }

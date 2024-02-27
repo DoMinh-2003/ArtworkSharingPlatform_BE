@@ -19,5 +19,4 @@ public class ArtworkRequestDTO {
     private float price;
     private String createDate;
     private Set<String> categoriesName;
-//    private LoginResponse user;
 }
