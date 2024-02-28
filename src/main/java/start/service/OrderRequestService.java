@@ -6,13 +6,13 @@ import start.dto.request.OrderRequestDTO;
 import start.dto.response.OrderResponseDTO;
 import start.entity.OrderRequest;
 import start.entity.User;
-import start.enums.RoleEnum;
 import start.enums.StatusEnum;
+import start.exception.exceptions.CannotOrderYourself;
 import start.repository.OrderRequestRepository;
 import start.repository.UserRepository;
 import start.utils.AccountUtils;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 @Service
@@ -35,14 +35,19 @@ public class OrderRequestService {
         OrderRequest orderRequest = new OrderRequest();
         User creator = userRepository.findUserById(orderRequestDTO.getUserID());
         User audience = accountUtils.getCurrentUser();
-        orderRequest.setCreator(creator);
-        orderRequest.setAudience(audience);
-        orderRequest.setTitle(orderRequestDTO.getTitle());
-        orderRequest.setDescription(orderRequestDTO.getDescription());
-        orderRequest.setDateStart(orderRequestDTO.getDateStart());
-        orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
-        orderRequest.setPrice(orderRequestDTO.getPrice());
-        orderRequest.setStatus(StatusEnum.PENDING);
+        if(!creator.getId().equals(audience.getId())){
+            orderRequest.setCreator(creator);
+            orderRequest.setAudience(audience);
+            orderRequest.setTitle(orderRequestDTO.getTitle());
+            orderRequest.setDescription(orderRequestDTO.getDescription());
+            orderRequest.setDateStart(orderRequestDTO.getDateStart());
+            orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
+            orderRequest.setPrice(orderRequestDTO.getPrice());
+            orderRequest.setStatus(StatusEnum.PENDING);
+        }else{
+            throw new CannotOrderYourself("You may not order yourself");
+        }
+
         return orderRequestRepository.save(orderRequest);
     }
 
@@ -112,5 +117,17 @@ public class OrderRequestService {
         orderResponseDTO.setDemoRequests(orderRequest.getDemoRequests());
         orderResponseDTO.setStatus(orderRequest.getStatus());
         return orderResponseDTO;
+    }
+
+    public List<OrderRequest> getAllOrderRequestAudience() {
+        User user = accountUtils.getCurrentUser();
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByAudienceId(user.getId());
+        return listOrderRequest;
+    }
+
+    public List<OrderRequest> getAllOrderRequestCreator() {
+        User user = accountUtils.getCurrentUser();
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreatorId(user.getId());
+        return listOrderRequest;
     }
 }

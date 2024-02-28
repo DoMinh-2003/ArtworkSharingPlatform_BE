@@ -12,9 +12,13 @@ public interface OrderRequestRepository extends JpaRepository<OrderRequest,Long>
 
     List<OrderRequest> findByCreatorIdAndStatus(UUID userId, StatusEnum status);
 
-    List<OrderRequest> findByCreatorIdAndStatusIn(UUID userId,List<StatusEnum> statuses);
+    List<OrderRequest> findByCreatorId(UUID userId);
+    List<OrderRequest> findByAudienceId(UUID userId);
 
-    List<OrderRequest> findByAudienceIdAndStatusIn(UUID userId,List<StatusEnum> statuses);
+
+//    List<OrderRequest> findByCreatorIdAndStatusIn(UUID userId,List<StatusEnum> statuses);
+//
+//    List<OrderRequest> findByAudienceIdAndStatusIn(UUID userId,List<StatusEnum> statuses);
 
     OrderRequest findById(long id);
 

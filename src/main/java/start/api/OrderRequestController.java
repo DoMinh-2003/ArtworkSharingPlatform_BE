@@ -81,6 +81,16 @@ public class OrderRequestController {
         List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.DONE);
         return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
     }
+    @GetMapping("/getAllOrderRequestAudience")
+    public ResponseEntity getAllOrderRequestAudience(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getAllOrderRequestAudience();
+        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getAllOrderRequestCreator")
+    public ResponseEntity getAllOrderRequestCreator(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getAllOrderRequestCreator();
+        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+    }
 
     @GetMapping("/getOrderRequestDetail/{id}")
     public ResponseEntity getOrderRequestDetail(@PathVariable long id){
