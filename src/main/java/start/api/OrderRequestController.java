@@ -31,7 +31,12 @@ public class OrderRequestController {
     @PutMapping ("/updateOrderRequest-creator")
     public ResponseEntity updateOrderRequestCreator(@RequestBody OrderRequestDTO orderRequestDTO){
         OrderRequest orderRequest = orderRequestService.updateOrderRequestCreator(orderRequestDTO);
-        return  responseHandler.response(200, "Send Order Successfully!", orderRequest);
+        return  responseHandler.response(200, "Update Order Creator Successfully!", orderRequest);
+    }
+    @PutMapping ("/updateOrderRequest-audience")
+    public ResponseEntity updateOrderRequestAudience(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.updateOrderRequestAudience(orderRequestDTO);
+        return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
     }
     @GetMapping("/getOrderRequestAudience-pending")
     public ResponseEntity getOrderRequestAudience(){
@@ -43,14 +48,25 @@ public class OrderRequestController {
         List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.PENDING);
         return  responseHandler.response(200, "Get Order Pending Creator Successfully!", listOrderRequest);
     }
-    @GetMapping("/getOrderRequestActiveOrProcessing-creator")
-    public ResponseEntity getOrderRequestCreatorActiveOrProcessing(){
-        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorActiveOrProcessing();
+    @GetMapping("/getOrderRequestCreator-active")
+    public ResponseEntity getOrderRequestCreatorActive(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.ACTIVE);
         return  responseHandler.response(200, "Get Order Active Creator Successfully!", listOrderRequest);
     }
-    @GetMapping("/getOrderRequestActiveOrProcessing-audience")
-    public ResponseEntity getOrderRequestAudienceActiveOrProcessing(){
-        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceActiveOrProcessing();
+    @GetMapping("/getOrderRequestAudience-active")
+    public ResponseEntity getOrderRequestAudienceActive(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.ACTIVE);
+        return  responseHandler.response(200, "Get Order Active Audience Successfully!", listOrderRequest);
+    }
+
+    @GetMapping("/getOrderRequestCreator-processing")
+    public ResponseEntity getOrderRequestCreatorProcessing(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.PROCESSING);
+        return  responseHandler.response(200, "Get Order Active Creator Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestAudience-processing")
+    public ResponseEntity getOrderRequestAudienceProcessing(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.PROCESSING);
         return  responseHandler.response(200, "Get Order Active Audience Successfully!", listOrderRequest);
     }
 

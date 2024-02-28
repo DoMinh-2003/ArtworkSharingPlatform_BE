@@ -11,9 +11,13 @@ import java.util.UUID;
 public class OrderRequestDTO {
     long id;
     UUID userID;
-    String title;
-    String dateStart;
-    String dateEnd;
-    String description;
-    float price;
+    private String title;
+    private String dateStart;
+    private String dateEnd;
+    private String description;
+    private String status;
+    private float price;
+    private String reasonRejectCreator;
+    private String reasonRejectAudience;
+
 }
