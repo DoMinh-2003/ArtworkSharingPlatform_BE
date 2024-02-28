@@ -100,11 +100,11 @@ public class ArtworkService  {
         Artwork artwork = artworkRepository.findById(id);
         if(approve.getStatus().toLowerCase().trim().equals("active")){
             artwork.setStatus(StatusEnum.ACTIVE);
-            threadSendMail(artwork.getUser(),"Your article has been approved","Thank you for trusting us to use cremo");
+            threadSendMail(artwork.getUser(),"Your Article " + artwork.getTitle() + "Has Been Approved","Thank you for trusting us to use cremo");
         }else{
             artwork.setStatus(StatusEnum.REJECT);
             artwork.setReasonReject(approve.getDescription());
-            threadSendMail(artwork.getUser(),"Reason for rejecting the post",approve.getDescription());
+            threadSendMail(artwork.getUser(),"Reason For Rejecting The Post " + artwork.getTitle(),approve.getDescription());
         }
         return artworkRepository.save(artwork);
     }
