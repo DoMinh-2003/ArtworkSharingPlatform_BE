@@ -10,6 +10,7 @@ import start.dto.request.ArtworkRequestDTO;
 import start.dto.response.ArtworkResponseDTO;
 import start.dto.response.LoginResponse;
 import start.entity.Artwork;
+import start.enums.StatusEnum;
 import start.service.ArtworkService;
 import start.utils.ResponseHandler;
 
@@ -36,14 +37,22 @@ public class ArtworkController {
     public ResponseEntity getAllArtwokPending(){
         return  responseHandler.response(200, "Get All Artwork Pending Successlly!", artworkService.getAllArtWork("pending"));
     }
-//    @GetMapping("/artworkByCreator-pending")
-//    public ResponseEntity getAllArtwokPendingByCreator(){
-//        return  responseHandler.response(200, "Get a Successful Creator's Pending Artwork!", artworkService.getAllArtwokStatusByCreator("pending"));
-//    }
-//    @GetMapping("/artworkByCreator-reject")
-//    public ResponseEntity getAllArtwokRejectByCreator(){
-//        return  responseHandler.response(200, "Get a Successful Creator's Reject Artwork!", artworkService.getAllArtwokStatusByCreator("reject"));
-//    }
+
+    @GetMapping("/artworkByCreator-pending")
+    public ResponseEntity getAllArtwokPendingByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Pending Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.PENDING));
+    }
+
+    @GetMapping("/artworkByCreator-reject")
+    public ResponseEntity getAllArtwokRejectByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Reject Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.REJECT));
+    }
+
+    @GetMapping("/artworkByCreator-active")
+    public ResponseEntity getAllArtwokActiveByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Active Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.ACTIVE));
+    }
+
     @GetMapping("/artwork-detail/{id}")
     public ResponseEntity getArtwokDetaill(@PathVariable long id){
         ArtworkResponseDTO artwork = artworkService.getArtwokDetaill(id);

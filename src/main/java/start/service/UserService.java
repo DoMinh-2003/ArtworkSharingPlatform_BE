@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
+import start.exception.exceptions.IncorrectPassword;
 import start.repository.ArtworkRepository;
 import start.repository.UserRepository;
 import start.utils.AccountUtils;
@@ -62,7 +63,6 @@ public class UserService {
 
     public User editProfile(UserRequestDTO userRequestDTO) {
           User user = accountUtils.getCurrentUser();
-
           user.setName(userRequestDTO.getName());
           user.setAvt(userRequestDTO.getAvt());
 
@@ -83,11 +83,19 @@ public class UserService {
               }
           }
 
-
-          String password = passwordEncoder.encode(userRequestDTO.getOldPassword());
-          if(password.equals(user.getPassword())){
-                  user.setPassword(passwordEncoder.encode(userRequestDTO.getNewPassword()));
-          }
             return userRepository.save(user);
     }
+
+    public User editPassword(UserRequestDTO userRequestDTO) {
+        User user = accountUtils.getCurrentUser();
+         String password = passwordEncoder.encode(userRequestDTO.getOldPassword());
+        if(password.equals(user.getPassword())){
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getNewPassword()));
+        }else{
+            throw new IncorrectPassword("Old password is incorrect");
+        }
+        return userRepository.save(user);
+    }
+
+
 }
