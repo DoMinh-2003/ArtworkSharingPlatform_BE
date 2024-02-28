@@ -35,8 +35,13 @@ public class UserController {
     @PutMapping("/editProfile")
     public ResponseEntity editProfile(@RequestBody UserRequestDTO userRequestDTO){
         User user = userService.editProfile(userRequestDTO);
-
         return  responseHandler.response(200, "Edit Profile Successlly!", user);
+    }
+
+    @PutMapping("/editPassword")
+    public ResponseEntity editPassword(@RequestBody UserRequestDTO userRequestDTO){
+        User user = userService.editPassword(userRequestDTO);
+        return  responseHandler.response(200, "Edit Password Successlly!", user);
     }
 
 }

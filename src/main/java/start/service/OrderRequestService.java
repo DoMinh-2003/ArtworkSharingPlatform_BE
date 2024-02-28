@@ -96,4 +96,21 @@ public class OrderRequestService {
         return listOrderRequest;
     }
 
+    public OrderResponseDTO getOrderRequestDetail(long id) {
+        OrderRequest orderRequest = orderRequestRepository.findById(id);
+        OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
+        orderResponseDTO.setId(orderRequest.getId());
+        orderResponseDTO.setAudience(orderRequest.getAudience());
+        orderResponseDTO.setCreator(orderRequest.getCreator());
+        orderResponseDTO.setTitle(orderRequest.getTitle());
+        orderResponseDTO.setDescription(orderRequest.getDescription());
+        orderResponseDTO.setPrice(orderRequest.getPrice());
+        orderResponseDTO.setDateStart(orderRequest.getDateStart());
+        orderResponseDTO.setDateEnd(orderRequest.getDateEnd());
+        orderResponseDTO.setReasonRejectAudience(orderRequest.getReasonRejectAudience());
+        orderResponseDTO.setReasonRejectCreator(orderRequest.getReasonRejectCreator());
+        orderResponseDTO.setDemoRequests(orderRequest.getDemoRequests());
+        orderResponseDTO.setStatus(orderRequest.getStatus());
+        return orderResponseDTO;
+    }
 }

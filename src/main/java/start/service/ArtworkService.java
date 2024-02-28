@@ -64,11 +64,11 @@ public class ArtworkService  {
         return artworkList;
     }
 
-//    public List<Artwork> getAllArtwokStatusByCreator(String status){
-//        User user = accountUtils.getCurrentUser();
-//        List<Artwork> artworkList = artworkRepository.findByUserIdAndStatus(user.getId(),status.toLowerCase().trim().equals("pending")?StatusEnum.PENDING:StatusEnum.REJECT);
-//        return artworkList;
-//    }
+    public List<Artwork> getAllArtwokStatusByCreator(StatusEnum status){
+        User user = accountUtils.getCurrentUser();
+        List<Artwork> artworkList = artworkRepository.findByUserIdAndStatus(user.getId(),status);
+        return artworkList;
+    }
 
     public ArtworkResponseDTO getArtwokDetaill(long id) {
         Artwork artwork = artworkRepository.findById(id);

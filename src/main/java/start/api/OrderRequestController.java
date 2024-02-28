@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start.dto.request.OrderRequestDTO;
+import start.dto.response.OrderResponseDTO;
 import start.entity.OrderRequest;
 import start.enums.StatusEnum;
 import start.service.OrderRequestService;
@@ -79,5 +80,11 @@ public class OrderRequestController {
     public ResponseEntity getOrderRequestDoneAudience(){
         List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.DONE);
         return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+    }
+
+    @GetMapping("/getOrderRequestDetail/{id}")
+    public ResponseEntity getOrderRequestDetail(@PathVariable long id){
+        OrderResponseDTO responseDTO = orderRequestService.getOrderRequestDetail(id);
+        return  responseHandler.response(200, "Get Order Detail Successfully!", responseDTO);
     }
 }
