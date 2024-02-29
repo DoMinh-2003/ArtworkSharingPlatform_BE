@@ -1,14 +1,14 @@
 package start.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class DemoRequest {
@@ -20,7 +20,8 @@ public class DemoRequest {
     private String description;
     private String comment;
 
+//    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="order_request")
+    @JoinColumn(name="orderRequest_id")
     OrderRequest orderRequest;
 }

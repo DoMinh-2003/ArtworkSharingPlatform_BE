@@ -1,16 +1,16 @@
 package start.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
@@ -36,6 +36,7 @@ public class OrderRequest {
     private String reasonRejectCreator;
     private String reasonRejectAudience;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "orderRequest",cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
 
