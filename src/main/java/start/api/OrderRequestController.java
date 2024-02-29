@@ -16,6 +16,8 @@ import java.util.List;
 
 @RestController
 @SecurityRequirement(name ="api")
+@CrossOrigin("*")
+
 public class OrderRequestController {
 
     @Autowired
@@ -95,6 +97,7 @@ public class OrderRequestController {
 
     @GetMapping("/getOrderRequestDetail/{id}")
     public ResponseEntity getOrderRequestDetail(@PathVariable long id){
+        System.out.println("cc");
         OrderResponseDTO responseDTO = orderRequestService.getOrderRequestDetail(id);
         return  responseHandler.response(200, "Get Order Detail Successfully!", responseDTO);
     }
