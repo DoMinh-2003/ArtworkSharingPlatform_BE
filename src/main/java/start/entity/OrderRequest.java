@@ -20,12 +20,12 @@ public class OrderRequest {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name="audience_id")
+    @JoinColumn(name = "audience_id")
     User audience;
 
 
     @ManyToOne
-    @JoinColumn(name="creator_id")
+    @JoinColumn(name = "creator_id")
     User creator;
 
     private String title;
@@ -37,12 +37,28 @@ public class OrderRequest {
     private String reasonRejectAudience;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "orderRequest",cascade = CascadeType.ALL)
+
+    @OneToMany(mappedBy = "orderRequest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
-
-
+    @Override
+    public String toString() {
+        return "OrderRequest{" +
+                "id=" + id +
+                ", audience=" + audience +
+                ", creator=" + creator +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", dateStart='" + dateStart + '\'' +
+                ", dateEnd='" + dateEnd + '\'' +
+                ", reasonRejectCreator='" + reasonRejectCreator + '\'' +
+                ", reasonRejectAudience='" + reasonRejectAudience + '\'' +
+                ", demoRequests=" + demoRequests +
+                ", status=" + status +
+                '}';
+    }
 }

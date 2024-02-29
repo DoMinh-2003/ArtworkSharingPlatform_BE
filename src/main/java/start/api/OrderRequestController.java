@@ -38,6 +38,7 @@ public class OrderRequestController {
     }
     @PutMapping ("/updateOrderRequest-audience")
     public ResponseEntity updateOrderRequestAudience(@RequestBody OrderRequestDTO orderRequestDTO){
+        System.out.println(orderRequestDTO.getStatus());
         OrderRequest orderRequest = orderRequestService.updateOrderRequestAudience(orderRequestDTO);
         return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
     }

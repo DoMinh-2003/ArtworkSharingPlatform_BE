@@ -10,6 +10,8 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
 public class DemoRequest {
 
@@ -20,8 +22,10 @@ public class DemoRequest {
     private String description;
     private String comment;
 
+
 //    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="orderRequest_id")
+
     OrderRequest orderRequest;
 }
