@@ -63,7 +63,7 @@ public class OrderRequestService {
     }
 
     public OrderRequest updateOrderRequestCreator(OrderRequestDTO orderRequestDTO) {
-        OrderRequest orderRequest = orderRequestRepository.findById(orderRequestDTO.getId());
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("active")){
             orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
             orderRequest.setPrice(orderRequestDTO.getPrice());
@@ -77,7 +77,7 @@ public class OrderRequestService {
     }
 
     public OrderRequest updateOrderRequestAudience(OrderRequestDTO orderRequestDTO) {
-        OrderRequest orderRequest = orderRequestRepository.findById(orderRequestDTO.getId());
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("processing")){
 
             orderRequest.setStatus(StatusEnum.PROCESSING);
@@ -102,20 +102,27 @@ public class OrderRequestService {
     }
 
     public OrderResponseDTO getOrderRequestDetail(long id) {
-        OrderRequest orderRequest = orderRequestRepository.findById(id);
+
         OrderResponseDTO orderResponseDTO = new OrderResponseDTO();
-        orderResponseDTO.setId(orderRequest.getId());
-        orderResponseDTO.setAudience(orderRequest.getAudience());
-        orderResponseDTO.setCreator(orderRequest.getCreator());
-        orderResponseDTO.setTitle(orderRequest.getTitle());
-        orderResponseDTO.setDescription(orderRequest.getDescription());
-        orderResponseDTO.setPrice(orderRequest.getPrice());
-        orderResponseDTO.setDateStart(orderRequest.getDateStart());
-        orderResponseDTO.setDateEnd(orderRequest.getDateEnd());
-        orderResponseDTO.setReasonRejectAudience(orderRequest.getReasonRejectAudience());
-        orderResponseDTO.setReasonRejectCreator(orderRequest.getReasonRejectCreator());
-        orderResponseDTO.setDemoRequests(orderRequest.getDemoRequests());
-        orderResponseDTO.setStatus(orderRequest.getStatus());
+        try{
+           OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(id);
+           orderResponseDTO.setId(orderRequest.getId());
+           orderResponseDTO.setAudience(orderRequest.getAudience());
+           orderResponseDTO.setCreator(orderRequest.getCreator());
+           orderResponseDTO.setTitle(orderRequest.getTitle());
+           orderResponseDTO.setDescription(orderRequest.getDescription());
+           orderResponseDTO.setPrice(orderRequest.getPrice());
+           orderResponseDTO.setDateStart(orderRequest.getDateStart());
+           orderResponseDTO.setDateEnd(orderRequest.getDateEnd());
+           orderResponseDTO.setReasonRejectAudience(orderRequest.getReasonRejectAudience());
+           orderResponseDTO.setReasonRejectCreator(orderRequest.getReasonRejectCreator());
+           orderResponseDTO.setDemoRequests(orderRequest.getDemoRequests());
+           orderResponseDTO.setStatus(orderRequest.getStatus());
+       }catch (Exception e){
+            e.printStackTrace();
+       }
+
+
         return orderResponseDTO;
     }
 

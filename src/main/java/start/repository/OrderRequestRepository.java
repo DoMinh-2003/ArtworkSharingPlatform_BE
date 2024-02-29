@@ -1,12 +1,15 @@
 package start.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import start.entity.OrderRequest;
 import start.enums.StatusEnum;
 
 import java.util.List;
 import java.util.UUID;
 
+
+@Repository 
 public interface OrderRequestRepository extends JpaRepository<OrderRequest,Long> {
     List<OrderRequest> findByAudienceIdAndStatus(UUID userId, StatusEnum status);
 
@@ -20,7 +23,6 @@ public interface OrderRequestRepository extends JpaRepository<OrderRequest,Long>
 //
 //    List<OrderRequest> findByAudienceIdAndStatusIn(UUID userId,List<StatusEnum> statuses);
 
-    OrderRequest findById(long id);
-
+    OrderRequest findOrderRequestById(long id);
 
 }

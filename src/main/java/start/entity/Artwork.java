@@ -14,7 +14,7 @@ import java.util.Set;
 public class Artwork {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    Long id;    
     private String title;
     private String image;
     private String description;

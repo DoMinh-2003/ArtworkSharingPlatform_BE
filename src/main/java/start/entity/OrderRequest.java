@@ -1,16 +1,16 @@
 package start.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import start.enums.StatusEnum;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderRequest {
@@ -20,12 +20,12 @@ public class OrderRequest {
     Long id;
 
     @ManyToOne
-    @JoinColumn(name="audience_id")
+    @JoinColumn(name = "audience_id")
     User audience;
 
 
     @ManyToOne
-    @JoinColumn(name="creator_id")
+    @JoinColumn(name = "creator_id")
     User creator;
 
     private String title;
@@ -36,12 +36,28 @@ public class OrderRequest {
     private String reasonRejectCreator;
     private String reasonRejectAudience;
 
-    @OneToMany(mappedBy = "orderRequest",cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(mappedBy = "orderRequest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
 
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 
-
-
+    @Override
+    public String toString() {
+        return "OrderRequest{" +
+                "id=" + id +
+                ", audience=" + audience +
+                ", creator=" + creator +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", dateStart='" + dateStart + '\'' +
+                ", dateEnd='" + dateEnd + '\'' +
+                ", reasonRejectCreator='" + reasonRejectCreator + '\'' +
+                ", reasonRejectAudience='" + reasonRejectAudience + '\'' +
+                ", demoRequests=" + demoRequests +
+                ", status=" + status +
+                '}';
+    }
 }
