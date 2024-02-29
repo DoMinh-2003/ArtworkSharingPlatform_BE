@@ -2,7 +2,9 @@ package start.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;
+import start.entity.DemoRequest;
 
+import java.util.Set;
 import java.util.UUID;
 
 
@@ -19,5 +21,6 @@ public class OrderRequestDTO {
     private float price;
     private String reasonRejectCreator;
     private String reasonRejectAudience;
+   Set<DemoRequest> demoRequests;
 
 }

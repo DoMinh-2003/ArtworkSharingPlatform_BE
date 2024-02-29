@@ -7,7 +7,8 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @Getter
 @Setter
@@ -20,8 +21,11 @@ public class DemoRequest {
     private String image;
     private String description;
     private String comment;
+
+
 //    @JsonIgnore
     @ManyToOne
-    @JoinColumn(name="order_request_ID")
+    @JoinColumn(name="orderRequest_id")
+
     OrderRequest orderRequest;
 }

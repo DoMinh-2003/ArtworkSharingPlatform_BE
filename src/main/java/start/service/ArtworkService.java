@@ -22,6 +22,7 @@ import java.util.Set;
 
 @Service
 public class ArtworkService  {
+
     @Autowired
     AccountUtils accountUtils;
     @Autowired
@@ -100,7 +101,7 @@ public class ArtworkService  {
         Artwork artwork = artworkRepository.findById(id);
         if(approve.getStatus().toLowerCase().trim().equals("active")){
             artwork.setStatus(StatusEnum.ACTIVE);
-            threadSendMail(artwork.getUser(),"Your Article " + artwork.getTitle() + "Has Been Approved","Thank you for trusting us to use cremo");
+            threadSendMail(artwork.getUser(),"Your Article " + artwork.getTitle() + " Has Been Approved","Thank you for trusting us to use cremo");
         }else{
             artwork.setStatus(StatusEnum.REJECT);
             artwork.setReasonReject(approve.getDescription());

@@ -37,6 +37,7 @@ public class OrderRequest {
     private String reasonRejectAudience;
 
     @JsonIgnore
+
     @OneToMany(mappedBy = "orderRequest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
 

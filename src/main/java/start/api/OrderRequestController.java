@@ -5,8 +5,10 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import start.dto.request.DemoOrderRequestDTO;
 import start.dto.request.OrderRequestDTO;
 import start.dto.response.OrderResponseDTO;
+import start.entity.DemoRequest;
 import start.entity.OrderRequest;
 import start.enums.StatusEnum;
 import start.service.OrderRequestService;
@@ -85,12 +87,12 @@ public class OrderRequestController {
     @GetMapping("/getAllOrderRequestAudience")
     public ResponseEntity getAllOrderRequestAudience(){
         List<OrderRequest> listOrderRequest = orderRequestService.getAllOrderRequestAudience();
-        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+        return  responseHandler.response(200, "Get All Order  Audience Successfully!", listOrderRequest);
     }
     @GetMapping("/getAllOrderRequestCreator")
     public ResponseEntity getAllOrderRequestCreator(){
         List<OrderRequest> listOrderRequest = orderRequestService.getAllOrderRequestCreator();
-        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+        return  responseHandler.response(200, "Get All Order Creator Successfully!", listOrderRequest);
     }
 
     @GetMapping("/getOrderRequestDetail/{id}")
@@ -98,4 +100,10 @@ public class OrderRequestController {
         OrderResponseDTO responseDTO = orderRequestService.getOrderRequestDetail(id);
         return  responseHandler.response(200, "Get Order Detail Successfully!", responseDTO);
     }
+    @PutMapping ("/demoOrdeRequest")
+    public ResponseEntity demoOrdeRequest(@RequestBody DemoOrderRequestDTO demoOrderRequestDTO){
+        DemoRequest demoRequest = orderRequestService.demoOrdeRequest(demoOrderRequestDTO);
+        return  responseHandler.response(200, "Demo Order Successfully!", demoRequest);
+    }
+
 }
