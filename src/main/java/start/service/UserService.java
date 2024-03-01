@@ -5,6 +5,9 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import start.dto.request.UserRequestDTO;
@@ -31,6 +34,8 @@ public class UserService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     public User loginGoogle (String token) {
         try{
@@ -87,13 +92,29 @@ public class UserService {
     }
 
     public User editPassword(UserRequestDTO userRequestDTO) {
-        User user = accountUtils.getCurrentUser();
-         String password = passwordEncoder.encode(userRequestDTO.getOldPassword());
-        if(password.equals(user.getPassword())){
-        user.setPassword(passwordEncoder.encode(userRequestDTO.getNewPassword()));
-        }else{
+            User user = accountUtils.getCurrentUser();
+//         String password = passwordEncoder.encode(userRequestDTO.getOldPassword());
+//        if(password.equals(user.getPassword())){
+//        user.setPassword(passwordEncoder.encode(userRequestDTO.getNewPassword()));
+//        }else{
+//            throw new IncorrectPassword("Old password is incorrect");
+//        }
+//        return userRepository.save(user);
+        System.out.println(userRequestDTO.getOldPassword());
+        Authentication authentication = null;
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getUsername(),
+                            userRequestDTO.getOldPassword()
+                    )
+            );
+
+        } catch (Exception e) {
             throw new IncorrectPassword("Old password is incorrect");
         }
+         user = (User) authentication.getPrincipal();
+        user.setPassword(passwordEncoder.encode(userRequestDTO.getNewPassword()));
         return userRepository.save(user);
     }
 
