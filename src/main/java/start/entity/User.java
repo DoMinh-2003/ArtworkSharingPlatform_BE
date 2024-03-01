@@ -16,7 +16,8 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
@@ -38,7 +39,6 @@ public class User implements UserDetails {
     private Integer postQuantity;
     private String avt;
     private boolean active;
-
     @Enumerated(EnumType.STRING)
     RoleEnum role;
 
