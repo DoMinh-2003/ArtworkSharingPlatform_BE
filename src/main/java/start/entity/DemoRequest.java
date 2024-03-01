@@ -10,8 +10,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @AllArgsConstructor
-@Getter
-@Setter
 @NoArgsConstructor
 public class DemoRequest {
 
