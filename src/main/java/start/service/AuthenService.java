@@ -58,7 +58,6 @@ public class AuthenService implements UserDetailsService {
         }
         User user = (User) authentication.getPrincipal();
 
-
         if(!user.isActive()){
          throw new AccountNotVerify("Account has not been verified");
         }else{
