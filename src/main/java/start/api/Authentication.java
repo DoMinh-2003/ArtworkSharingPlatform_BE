@@ -9,6 +9,7 @@ import start.dto.EmailDetail;
 import start.dto.request.LoginGoogleRequest;
 import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
+import start.dto.request.VerifyRequestDTO;
 import start.dto.response.LoginResponse;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
@@ -62,8 +63,8 @@ public class Authentication {
         }
 
     @PutMapping("/verify-account")
-    private ResponseEntity verifyAccount(@RequestParam UUID id){
-        User user = authenService.verifyAccount(id);
+    private ResponseEntity verifyAccount(@RequestBody VerifyRequestDTO verifyRequestDTO){
+        User user = authenService.verifyAccount(verifyRequestDTO);
         return responseHandler.response(200, "verify success!",user);
     }
 

@@ -18,6 +18,8 @@ public class OrderRequestDTO {
     private String dateEnd;
     private String description;
     private String status;
+    private String productImage;
+    private String productMessage;
     private float price;
     private String reasonRejectCreator;
     private String reasonRejectAudience;

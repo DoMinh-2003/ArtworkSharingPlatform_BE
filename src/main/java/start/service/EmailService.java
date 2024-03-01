@@ -28,7 +28,7 @@ public class EmailService {
             Context context = new Context();
 
             context.setVariable("name", user.getName());
-            context.setVariable("email", "http://mycremo.art/confirm-success?id="+user.getId());
+            context.setVariable("email", "http://mycremo.art/confirm-success?id="+user.getId()+"&email="+user.getEmail());
 
             String text = templateEngine.process("emailtemplate", context);
 

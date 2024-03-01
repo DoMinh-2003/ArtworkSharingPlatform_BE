@@ -2,9 +2,7 @@ package start.dto.response;
 
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import start.entity.Artwork;
 import start.enums.RoleEnum;
 
@@ -14,7 +12,8 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 public class UserResponseDTO {
 
     private UUID id;

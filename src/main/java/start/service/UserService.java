@@ -13,11 +13,12 @@ import org.springframework.stereotype.Service;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
+import start.enums.RoleEnum;
 import start.exception.exceptions.IncorrectPassword;
-import start.repository.ArtworkRepository;
 import start.repository.UserRepository;
 import start.utils.AccountUtils;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -76,6 +77,7 @@ public class UserService {
               if(checkMail == null){
                   user.setActive(false);
                   user.setEmail(userRequestDTO.getEmail());
+                  System.out.println(user.getEmail());
                   Runnable r = new Runnable() {
                       @Override
                       public void run() {emailService.sendMailTemplate(user);
@@ -119,4 +121,17 @@ public class UserService {
     }
 
 
+    public User goCreator() {
+        User user = accountUtils.getCurrentUser();
+        user.setRole(RoleEnum.CREATOR);
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {emailService.sendMail(user,"Congratulation!!! Become a creator successfully","Please comply with the regulations and contribute to the world's art");
+            }
+
+        };
+        new Thread(r).start();
+
+        return userRepository.save(user);
+    }
 }
