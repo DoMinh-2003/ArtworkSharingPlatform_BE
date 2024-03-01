@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
+import start.dto.request.VerifyRequestDTO;
 import start.dto.response.LoginResponse;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
@@ -92,9 +93,13 @@ public class AuthenService implements UserDetailsService {
     }
     }
 
-    public User verifyAccount(UUID id) {
-         User user = userRepository.findUserById(id);
-         user.setActive(true);
+    public User verifyAccount(VerifyRequestDTO verifyRequestDTO) {
+         User user = userRepository.findUserById(verifyRequestDTO.getId());
+         if(verifyRequestDTO.getEmail().equals(user.getEmail())){
+             user.setActive(true);
+         }else{
+             throw new AccountNotVerify("Verify failed");
+         }
          return userRepository.save(user);
     }
 

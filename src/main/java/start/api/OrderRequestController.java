@@ -109,4 +109,10 @@ public class OrderRequestController {
         return  responseHandler.response(200, "Demo Order Successfully!", demoRequest);
     }
 
+    @PostMapping("/sendProduct")
+    public ResponseEntity sendProduct(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.sendProduct(orderRequestDTO);
+        return  responseHandler.response(200, "Order Done Successfully!", orderRequest);
+    }
+
 }

@@ -152,4 +152,15 @@ public class OrderRequestService {
         return demoOrderRepository.save(demoRequest);
 
     }
+
+    public OrderRequest sendProduct(OrderRequestDTO orderRequestDTO) {
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
+        User audience = userRepository.findUserById(orderRequestDTO.getUserID());
+        orderRequest.setProductImage(orderRequestDTO.getProductImage());
+        orderRequest.setProductMessage(orderRequestDTO.getProductMessage());
+        orderRequest.setStatus(StatusEnum.DONE);
+        threadSendMail(audience,orderRequest.getTitle()+" Done",""+orderRequestDTO.getProductMessage()+"\n      "+orderRequestDTO.getProductImage());
+        return orderRequestRepository.save(orderRequest);
+
+    }
 }

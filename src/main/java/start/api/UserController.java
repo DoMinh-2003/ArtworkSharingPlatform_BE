@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
-import start.service.EmailService;
 import start.service.UserService;
 import start.utils.ResponseHandler;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -29,19 +29,29 @@ public class UserController {
     @GetMapping("/getCreator-detail/{id}")
     public ResponseEntity getCreatorDetail(@PathVariable UUID id){
         UserResponseDTO user = userService.getCreatorDetail(id);
-        return  responseHandler.response(200, "Get Creator detail Successlly!", user);
+        return  responseHandler.response(200, "Get Creator detail Successfully!", user);
     }
 
     @PutMapping("/editProfile")
     public ResponseEntity editProfile(@RequestBody UserRequestDTO userRequestDTO){
         User user = userService.editProfile(userRequestDTO);
-        return  responseHandler.response(200, "Edit Profile Successlly!", user);
+        return  responseHandler.response(200, "Edit Profile Successfully!", user);
     }
 
     @PutMapping("/editPassword")
     public ResponseEntity editPassword(@RequestBody UserRequestDTO userRequestDTO){
         User user = userService.editPassword(userRequestDTO);
-        return  responseHandler.response(200, "Edit Password Successlly!", user);
+        return  responseHandler.response(200, "Edit Password Successfully!", user);
     }
+
+    @PutMapping("/goCreator")
+    public ResponseEntity goCreator(){
+        User user = userService.goCreator();
+        return  responseHandler.response(200, "Go Creator Successfully!", user);
+    }
+
+
+
+
 
 }
