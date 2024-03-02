@@ -38,7 +38,8 @@ public class OrderRequestService {
 
     public OrderRequest sendOrderRequest(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = new OrderRequest();
-        User creator = userRepository.findUserById(orderRequestDTO.getUserID());
+        User creator = new User();
+        creator = userRepository.findUserById(orderRequestDTO.getUserID());
         User audience = accountUtils.getCurrentUser();
         if(!creator.getId().equals(audience.getId())){
             orderRequest.setCreator(creator);
@@ -76,6 +77,7 @@ public class OrderRequestService {
             threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
         }else{
             orderRequest.setStatus(StatusEnum.REJECT);
+            orderRequest.setReasonRejectCreator(orderRequestDTO.getReasonRejectCreator());
             threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Fail","Creator Cancel With Reason: " +orderRequest.getReasonRejectCreator());
         }
         return orderRequestRepository.save(orderRequest);
@@ -84,11 +86,11 @@ public class OrderRequestService {
     public OrderRequest updateOrderRequestAudience(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("processing")){
-
             orderRequest.setStatus(StatusEnum.PROCESSING);
             threadSendMail(orderRequest.getCreator(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
         }else{
             orderRequest.setStatus(StatusEnum.REJECT);
+            orderRequest.setReasonRejectAudience(orderRequestDTO.getReasonRejectAudience());
             threadSendMail(orderRequest.getCreator(),"Order Artwork " + orderRequest.getTitle()+ " Fail","Audience Cancel With Reason: " +orderRequest.getReasonRejectAudience());
         }
         return orderRequestRepository.save(orderRequest);
@@ -96,7 +98,7 @@ public class OrderRequestService {
 
     public List<OrderRequest> getOrderRequestCreatorStatus(StatusEnum status) {
         User user = accountUtils.getCurrentUser();
-            List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreatorIdAndStatus(user.getId(),status);
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByCreatorIdAndStatus(user.getId(),status);
         return listOrderRequest;
     }
 
@@ -159,8 +161,30 @@ public class OrderRequestService {
         orderRequest.setProductImage(orderRequestDTO.getProductImage());
         orderRequest.setProductMessage(orderRequestDTO.getProductMessage());
         orderRequest.setStatus(StatusEnum.DONE);
-        threadSendMail(audience,orderRequest.getTitle()+" Done",""+orderRequestDTO.getProductMessage()+"\n      "+orderRequestDTO.getProductImage());
+        threadSendMail(audience,orderRequest.getTitle()+" Done",""+orderRequestDTO.getProductMessage()+"\n"+orderRequestDTO.getProductImage());
         return orderRequestRepository.save(orderRequest);
 
+    }
+
+    public OrderRequest sendOrderRequestGlobal(OrderRequestDTO orderRequestDTO) {
+        OrderRequest orderRequest = new OrderRequest();
+        User audience = accountUtils.getCurrentUser();
+        orderRequest.setAudience(audience);
+        orderRequest.setTitle(orderRequestDTO.getTitle());
+        orderRequest.setDescription(orderRequestDTO.getDescription());
+        orderRequest.setDateStart(orderRequestDTO.getDateStart());
+        orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
+        orderRequest.setPrice(orderRequestDTO.getPrice());
+        orderRequest.setStatus(StatusEnum.GLOBAL);
+        return orderRequestRepository.save(orderRequest);
+    }
+
+    public OrderRequest updateOrderRequestGlobal(OrderRequestDTO orderRequestDTO) {
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
+        User creator = accountUtils.getCurrentUser();
+        orderRequest.setCreator(creator);
+        orderRequest.setStatus(StatusEnum.PROCESSING);
+        threadSendMail(orderRequest.getCreator(),"Order Global Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+        return orderRequestRepository.save(orderRequest);
     }
 }
