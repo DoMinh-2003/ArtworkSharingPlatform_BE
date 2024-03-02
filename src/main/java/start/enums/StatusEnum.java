@@ -5,5 +5,6 @@ public enum StatusEnum {
     ACTIVE,
     REJECT,
     PROCESSING,
-    DONE
+    DONE,
+    GLOBAL
 }
