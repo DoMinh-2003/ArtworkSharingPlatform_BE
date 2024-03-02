@@ -33,6 +33,11 @@ public class OrderRequestController {
         OrderRequest orderRequest = orderRequestService.sendOrderRequest(orderRequestDTO);
         return  responseHandler.response(200, "Send Order Successfully!", orderRequest);
     }
+    @PostMapping("/sendOrderRequestGlobal")
+    public ResponseEntity sendOrderRequestGlobal(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.sendOrderRequestGlobal(orderRequestDTO);
+        return  responseHandler.response(200, "Send Order Global Successfully!", orderRequest);
+    }
     @PutMapping ("/updateOrderRequest-creator")
     public ResponseEntity updateOrderRequestCreator(@RequestBody OrderRequestDTO orderRequestDTO){
         OrderRequest orderRequest = orderRequestService.updateOrderRequestCreator(orderRequestDTO);
@@ -40,10 +45,17 @@ public class OrderRequestController {
     }
     @PutMapping ("/updateOrderRequest-audience")
     public ResponseEntity updateOrderRequestAudience(@RequestBody OrderRequestDTO orderRequestDTO){
-        System.out.println(orderRequestDTO.getStatus());
+
         OrderRequest orderRequest = orderRequestService.updateOrderRequestAudience(orderRequestDTO);
         return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
     }
+
+    @PutMapping ("/updateOrderRequestGlobal")
+    public ResponseEntity updateOrderRequestGlobal(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.updateOrderRequestGlobal(orderRequestDTO);
+        return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
+    }
+
     @GetMapping("/getOrderRequestAudience-pending")
     public ResponseEntity getOrderRequestAudience(){
         List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.PENDING);
@@ -86,6 +98,25 @@ public class OrderRequestController {
         List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.DONE);
         return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
     }
+
+    @GetMapping("/getOrderRequestAudience-global")
+    public ResponseEntity getOrderRequestGlobalAudience(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.GLOBAL);
+        return  responseHandler.response(200, "Get Order Done Audience Successfully!", listOrderRequest);
+    }
+
+    @GetMapping("/getOrderRequestCreator-reject")
+    public ResponseEntity getOrderRequestDenyCreator(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestCreatorStatus(StatusEnum.REJECT);
+        return  responseHandler.response(200, "Get Order Reject Creator Successfully!", listOrderRequest);
+    }
+    @GetMapping("/getOrderRequestAudience-reject")
+    public ResponseEntity getOrderRequestDenyAudience(){
+        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.REJECT);
+        return  responseHandler.response(200, "Get Order Reject Audience Successfully!", listOrderRequest);
+    }
+
+
     @GetMapping("/getAllOrderRequestAudience")
     public ResponseEntity getAllOrderRequestAudience(){
         List<OrderRequest> listOrderRequest = orderRequestService.getAllOrderRequestAudience();
