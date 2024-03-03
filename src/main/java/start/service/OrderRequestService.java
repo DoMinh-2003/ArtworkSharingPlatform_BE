@@ -8,8 +8,10 @@ import start.dto.response.OrderResponseDTO;
 import start.entity.DemoRequest;
 import start.entity.OrderRequest;
 import start.entity.User;
+import start.enums.RoleEnum;
 import start.enums.StatusEnum;
 import start.exception.exceptions.CannotOrderYourself;
+import start.exception.exceptions.RefuseAuthorizeOrder;
 import start.repository.DemoOrderRepository;
 import start.repository.OrderRequestRepository;
 import start.repository.UserRepository;
@@ -182,9 +184,19 @@ public class OrderRequestService {
     public OrderRequest updateOrderRequestGlobal(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
         User creator = accountUtils.getCurrentUser();
-        orderRequest.setCreator(creator);
-        orderRequest.setStatus(StatusEnum.PROCESSING);
-        threadSendMail(orderRequest.getCreator(),"Order Global Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+          if(creator.getRole().equals(RoleEnum.CREATOR)){
+              orderRequest.setCreator(creator);
+              orderRequest.setStatus(StatusEnum.PROCESSING);
+              threadSendMail(orderRequest.getAudience(),"Order Global Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+          }else{
+              throw  new RefuseAuthorizeOrder("You dont have the right to accept this order");
+      }
         return orderRequestRepository.save(orderRequest);
+    }
+
+    public List<OrderRequest> getAllOrderRequestGlobal(StatusEnum statusEnum) {
+        List<OrderRequest> listOrderRequest = orderRequestRepository.findByStatus(statusEnum);
+       return listOrderRequest;
+
     }
 }
