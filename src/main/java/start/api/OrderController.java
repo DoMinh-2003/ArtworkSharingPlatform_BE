@@ -79,11 +79,11 @@ public class OrderController {
         return ResponseEntity.ok(urlBuilder.toString());
     }
 
-    @GetMapping("/vnpay-payment")
-    public ModelAndView orderSuccess(){
-        System.out.println("ok");
-        return new ModelAndView("emailtemplate.html");
-    }
+//    @GetMapping("/vnpay-payment")
+//    public ModelAndView orderSuccess(){
+//        System.out.println("ok");
+//        return new ModelAndView("emailtemplate.html");
+//    }
 
     private String generateHMAC(String secretKey, String signData) throws NoSuchAlgorithmException, InvalidKeyException {
         Mac hmacSha512 = Mac.getInstance("HmacSHA512");
