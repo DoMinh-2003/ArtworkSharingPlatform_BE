@@ -26,6 +26,9 @@ public class OrderResponseDTO {
     private String dateEnd;
     private String reasonRejectCreator;
     private String reasonRejectAudience;
+    private String productImage;
+    private String productMessage;
+
     Set<DemoRequest> demoRequests;
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
