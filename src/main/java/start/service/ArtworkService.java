@@ -110,4 +110,24 @@ public class ArtworkService  {
         return artworkRepository.save(artwork);
     }
 
+
+    public Artwork deleteArtwork(long id) {
+        Artwork artwork = artworkRepository.findById(id);
+        User user = accountUtils.getCurrentUser();
+        if(user.getId().equals(artwork.getUser().getId())) {
+            artwork.setStatus(StatusEnum.CANCEL);
+        }
+        return artworkRepository.save(artwork);
+    }
+
+
+    public Artwork updateArtwork(long id, ArtworkRequestDTO artworkRequestDTO) {
+        Artwork artwork = artworkRepository.findById(id);
+        User user = accountUtils.getCurrentUser();
+        if(user.getId().equals(artwork.getUser().getId())) {
+            artwork.setDescription(artworkRequestDTO.getDescription());
+            artwork.setTitle(artworkRequestDTO.getTitle());
+        }
+        return artworkRepository.save(artwork);
+    }
 }

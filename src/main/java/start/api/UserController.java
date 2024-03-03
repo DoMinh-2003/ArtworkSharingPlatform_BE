@@ -49,9 +49,4 @@ public class UserController {
         User user = userService.goCreator();
         return  responseHandler.response(200, "Go Creator Successfully!", user);
     }
-
-
-
-
-
 }

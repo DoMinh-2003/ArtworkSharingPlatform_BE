@@ -64,4 +64,14 @@ public class ArtworkController {
         Artwork artwork = artworkService.artworkApprove(id, approve);
         return  responseHandler.response(200, "Artwork Approve Successlly!", artwork);
     }
+    @PutMapping("/deleteArtwork/{id}")
+    public ResponseEntity deleteArtwork(@PathVariable long id){
+        Artwork artwork = artworkService.deleteArtwork(id);
+        return  responseHandler.response(200, "Delete Artwork Successlly!", artwork);
+    }
+    @PutMapping("/updateArtwork/{id}")
+    public ResponseEntity updateArtwork(@PathVariable long id,@RequestBody ArtworkRequestDTO artworkRequestDTO){
+        Artwork artwork = artworkService.updateArtwork(id,artworkRequestDTO);
+        return  responseHandler.response(200, "Update Artwork Successlly!", artwork);
+    }
 }

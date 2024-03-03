@@ -78,8 +78,10 @@ public class OrderRequestService {
             orderRequest.setStatus(StatusEnum.ACTIVE);
             threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
         }else{
+            System.out.println(orderRequestDTO.getReasonRejectCreator());
             orderRequest.setStatus(StatusEnum.REJECT);
             orderRequest.setReasonRejectCreator(orderRequestDTO.getReasonRejectCreator());
+            System.out.println(orderRequest.getReasonRejectCreator());
             threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Fail","Creator Cancel With Reason: " +orderRequest.getReasonRejectCreator());
         }
         return orderRequestRepository.save(orderRequest);
@@ -125,6 +127,8 @@ public class OrderRequestService {
            orderResponseDTO.setReasonRejectAudience(orderRequest.getReasonRejectAudience());
            orderResponseDTO.setReasonRejectCreator(orderRequest.getReasonRejectCreator());
            orderResponseDTO.setDemoRequests(orderRequest.getDemoRequests());
+           orderResponseDTO.setProductImage(orderRequest.getProductImage());
+           orderResponseDTO.setProductMessage(orderRequest.getProductMessage());
            orderResponseDTO.setStatus(orderRequest.getStatus());
        }catch (Exception e){
             e.printStackTrace();
