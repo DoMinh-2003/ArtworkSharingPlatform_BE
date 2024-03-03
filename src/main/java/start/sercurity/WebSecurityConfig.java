@@ -58,8 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("*").permitAll()
                 .anyRequest().permitAll()
                 .and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authenException)
-                .and()
-                .addFilterBefore(authenFilter, UsernamePasswordAuthenticationFilter.class);
+                .exceptionHandling().authenticationEntryPoint(authenException);
+//                .and()
+//                .addFilterBefore(authenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
