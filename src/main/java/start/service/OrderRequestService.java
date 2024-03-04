@@ -52,6 +52,7 @@ public class OrderRequestService {
             orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
             orderRequest.setPrice(orderRequestDTO.getPrice());
             orderRequest.setStatus(StatusEnum.PENDING);
+            threadSendMail(creator,"Order Artwork","You receive an order artwork");
         }else{
             throw new CannotOrderYourself("You may not order yourself");
         }
