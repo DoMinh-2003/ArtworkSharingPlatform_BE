@@ -74,16 +74,19 @@ public class ArtworkService  {
     public ArtworkResponseDTO getArtwokDetaill(long id) {
         Artwork artwork = artworkRepository.findById(id);
         ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
-        artworkResponseDTO.setId(artwork.getId());
-        artworkResponseDTO.setTitle(artwork.getTitle());
-        artworkResponseDTO.setImage(artwork.getImage());
-        artworkResponseDTO.setDescription(artwork.getDescription());
-        artworkResponseDTO.setCreateDate(artwork.getCreateDate());
-        artworkResponseDTO.setPrice(artwork.getPrice());
-        artworkResponseDTO.setStatus(artwork.getStatus());
-        artworkResponseDTO.setUser(artwork.getUser());
-        artworkResponseDTO.setCategories(artwork.getCategories());
+        if (artwork.getStatus().equals(StatusEnum.ACTIVE)){
+            artworkResponseDTO.setId(artwork.getId());
+            artworkResponseDTO.setTitle(artwork.getTitle());
+            artworkResponseDTO.setImage(artwork.getImage());
+            artworkResponseDTO.setDescription(artwork.getDescription());
+            artworkResponseDTO.setCreateDate(artwork.getCreateDate());
+            artworkResponseDTO.setPrice(artwork.getPrice());
+            artworkResponseDTO.setStatus(artwork.getStatus());
+            artworkResponseDTO.setUser(artwork.getUser());
+            artworkResponseDTO.setCategories(artwork.getCategories());
+        }
         return artworkResponseDTO;
+
     }
 
     public void threadSendMail(User user,String subject, String description){

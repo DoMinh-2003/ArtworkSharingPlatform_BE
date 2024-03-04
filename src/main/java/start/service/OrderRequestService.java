@@ -203,4 +203,13 @@ public class OrderRequestService {
        return listOrderRequest;
 
     }
+
+    public OrderRequest cancelOrderRequest(long id) {
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(id);
+        User audience = accountUtils.getCurrentUser();
+        if(audience.getId().equals(orderRequest.getAudience().getId())) {
+            orderRequest.setStatus(StatusEnum.CANCEL);
+        }
+        return orderRequestRepository.save(orderRequest);
+    }
 }
