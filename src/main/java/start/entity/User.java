@@ -1,6 +1,8 @@
 package start.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -53,6 +55,16 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private Set<OrderRequest> receivedOrders;
+
+    @ManyToMany
+    @JsonBackReference
+
+    @JoinTable(
+            name = "room_user",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "room_id"))
+    private Set<Room> rooms;
+
 
 
     @Override
