@@ -56,6 +56,12 @@ public class OrderRequestController {
         return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
     }
 
+    @PutMapping ("/cancelOrderRequest/{id}")
+    public ResponseEntity cancelOrderRequest(@PathVariable long id){
+        OrderRequest orderRequest = orderRequestService.cancelOrderRequest(id);
+        return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
+    }
+
 //    @GetMapping("/getOrderRequestAudience-pending")
 //    public ResponseEntity getOrderRequestAudience(){
 //        List<OrderRequest> listOrderRequest = orderRequestService.getOrderRequestAudienceStatus(StatusEnum.PENDING);
