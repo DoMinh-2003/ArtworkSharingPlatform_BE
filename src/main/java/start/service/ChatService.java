@@ -1,9 +1,12 @@
 package start.service;
 
 
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+import start.dto.request.FcmNotification;
 import start.dto.request.GetRoomRequest;
 import start.dto.request.MessageRequest;
 import start.dto.request.RoomRequest;
@@ -35,6 +38,8 @@ public class ChatService {
     SimpMessagingTemplate messagingTemplate;
     @Autowired
     AccountUtils accountUtils;
+    @Autowired
+    FcmService fcmService;
 
     public Room createNewRoom(RoomRequest roomRequest) {
         Set<User> users = new HashSet<>();
@@ -88,19 +93,19 @@ public class ChatService {
         roomDTO.setLastMessage(messageRequest.getMessage());
         roomRepository.save(roomDTO);
         for (User user1 : roomDTO.getUsers()) {
-            if (user1.getId() != user.getId()) {
+            if (!user1.getId().equals(user.getId())) {
                 messagingTemplate.convertAndSend("/topic/chat/" + user1.getId(), "New message");
 //                for (FCM fcm : account.getFcms()) {
-//                    FcmNotification fcmNotification = new FcmNotification();
-//                    fcmNotification.setBody(messageRequest.getMessage());
-//                    fcmNotification.setTitle(accountDTO.getEmail());
-//                    fcmNotification.setToken(fcm.getToken());
-//                    try {
-//                        fcmService.sendPushNotification(fcmNotification);
-//                    } catch (FirebaseMessagingException | FirebaseAuthException e) {
-//                        e.printStackTrace();
+                    FcmNotification fcmNotification = new FcmNotification();
+                    fcmNotification.setBody(messageRequest.getMessage());
+                    fcmNotification.setTitle(user.getUsername());
+                    fcmNotification.setToken("dLCMVCE6UsmVczaeLJqgdz:APA91bF68pN13e-9_f4s-tMbA1_F86_rb-L0vYFLffhjgBAY0FO77yqBHk6NP3GE6vfeYH6yDqMd7JXBn2tu6KQIqb2xmk602hk9SX7EoYInyJgB1T9vaCzll9I5UqE0XJ09DzHiv2kB");
+                    try {
+                        fcmService.sendPushNotification(fcmNotification);
+                    } catch (FirebaseMessagingException | FirebaseAuthException e) {
+                        e.printStackTrace();
 //                    }
-//                }
+                }
             }
         }
         return messageRepository.save(messageDTO);
