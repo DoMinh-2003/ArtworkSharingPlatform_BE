@@ -53,12 +53,12 @@ public class User implements UserDetails {
     private Set<OrderRequest> sentOrders;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+        @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private Set<OrderRequest> receivedOrders;
 
     @ManyToMany
-    @JsonBackReference
-
+//    @JsonBackReference
+    @JsonIgnore
     @JoinTable(
             name = "room_user",
             joinColumns = @JoinColumn(name = "user_id"),
