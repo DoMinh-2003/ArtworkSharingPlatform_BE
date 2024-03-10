@@ -53,7 +53,7 @@ public class User implements UserDetails {
     private Set<OrderRequest> sentOrders;
 
     @JsonIgnore
-        @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private Set<OrderRequest> receivedOrders;
 
     @ManyToMany
@@ -64,6 +64,10 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "room_id"))
     private Set<Room> rooms;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    private Set<Interaction> interactions;
 
 
 
