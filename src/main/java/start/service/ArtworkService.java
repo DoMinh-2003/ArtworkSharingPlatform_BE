@@ -8,16 +8,20 @@ import start.dto.request.ArtworkRequestDTO;
 import start.dto.response.ArtworkResponseDTO;
 import start.entity.Artwork;
 import start.entity.Category;
+import start.entity.Interaction;
 import start.entity.User;
 import start.enums.StatusEnum;
+import start.enums.TypeEnum;
 import start.repository.ArtworkRepository;
 import start.repository.CategoryRepository;
 import start.repository.UserRepository;
 import start.utils.AccountUtils;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -60,9 +64,36 @@ public class ArtworkService  {
 
 
 
-    public List<Artwork> getAllArtWork(String status){
+    public List<ArtworkResponseDTO> getAllArtWork(String status){
         List<Artwork> artworkList = artworkRepository.findByStatus(status.toLowerCase().trim().equals("active")?StatusEnum.ACTIVE:StatusEnum.PENDING);
-        return artworkList;
+        List<ArtworkResponseDTO> listArtwork = new ArrayList<>();
+        for(Artwork artwork:artworkList){
+            int countLike = 0;
+            int countComment = 0;
+            ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
+            artworkResponseDTO.setId(artwork.getId());
+            artworkResponseDTO.setTitle(artwork.getTitle());
+            artworkResponseDTO.setImage(artwork.getImage());
+            artworkResponseDTO.setDescription(artwork.getDescription());
+            artworkResponseDTO.setCreateDate(artwork.getCreateDate());
+            artworkResponseDTO.setPrice(artwork.getPrice());
+            artworkResponseDTO.setStatus(artwork.getStatus());
+            artworkResponseDTO.setUser(artwork.getUser());
+            artworkResponseDTO.setCategories(artwork.getCategories());
+            for(Interaction interaction: artwork.getInteractions()){
+                if(interaction.getType().equals(TypeEnum.LIKE)){
+                    countLike += 1;
+                }else if (interaction.getType().equals(TypeEnum.COMMENT)){
+                    countComment += 1;
+                }
+            }
+            artworkResponseDTO.setCountLike(countLike);
+            artworkResponseDTO.setCountComment(countComment);
+            artworkResponseDTO.setInteractionLike( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.LIKE)).collect(Collectors.toSet()));
+            artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
+            listArtwork.add(artworkResponseDTO);
+        }
+        return listArtwork;
     }
 
     public List<Artwork> getAllArtwokStatusByCreator(StatusEnum status){
@@ -72,6 +103,8 @@ public class ArtworkService  {
     }
 
     public ArtworkResponseDTO getArtwokDetaill(long id) {
+        int countLike = 0;
+        int countComment = 0;
         Artwork artwork = artworkRepository.findById(id);
         ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
         if (artwork.getStatus().equals(StatusEnum.ACTIVE)){
@@ -84,6 +117,17 @@ public class ArtworkService  {
             artworkResponseDTO.setStatus(artwork.getStatus());
             artworkResponseDTO.setUser(artwork.getUser());
             artworkResponseDTO.setCategories(artwork.getCategories());
+            for(Interaction interaction: artwork.getInteractions()){
+                if(interaction.getType().equals(TypeEnum.LIKE)){
+                    countLike += 1;
+                }else if (interaction.getType().equals(TypeEnum.COMMENT)){
+                    countComment += 1;
+                }
+            }
+            artworkResponseDTO.setCountLike(countLike);
+            artworkResponseDTO.setCountComment(countComment);
+            artworkResponseDTO.setInteractionLike( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.LIKE)).collect(Collectors.toSet()));
+            artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
         }
         return artworkResponseDTO;
 

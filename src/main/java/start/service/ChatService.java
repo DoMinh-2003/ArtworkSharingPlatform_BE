@@ -94,18 +94,19 @@ public class ChatService {
         roomRepository.save(roomDTO);
         for (User user1 : roomDTO.getUsers()) {
             if (!user1.getId().equals(user.getId())) {
+                System.out.println("real time");
                 messagingTemplate.convertAndSend("/topic/chat/" + user1.getId(), "New message");
 //                for (FCM fcm : account.getFcms()) {
-                    FcmNotification fcmNotification = new FcmNotification();
-                    fcmNotification.setBody(messageRequest.getMessage());
-                    fcmNotification.setTitle(user.getUsername());
-                    fcmNotification.setToken("dLCMVCE6UsmVczaeLJqgdz:APA91bF68pN13e-9_f4s-tMbA1_F86_rb-L0vYFLffhjgBAY0FO77yqBHk6NP3GE6vfeYH6yDqMd7JXBn2tu6KQIqb2xmk602hk9SX7EoYInyJgB1T9vaCzll9I5UqE0XJ09DzHiv2kB");
-                    try {
-                        fcmService.sendPushNotification(fcmNotification);
-                    } catch (FirebaseMessagingException | FirebaseAuthException e) {
-                        e.printStackTrace();
-//                    }
-                }
+//                    FcmNotification fcmNotification = new FcmNotification();
+//                    fcmNotification.setBody(messageRequest.getMessage());
+//                    fcmNotification.setTitle(user.getUsername());
+//                    fcmNotification.setToken("dLCMVCE6UsmVczaeLJqgdz:APA91bF68pN13e-9_f4s-tMbA1_F86_rb-L0vYFLffhjgBAY0FO77yqBHk6NP3GE6vfeYH6yDqMd7JXBn2tu6KQIqb2xmk602hk9SX7EoYInyJgB1T9vaCzll9I5UqE0XJ09DzHiv2kB");
+//                    try {
+//                        fcmService.sendPushNotification(fcmNotification);
+//                    } catch (FirebaseMessagingException | FirebaseAuthException e) {
+//                        e.printStackTrace();
+////                    }
+//                }
             }
         }
         return messageRepository.save(messageDTO);

@@ -22,7 +22,6 @@ import java.util.TreeMap;
 
 @RestController
 @CrossOrigin("*")
-
 @SecurityRequirement(name = "api")
 public class OrderController {
     @GetMapping("/order")

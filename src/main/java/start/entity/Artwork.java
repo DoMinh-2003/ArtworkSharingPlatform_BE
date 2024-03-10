@@ -1,5 +1,6 @@
 package start.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,6 +40,10 @@ public class Artwork {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
     Set<Category> categories;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "artwork", cascade = CascadeType.ALL)
+    private Set<Interaction> interactions;
 
 
 }
