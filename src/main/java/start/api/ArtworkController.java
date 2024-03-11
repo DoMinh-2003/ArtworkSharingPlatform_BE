@@ -33,10 +33,10 @@ public class ArtworkController {
     public ResponseEntity getAllArtwok(){
         return  responseHandler.response(200, "Get All Artwork Successlly!", artworkService.getAllArtWork("active"));
     }
-//    @GetMapping("/artworks-pending")
-//    public ResponseEntity getAllArtwokPending(){
-//        return  responseHandler.response(200, "Get All Artwork Pending Successlly!", artworkService.getAllArtWork("pending"));
-//    }
+    @GetMapping("/artworks-pending")
+    public ResponseEntity getAllArtwokPending(){
+        return  responseHandler.response(200, "Get All Artwork Pending Successlly!", artworkService.getAllArtWork("pending"));
+    }
 //
 //    @GetMapping("/artworkByCreator-pending")
 //    public ResponseEntity getAllArtwokPendingByCreator(){

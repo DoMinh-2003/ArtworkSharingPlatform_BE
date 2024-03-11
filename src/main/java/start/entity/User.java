@@ -1,8 +1,6 @@
 package start.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
@@ -68,6 +66,10 @@ public class User implements UserDetails {
     @JsonIgnore
     @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
     private Set<Interaction> interactions;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private Wallet wallet;
 
 
 
