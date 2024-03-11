@@ -27,6 +27,7 @@ public class PaypalService {
         Amount amount = new Amount();
         amount.setCurrency(currency);
         amount.setTotal(String.format("%.2f", total));
+        System.out.println(amount.getTotal());
 
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
