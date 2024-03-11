@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class PaypalService {
@@ -26,8 +27,9 @@ public class PaypalService {
 
         Amount amount = new Amount();
         amount.setCurrency(currency);
-        amount.setTotal(String.format("%.2f", total));
-        System.out.println(amount.getTotal());
+
+        amount.setTotal(String.format(Locale.US,"%.2f", total));
+
 
         Transaction transaction = new Transaction();
         transaction.setDescription(description);
