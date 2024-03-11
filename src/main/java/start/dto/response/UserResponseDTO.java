@@ -4,6 +4,7 @@ package start.dto.response;
 
 import lombok.*;
 import start.entity.Artwork;
+import start.entity.Wallet;
 import start.enums.RoleEnum;
 
 import javax.persistence.*;
@@ -27,5 +28,6 @@ public class UserResponseDTO {
     @Enumerated(EnumType.STRING)
     RoleEnum role;
     Set<Artwork> artworks;
+    Wallet wallet;
 
 }
