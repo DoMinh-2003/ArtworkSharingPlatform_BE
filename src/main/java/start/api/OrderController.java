@@ -24,8 +24,8 @@ public class OrderController {
     @Autowired
     WalletService walletService;
 
-    @PostMapping("/request-recharge")
-    public ResponseEntity createUrl(@RequestBody RechargeRequestDTO rechargeRequestDTO) throws Exception {
+    @PostMapping("/request-recharge-paypal")
+    public ResponseEntity createPaypalPayment(@RequestBody RechargeRequestDTO rechargeRequestDTO) throws Exception {
        String url = walletService.createPaypalPayment(rechargeRequestDTO);
         return  responseHandler.response(200, "Create Url Successfully!", url);
     }
