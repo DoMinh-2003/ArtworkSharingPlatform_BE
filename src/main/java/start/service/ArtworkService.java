@@ -130,7 +130,6 @@ public class ArtworkService  {
             artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
         }
         return artworkResponseDTO;
-
     }
 
     public void threadSendMail(User user,String subject, String description){

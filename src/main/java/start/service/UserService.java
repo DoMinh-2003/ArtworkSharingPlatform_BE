@@ -16,6 +16,7 @@ import start.entity.User;
 import start.enums.RoleEnum;
 import start.exception.exceptions.IncorrectPassword;
 import start.repository.UserRepository;
+import start.repository.WalletRepository;
 import start.utils.AccountUtils;
 
 import java.util.List;
@@ -133,5 +134,10 @@ public class UserService {
         new Thread(r).start();
 
         return userRepository.save(user);
+    }
+
+    public List<User> topCreator() {
+        List<User> listUser = userRepository.findTopCreatorsByArtworkCount();
+        return listUser;
     }
 }

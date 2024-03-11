@@ -18,10 +18,12 @@ import start.dto.request.VerifyRequestDTO;
 import start.dto.response.LoginResponse;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
+import start.entity.Wallet;
 import start.enums.RoleEnum;
 import start.exception.exceptions.AccountNotVerify;
 import start.exception.exceptions.InValidEmail;
 import start.repository.UserRepository;
+import start.repository.WalletRepository;
 import start.utils.TokenHandler;
 
 import java.util.UUID;
@@ -40,6 +42,8 @@ public class AuthenService implements UserDetailsService {
 
     @Autowired
     TokenHandler tokenHandler;
+    @Autowired
+    WalletRepository walletRepository;
 
     @Autowired
     EmailService emailService;
@@ -53,7 +57,6 @@ public class AuthenService implements UserDetailsService {
                             loginRequestDTO.getPassword()
                     )
             );
-
         } catch (Exception e) {
             throw new NullPointerException("Wrong Id Or Password") ;
         }
@@ -85,6 +88,7 @@ public class AuthenService implements UserDetailsService {
         user.setName(signUpRequestDTO.getName());
         user.setAvt("https://png.pngtree.com/png-clipart/20200701/original/pngtree-character-default-avatar-png-image_5407167.jpg");
         user.setActive(false);
+
     try{
         return userRepository.save(user);
     }catch (DataIntegrityViolationException e) {
@@ -97,6 +101,11 @@ public class AuthenService implements UserDetailsService {
          User user = userRepository.findUserById(verifyRequestDTO.getId());
          if(verifyRequestDTO.getEmail().equals(user.getEmail())){
              user.setActive(true);
+             Wallet wallet = new Wallet();
+             wallet.setUser(user);
+             wallet.setBalance(0);
+             wallet.setCocMoney(0);
+             walletRepository.save(wallet);
          }else{
              throw new AccountNotVerify("Verify failed");
          }

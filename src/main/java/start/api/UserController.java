@@ -49,4 +49,12 @@ public class UserController {
         User user = userService.goCreator();
         return  responseHandler.response(200, "Go Creator Successfully!", user);
     }
+
+    @GetMapping("/topCreator")
+    public ResponseEntity topCreator(){
+        List<User> user = userService.topCreator();
+        return  responseHandler.response(200, "Get Top Creator Successfully!", user);
+    }
+
+
 }
