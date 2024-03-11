@@ -167,7 +167,7 @@ public class WalletService {
         Transaction transaction = transactionRepository.findByTransactionID(id);
         Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
         if(wallet.getWalletID() == transaction.getTo().getWalletID()){
-            wallet.setBalance(transaction.getAmount());
+            wallet.setBalance(wallet.getBalance()+transaction.getAmount());
         }
         transaction.setTransactionType(TransactionEnum.RECHARGE);
 
