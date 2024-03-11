@@ -53,8 +53,8 @@ public class AuthenService implements UserDetailsService {
         try {
             authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            loginRequestDTO.getUsername(),
-                            loginRequestDTO.getPassword()
+                            loginRequestDTO.getUsername().trim(),
+                            loginRequestDTO.getPassword().trim()
                     )
             );
         } catch (Exception e) {

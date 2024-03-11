@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import start.dto.request.RechargeRequestDTO;
 
+import start.entity.Wallet;
 import start.service.WalletService;
 import start.utils.AccountUtils;
 import start.utils.ResponseHandler;
@@ -36,17 +37,19 @@ public class OrderController {
     @Autowired
     WalletService walletService;
 
-    @PostMapping("/recharge")
+    @PostMapping("/request-recharge-vnpay")
     public ResponseEntity createUrl(@RequestBody RechargeRequestDTO rechargeRequestDTO) throws Exception {
        String url = walletService.createUrl(rechargeRequestDTO);
         return  responseHandler.response(200, "Create Url Successfully!", url);
     }
 
-//    @GetMapping("/vnpay-payment")
-//    public ModelAndView orderSuccess(){
-//        System.out.println("ok");
-//        return new ModelAndView("emailtemplate.html");
-//    }
+
+    @PutMapping("/recharge/{id}")
+    public ResponseEntity recharge(@PathVariable UUID id) throws Exception {
+        Wallet wallet = walletService.recharge(id);
+        return  responseHandler.response(200, "Recharge Successfully!", wallet);
+    }
+
 
 
 

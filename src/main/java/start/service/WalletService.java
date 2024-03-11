@@ -38,10 +38,13 @@ public class WalletService {
 
 
 
+
+
     public String createUrl(RechargeRequestDTO rechargeRequestDTO) throws NoSuchAlgorithmException, InvalidKeyException, Exception{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
         LocalDateTime createDate = LocalDateTime.now();
         String formattedCreateDate = createDate.format(formatter);
+
 
 
         User user = accountUtils.getCurrentUser();
@@ -119,4 +122,17 @@ public class WalletService {
         return result.toString();
     }
 
+
+    public Wallet recharge(UUID id) {
+        User user = accountUtils.getCurrentUser();
+        Transaction transaction = transactionRepository.findByTransactionID(id);
+        Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
+        if(wallet.getWalletID() == transaction.getTo().getWalletID()){
+            wallet.setBalance(transaction.getAmount());
+        }
+        transaction.setTransactionType(TransactionEnum.RECHARGE);
+
+        transactionRepository.save(transaction);
+        return walletRepository.save(wallet);
+    }
 }
