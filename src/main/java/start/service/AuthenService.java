@@ -2,8 +2,6 @@ package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Service;
 import start.dto.request.LoginRequestDTO;
 import start.dto.request.SignUpRequestDTO;
 import start.dto.request.VerifyRequestDTO;
-import start.dto.response.LoginResponse;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
 import start.entity.Wallet;
@@ -75,6 +72,7 @@ public class AuthenService implements UserDetailsService {
             userResponseDTO.setAvt(user.getAvt());
             userResponseDTO.setPostQuantity(user.getPostQuantity());
             userResponseDTO.setArtworks(user.getArtworks());
+            userResponseDTO.setWallet(user.getWallet());
             return userResponseDTO;
         }
     }

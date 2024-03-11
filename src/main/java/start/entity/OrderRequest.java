@@ -15,9 +15,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class OrderRequest {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        Long id;
 
     @ManyToOne
     @JoinColumn(name = "audience_id")

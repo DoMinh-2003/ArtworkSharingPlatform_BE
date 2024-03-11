@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 @CrossOrigin("*")
 @SecurityRequirement(name = "api")
-public class OrderController {
+public class WalletController {
 
 
     @Autowired
@@ -46,5 +46,11 @@ public class OrderController {
 
 
 
+    @GetMapping("/walletDetail/{id}")
+    public ResponseEntity walletDetail(@PathVariable UUID id) throws Exception {
+        Wallet wallet = walletService.walletDetail(id);
+        return  responseHandler.response(200, "Get waller detail successfully!", wallet);
+
+    }
 
 }

@@ -115,6 +115,9 @@ public class WalletService {
 
 
     public String createPaypalPayment(RechargeRequestDTO rechargeRequestDTO) throws PayPalRESTException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+        LocalDateTime createDate = LocalDateTime.now();
+        String formattedCreateDate = createDate.format(formatter);
 
         User user = accountUtils.getCurrentUser();
 
@@ -125,6 +128,7 @@ public class WalletService {
         transaction.setTransactionType(TransactionEnum.PENDING);
         transaction.setTo(wallet);
         transaction.setDescription("Recharge");
+        transaction.setTransactionDate(formattedCreateDate);
         Transaction transactionReturn = transactionRepository.save(transaction);
 
         Double totalAmount = Double.parseDouble(rechargeRequestDTO.getAmount());
@@ -166,13 +170,22 @@ public class WalletService {
         User user = accountUtils.getCurrentUser();
         Transaction transaction = transactionRepository.findByTransactionID(id);
         Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
-        if(wallet.getWalletID() == transaction.getTo().getWalletID()){
-            wallet.setBalance(wallet.getBalance()+transaction.getAmount());
+        if(transaction.getTransactionType().equals(TransactionEnum.PENDING)) {
+            if(wallet.getWalletID() == transaction.getTo().getWalletID()){
+                wallet.setBalance(wallet.getBalance()+transaction.getAmount());
+            }
+        }
+        else{
+            throw new RuntimeException("Reload");
         }
         transaction.setTransactionType(TransactionEnum.RECHARGE);
 
         transactionRepository.save(transaction);
         return walletRepository.save(wallet);
+    }
+
+    public  Wallet walletDetail(UUID id) {
+        return  walletRepository.findWalletByUser_Id(id);
     }
 
 }
