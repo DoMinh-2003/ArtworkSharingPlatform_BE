@@ -18,7 +18,6 @@ import start.entity.User;
 import start.enums.RoleEnum;
 import start.exception.exceptions.IncorrectPassword;
 import start.repository.UserRepository;
-import start.repository.WalletRepository;
 import start.utils.AccountUtils;
 
 import java.util.List;
@@ -139,7 +138,7 @@ public class UserService {
     }
 
     public List<User> topCreator() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(0, 6);
         List<User> listUser = userRepository.findTopCreatorsByArtworkCount(pageable);
         return listUser;
     }
