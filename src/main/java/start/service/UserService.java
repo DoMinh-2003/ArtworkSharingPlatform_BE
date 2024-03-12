@@ -5,6 +5,8 @@ import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -137,7 +139,8 @@ public class UserService {
     }
 
     public List<User> topCreator() {
-        List<User> listUser = userRepository.findTopCreatorsByArtworkCount();
+        Pageable pageable = PageRequest.of(0, 10);
+        List<User> listUser = userRepository.findTopCreatorsByArtworkCount(pageable);
         return listUser;
     }
 }
