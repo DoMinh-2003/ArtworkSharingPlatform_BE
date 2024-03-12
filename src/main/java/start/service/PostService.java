@@ -4,16 +4,12 @@ package start.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import start.dto.request.PostRequestDTO;
+import start.dto.response.BuyArtworkResponseDTO;
 import start.dto.response.UserResponseDTO;
-import start.entity.SystemProfit;
-import start.entity.Transaction;
-import start.entity.User;
-import start.entity.Wallet;
+import start.entity.*;
+import start.enums.StatusEnum;
 import start.enums.TransactionEnum;
-import start.repository.SystemProfitRepository;
-import start.repository.TransactionRepository;
-import start.repository.UserRepository;
-import start.repository.WalletRepository;
+import start.repository.*;
 import start.utils.AccountUtils;
 
 import java.time.LocalDateTime;
@@ -31,10 +27,19 @@ public class PostService {
     UserRepository userRepository;
 @Autowired
     SystemProfitRepository systemProfitRepository;
+
+     @Autowired
+    ArtworkRepository artworkRepository;
+
+     public String getDate(){
+         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+         LocalDateTime createDate = LocalDateTime.now();
+         String formattedCreateDate = createDate.format(formatter);
+         return formattedCreateDate;
+     }
+
     public UserResponseDTO buyPost(PostRequestDTO postRequestDTO) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
-        LocalDateTime createDate = LocalDateTime.now();
-        String formattedCreateDate = createDate.format(formatter);
+        String formattedCreateDate = getDate();
 
         User user2 = accountUtils.getCurrentUser();
         User user = userRepository.findUserById(user2.getId());
@@ -77,4 +82,27 @@ public class PostService {
         }
     }
 
+    public BuyArtworkResponseDTO buyArtwork(long id) {
+        BuyArtworkResponseDTO buyArtworkResponseDTO = new BuyArtworkResponseDTO();
+        String formattedCreateDate = getDate();
+        Artwork artwork = artworkRepository.findById(id);
+      if(artwork.getStatus().equals(StatusEnum.ACTIVE)){
+          User audience = accountUtils.getCurrentUser();
+          User creator = userRepository.findUserById(artwork.getUser().getId());
+          Transaction transaction = new Transaction();
+          transaction.setAmount(artwork.getPrice());
+          transaction.setTransactionType(TransactionEnum.PENDING);
+          transaction.setArtworkID(artwork.getId());
+          transaction.setTransactionDate(formattedCreateDate);
+          transaction.setFrom(audience.getWallet());
+          transaction.setTo(creator.getWallet());
+          transaction.setDescription("Buy Artwork");
+          Transaction transactionReturn = transactionRepository.save(transaction);
+          buyArtworkResponseDTO.setArtwork(artwork);
+          buyArtworkResponseDTO.setTransaction(transactionReturn);
+      }else{
+          throw new RuntimeException("The artwork does not exist");
+      }
+      return buyArtworkResponseDTO;
+    }
 }
