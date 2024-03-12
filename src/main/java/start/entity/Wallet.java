@@ -1,12 +1,13 @@
 package start.entity;
 
-import java.util.Set;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import lombok.*;
+import java.util.Set;
 
 
 @Getter
@@ -21,7 +22,7 @@ public class Wallet {
     private float balance;
     private float cocMoney;
 
-
+@JsonIgnore
     @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
