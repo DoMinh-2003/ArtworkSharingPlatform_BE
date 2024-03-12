@@ -42,6 +42,7 @@ public class ArtworkService  {
     UserRepository userRepository;
 
     public Artwork addNewArtwork(ArtworkRequestDTO artworkRequestDTO) {
+
         Set<Category> listCategoryID = new HashSet<>();
         for (String categoryName : artworkRequestDTO.getCategoriesName()) {
             Category category = categoryRepository.findAllByName(categoryName);
@@ -49,7 +50,8 @@ public class ArtworkService  {
                 System.out.println(categoryName);
                 listCategoryID.add(category);
             }
-        }
+            }
+
         Artwork artwork = new Artwork();
         artwork.setTitle(artworkRequestDTO.getTitle());
         artwork.setImage(artworkRequestDTO.getImage());
@@ -58,7 +60,18 @@ public class ArtworkService  {
         artwork.setPrice(artworkRequestDTO.getPrice());
         artwork.setCategories(listCategoryID);
         artwork.setStatus(StatusEnum.PENDING);
-        artwork.setUser(accountUtils.getCurrentUser());
+        User user = accountUtils.getCurrentUser();
+//        User userResponse = userRepository.findUserById(user.getId());
+        if(artworkRequestDTO.getPrice()> 0){
+            if(user.getPostQuantity() >0){
+                user.setPostQuantity(user.getPostQuantity() -1);
+                user = userRepository.save(user);
+            } else{
+                throw new RuntimeException("You don't have enough posts left");
+            }
+
+        }
+        artwork.setUser(user);
         return artworkRepository.save(artwork);
     }
 
