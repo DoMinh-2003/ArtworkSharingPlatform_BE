@@ -8,8 +8,11 @@ import start.dto.request.PostRequestDTO;
 import start.dto.response.BuyArtworkResponseDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.Artwork;
+import start.entity.Transaction;
 import start.service.PostService;
 import start.utils.ResponseHandler;
+
+import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
@@ -30,6 +33,12 @@ public class PostController {
     public ResponseEntity buyArtwork(@PathVariable long id){
         BuyArtworkResponseDTO artwork = postService.buyArtwork(id);
         return  responseHandler.response(200, "Buy Artwork Successfully!", artwork);
+    }
+
+    @PostMapping("/checkOut/{id}")
+    public ResponseEntity checkOut(@PathVariable UUID id){
+        Transaction transaction = postService.checkOut(id);
+        return  responseHandler.response(200, "Check Out Artwork Successfully!", transaction);
     }
 
 }

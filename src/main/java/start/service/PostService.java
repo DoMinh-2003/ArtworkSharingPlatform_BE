@@ -14,6 +14,7 @@ import start.utils.AccountUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -30,6 +31,8 @@ public class PostService {
 
      @Autowired
     ArtworkRepository artworkRepository;
+    @Autowired
+    EmailService emailService;
 
      public String getDate(){
          DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -104,5 +107,46 @@ public class PostService {
           throw new RuntimeException("The artwork does not exist");
       }
       return buyArtworkResponseDTO;
+    }
+
+
+    public void threadSendMail(User user,String subject, String description){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                emailService.sendMail(user,subject,description);
+            }
+
+        };
+        new Thread(r).start();
+    }
+
+    public Transaction checkOut(UUID id) {
+         Transaction transaction = transactionRepository.findByTransactionID(id);
+         Artwork artwork = artworkRepository.findById((long)transaction.getArtworkID());
+        User audience = accountUtils.getCurrentUser();
+
+        if(artwork.getStatus().equals(StatusEnum.ACTIVE)){
+
+            if(audience.getWallet().getBalance() >= artwork.getPrice()){
+                Wallet walletFrom = transaction.getFrom();
+                Wallet walletTo = transaction.getTo();
+                walletFrom.setBalance(walletFrom.getBalance()-artwork.getPrice());
+                walletTo.setBalance(walletTo.getBalance()+artwork.getPrice());
+                transaction.setTransactionType(TransactionEnum.BUYARTWORK);
+                artwork.setStatus(StatusEnum.DONE);
+                walletRepository.save(walletFrom);
+                walletRepository.save(walletTo);
+                transactionRepository.save(transaction);
+                artworkRepository.save(artwork);
+                threadSendMail(artwork.getUser(),"Professional artwork sale" , "artwork " +artwork.getTitle()+ " has been sold");
+                threadSendMail(audience,"Buy Artwork Pro" , "Link Artwork "+artwork.getTitle()+"\n "+ artwork.getImage());
+            }else{
+                throw new RuntimeException("wallet does not have enough balance");
+            }
+        }else{
+            throw new RuntimeException("The artwork does not exist");
+        }
+       return transaction;
     }
 }

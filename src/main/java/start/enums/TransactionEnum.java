@@ -6,4 +6,5 @@ public enum TransactionEnum {
     WITHDRAW,
     BUYPOST,
     ORDER,
+    BUYARTWORK,
 }
