@@ -1,5 +1,6 @@
 package start.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,7 +16,10 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     User findUserById(UUID id);
     User findByEmail(String email);
 
-    @Query(value="SELECT u.id, u.name, u.username, u.email, u.avt, u.role FROM user u LEFT JOIN (SELECT user_id, COUNT(id) AS artwork_count FROM artwork GROUP BY user_id) AS a ON u.id = a.user_id ORDER BY artwork_count DESC LIMIT 10",nativeQuery = true)
-    List<User> findTopCreatorsByArtworkCount();
+//    @Query(value="SELECT u.id, u.name, u.username, u.email, u.avt, u.role FROM user u LEFT JOIN (SELECT user_id, COUNT(id) AS artwork_count FROM artwork GROUP BY user_id) AS a ON u.id = a.user_id ORDER BY artwork_count DESC",nativeQuery = true)
+//    List<User> findTopCreatorsByArtworkCount();
+
+    @Query("SELECT u, COUNT(a) AS artwork_count FROM User u LEFT JOIN u.artworks a GROUP BY u.id ORDER BY artwork_count DESC")
+    List<User> findTopCreatorsByArtworkCount(Pageable pageable);
 
 }
