@@ -33,8 +33,6 @@ public class ArtworkService  {
     ArtworkRepository artworkRepository;
     @Autowired
     CategoryRepository categoryRepository;
-
-
     @Autowired
     EmailService emailService;
 

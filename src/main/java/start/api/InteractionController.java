@@ -10,6 +10,8 @@ import start.entity.Interaction;
 import start.service.InteractionService;
 import start.utils.ResponseHandler;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @SecurityRequirement(name = "api")
@@ -30,6 +32,12 @@ public class InteractionController {
     public ResponseEntity<Interaction> disLike(@RequestBody InteractionRequestDTO interactionRequestDTO){
         Interaction interaction = interactionService.disLike(interactionRequestDTO);
         return responseHandler.response(200, "DisLike Interaction Successfully!", interaction);
+    }
+
+    @GetMapping("/likeShot")
+    public ResponseEntity<Interaction> likeShot(){
+        List<Interaction> interaction = interactionService.likeShot();
+        return responseHandler.response(200, "LikeShot Interaction Successfully!", interaction);
     }
 
 

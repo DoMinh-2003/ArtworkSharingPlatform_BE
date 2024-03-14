@@ -14,6 +14,7 @@ import start.exception.exceptions.CannotOrderYourself;
 import start.exception.exceptions.RefuseAuthorizeOrder;
 import start.repository.DemoOrderRepository;
 import start.repository.OrderRequestRepository;
+import start.repository.SystemProfitRepository;
 import start.repository.UserRepository;
 import start.utils.AccountUtils;
 
@@ -37,6 +38,10 @@ public class OrderRequestService {
     @Autowired
     DemoOrderRepository demoOrderRepository;
 
+    @Autowired
+    SystemProfitRepository systemProfitRepository;
+
+
 
     public OrderRequest sendOrderRequest(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = new OrderRequest();
@@ -44,15 +49,15 @@ public class OrderRequestService {
         creator = userRepository.findUserById(orderRequestDTO.getUserID());
         User audience = accountUtils.getCurrentUser();
         if(!creator.getId().equals(audience.getId())){
-            orderRequest.setCreator(creator);
-            orderRequest.setAudience(audience);
-            orderRequest.setTitle(orderRequestDTO.getTitle());
-            orderRequest.setDescription(orderRequestDTO.getDescription());
-            orderRequest.setDateStart(orderRequestDTO.getDateStart());
-            orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
-            orderRequest.setPrice(orderRequestDTO.getPrice());
-            orderRequest.setStatus(StatusEnum.PENDING);
-            threadSendMail(creator,"Order Artwork","You receive an order artwork");
+                orderRequest.setCreator(creator);
+                orderRequest.setAudience(audience);
+                orderRequest.setTitle(orderRequestDTO.getTitle());
+                orderRequest.setDescription(orderRequestDTO.getDescription());
+                orderRequest.setDateStart(orderRequestDTO.getDateStart());
+                orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
+                orderRequest.setPrice(orderRequestDTO.getPrice());
+                orderRequest.setStatus(StatusEnum.PENDING);
+                threadSendMail(creator,"Order Artwork","You receive an order artwork");
         }else{
             throw new CannotOrderYourself("You may not order yourself");
         }
@@ -73,33 +78,61 @@ public class OrderRequestService {
 
     public OrderRequest updateOrderRequestCreator(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
+        float cocMoney = orderRequestDTO.getPrice()/2;
+        User creator  = orderRequest.getCreator();
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("active")){
-            orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
-            orderRequest.setPrice(orderRequestDTO.getPrice());
-            orderRequest.setStatus(StatusEnum.ACTIVE);
-            threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+            if(creator.getWallet().getBalance() == cocMoney){
+                creator.getWallet().setBalance(creator.getWallet().getBalance()-cocMoney);
+                creator.getWallet().setCocMoney(creator.getWallet().getCocMoney()+cocMoney);
+                orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
+                orderRequest.setPrice(orderRequestDTO.getPrice());
+                orderRequest.setStatus(StatusEnum.ACTIVE);
+                threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+            }else{
+                throw new RuntimeException("Wallet you don't have enough 50% of the order value");
+            }
         }else{
-            System.out.println(orderRequestDTO.getReasonRejectCreator());
             orderRequest.setStatus(StatusEnum.REJECT);
             orderRequest.setReasonRejectCreator(orderRequestDTO.getReasonRejectCreator());
-            System.out.println(orderRequest.getReasonRejectCreator());
             threadSendMail(orderRequest.getAudience(),"Order Artwork " + orderRequest.getTitle()+ " Fail","Creator Cancel With Reason: " +orderRequest.getReasonRejectCreator());
         }
+        userRepository.save(creator);
         return orderRequestRepository.save(orderRequest);
     }
 
     public OrderRequest updateOrderRequestAudience(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
+        float cocMoney = orderRequest.getPrice()/2;
+        User audience = orderRequest.getAudience();
+        User creator = orderRequest.getCreator();
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("processing")){
-            orderRequest.setStatus(StatusEnum.PROCESSING);
-            threadSendMail(orderRequest.getCreator(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+            if(audience.getWallet().getBalance() == orderRequest.getPrice()){
+                audience.getWallet().setBalance(audience.getWallet().getBalance()-orderRequest.getPrice());
+                audience.getWallet().setCocMoney(audience.getWallet().getCocMoney()+orderRequest.getPrice());
+                orderRequest.setStatus(StatusEnum.PROCESSING);
+                threadSendMail(orderRequest.getCreator(),"Order Artwork " + orderRequest.getTitle()+ " Success","Thank you for trusting us to use cremo");
+            }else{
+                throw new RuntimeException("Wallet you don't have enough 100% of the order value");
+            }
         }else{
+            creator.getWallet().setBalance(creator.getWallet().getBalance()+cocMoney);
+            creator.getWallet().setCocMoney(creator.getWallet().getCocMoney()-cocMoney);
             orderRequest.setStatus(StatusEnum.REJECT);
             orderRequest.setReasonRejectAudience(orderRequestDTO.getReasonRejectAudience());
             threadSendMail(orderRequest.getCreator(),"Order Artwork " + orderRequest.getTitle()+ " Fail","Audience Cancel With Reason: " +orderRequest.getReasonRejectAudience());
         }
+        userRepository.save(audience);
+        userRepository.save(creator);
         return orderRequestRepository.save(orderRequest);
     }
+
+    public OrderRequest rejectOrderRequestAudience(OrderRequestDTO orderRequestDTO) {
+        OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
+        orderRequest.setStatus(StatusEnum.REJECT);
+        orderRequest.setReasonRejectCreator(orderRequestDTO.getReasonRejectAudience());
+        return orderRequestRepository.save(orderRequest);
+    }
+
 
     public List<OrderRequest> getOrderRequestCreatorStatus(StatusEnum status) {
         User user = accountUtils.getCurrentUser();
@@ -165,12 +198,19 @@ public class OrderRequestService {
     public OrderRequest sendProduct(OrderRequestDTO orderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(orderRequestDTO.getId());
         User audience = userRepository.findUserById(orderRequestDTO.getUserID());
+        User creator = orderRequest.getCreator();
+        float cocMoney = orderRequest.getPrice()/2;
         orderRequest.setProductImage(orderRequestDTO.getProductImage());
         orderRequest.setProductMessage(orderRequestDTO.getProductMessage());
         orderRequest.setStatus(StatusEnum.DONE);
+        audience.getWallet().setCocMoney(audience.getWallet().getCocMoney()-orderRequest.getPrice());
+        creator.getWallet().setCocMoney(creator.getWallet().getCocMoney()-cocMoney);
+        creator.getWallet().setBalance(creator.getWallet().getBalance()+cocMoney);
+        creator.getWallet().setBalance(creator.getWallet().getBalance()+orderRequest.getPrice());
+        userRepository.save(audience);
+        userRepository.save(creator);
         threadSendMail(audience,orderRequest.getTitle()+" Done",""+orderRequestDTO.getProductMessage()+"\n"+orderRequestDTO.getProductImage());
         return orderRequestRepository.save(orderRequest);
-
     }
 
     public OrderRequest sendOrderRequestGlobal(OrderRequestDTO orderRequestDTO) {

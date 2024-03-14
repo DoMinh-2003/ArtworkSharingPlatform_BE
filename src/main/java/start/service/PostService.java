@@ -75,8 +75,10 @@ public class PostService {
             walletRepository.save(wallet);
             transactionRepository.save(transaction);
             userRepository.save(user);
-            SystemProfit systemProfit = systemProfitRepository.findById(1L);
-            systemProfit.setBalance(systemProfit.getBalance()+postRequestDTO.getMoney());
+            SystemProfit systemProfit = new SystemProfit();
+            systemProfit.setBalance(postRequestDTO.getMoney());
+            systemProfit.setDescription("Buy Post");
+            systemProfit.setDate(getDate());
             systemProfitRepository.save(systemProfit);
             return userResponseDTO;
         }
