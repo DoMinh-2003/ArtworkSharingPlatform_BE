@@ -14,6 +14,8 @@ import start.repository.ArtworkRepository;
 import start.repository.InteractionRepository;
 import start.utils.AccountUtils;
 
+import java.util.List;
+
 @Service
 public class InteractionService {
 
@@ -75,5 +77,11 @@ public class InteractionService {
         checkInteraction.setType(TypeEnum.DISLIKE);
         messagingTemplate.convertAndSend("/topic/interaction", "interaction");
         return interactionRepository.save(checkInteraction);
+    }
+
+
+    public List<Interaction> likeShot() {
+        User user = accountUtils.getCurrentUser();
+        return interactionRepository.findByUser_IdAndType(user.getId(),TypeEnum.LIKE);
     }
 }

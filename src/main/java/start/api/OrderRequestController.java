@@ -50,6 +50,12 @@ public class OrderRequestController {
         return  responseHandler.response(200, "Update Order Audience Successfully!", orderRequest);
     }
 
+    @PutMapping ("/rejectOrderRequest-audience")
+    public ResponseEntity rejectOrderRequestAudience(@RequestBody OrderRequestDTO orderRequestDTO){
+        OrderRequest orderRequest = orderRequestService.rejectOrderRequestAudience(orderRequestDTO);
+        return  responseHandler.response(200, "Reject Order Audience Successfully!", orderRequest);
+    }
+
     @PutMapping ("/updateOrderRequestGlobal")
     public ResponseEntity updateOrderRequestGlobal(@RequestBody OrderRequestDTO orderRequestDTO){
         OrderRequest orderRequest = orderRequestService.updateOrderRequestGlobal(orderRequestDTO);
