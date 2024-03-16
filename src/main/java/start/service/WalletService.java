@@ -68,7 +68,7 @@ public class WalletService {
         String tmnCode = "EDXJUBE1";
         String secretKey = "AYBLLQTVRSRCZCGJGXJQCMNMLIYKKILF";
         String vnpUrl = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
-        String returnUrl = "http://localhost:5173/profile/wallet?id="+transactionReturn.getTransactionID();
+        String returnUrl = "http://mycremo.art/profile/wallet?id="+transactionReturn.getTransactionID();
 
         String currCode = "VND";
         Map<String, String> vnpParams = new TreeMap<>();
@@ -135,7 +135,7 @@ public class WalletService {
         String currency = "USD";
 
         String cancelUrl = "http://yourwebsite.com/cancel";
-        String successUrl = "http://localhost:5173/profile/wallet?id="+transactionReturn.getTransactionID();
+        String successUrl = "http://mycremo.art/profile/wallet?id="+transactionReturn.getTransactionID();
 
         Payment payment = payPalService.createPayment(
                 totalAmount,

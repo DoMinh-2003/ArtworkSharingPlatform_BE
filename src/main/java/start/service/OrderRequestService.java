@@ -81,7 +81,7 @@ public class OrderRequestService {
         float cocMoney = orderRequestDTO.getPrice()/2;
         User creator  = orderRequest.getCreator();
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("active")){
-            if(creator.getWallet().getBalance() == cocMoney){
+            if(creator.getWallet().getBalance() >= cocMoney){
                 creator.getWallet().setBalance(creator.getWallet().getBalance()-cocMoney);
                 creator.getWallet().setCocMoney(creator.getWallet().getCocMoney()+cocMoney);
                 orderRequest.setDateEnd(orderRequestDTO.getDateEnd());
@@ -106,7 +106,7 @@ public class OrderRequestService {
         User audience = orderRequest.getAudience();
         User creator = orderRequest.getCreator();
         if(orderRequestDTO.getStatus().toLowerCase().trim().equals("processing")){
-            if(audience.getWallet().getBalance() == orderRequest.getPrice()){
+            if(audience.getWallet().getBalance() >= orderRequest.getPrice()){
                 audience.getWallet().setBalance(audience.getWallet().getBalance()-orderRequest.getPrice());
                 audience.getWallet().setCocMoney(audience.getWallet().getCocMoney()+orderRequest.getPrice());
                 orderRequest.setStatus(StatusEnum.PROCESSING);
