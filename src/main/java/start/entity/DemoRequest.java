@@ -21,9 +21,8 @@ public class DemoRequest {
     private String comment;
 
 
-//    @JsonIgnore
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name="orderRequest_id")
-
     OrderRequest orderRequest;
 }
