@@ -17,7 +17,7 @@ public class OrderRequest {
 
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        Long id;
+        long id;
 
     @ManyToOne
     @JoinColumn(name = "audience_id")

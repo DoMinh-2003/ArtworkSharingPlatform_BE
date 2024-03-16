@@ -1,16 +1,15 @@
 package start.entity;
 
 
-
-import javax.persistence.*;
-
-
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import start.enums.RoleEnum;
 import start.enums.TransactionEnum;
 
+import javax.persistence.*;
 import java.util.UUID;
 
 
@@ -19,7 +18,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Transaction {
+public class    Transaction {
     @Id
     @Type(type="org.hibernate.type.UUIDCharType")
     @GeneratedValue(generator = "uuid-hibernate-generator")
@@ -43,7 +42,7 @@ public class Transaction {
 
 
     @ManyToOne
-    @JoinColumn(name = "form_id")
+    @JoinColumn(name = "from_id")
     Wallet from;
 
 
