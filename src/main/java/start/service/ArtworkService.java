@@ -104,8 +104,8 @@ public class ArtworkService  {
         return listArtwork;
     }
 
-    public List<ArtworkResponseDTO> getAllArtwokStatusByCreator(StatusEnum status){
-        User user = accountUtils.getCurrentUser();
+    public List<Artwork> getAllArtwokStatusByCreator( StatusEnum status){
+        User user =  accountUtils.getCurrentUser();
         List<Artwork> artworkList = artworkRepository.findByUserIdAndStatus(user.getId(),status);
         List<ArtworkResponseDTO> listArtwork = new ArrayList<>();
         for(Artwork artwork:artworkList){
@@ -134,10 +134,10 @@ public class ArtworkService  {
             artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
             listArtwork.add(artworkResponseDTO);
         }
-        return listArtwork;
 
-
+        return artworkList;
     }
+
 
     public List<ArtworkResponseDTO> artwokStatusByCreator(UUID id, StatusEnum status){
         List<Artwork> artworkList = artworkRepository.findByUserIdAndStatus(id,status);

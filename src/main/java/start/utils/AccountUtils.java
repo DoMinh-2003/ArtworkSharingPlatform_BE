@@ -7,6 +7,6 @@ import start.entity.User;
 @Component
 public class AccountUtils {
      public User getCurrentUser() {
-         return ( User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
      }
 }
