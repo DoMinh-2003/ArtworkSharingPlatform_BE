@@ -14,6 +14,8 @@ import start.enums.StatusEnum;
 import start.service.ArtworkService;
 import start.utils.ResponseHandler;
 
+import java.util.UUID;
+
 @RestController
 @SecurityRequirement(name ="api")
 public class ArtworkController {
@@ -37,21 +39,32 @@ public class ArtworkController {
     public ResponseEntity getAllArtwokPending(){
         return  responseHandler.response(200, "Get All Artwork Pending Successlly!", artworkService.getAllArtWork("pending"));
     }
-//
-//    @GetMapping("/artworkByCreator-pending")
-//    public ResponseEntity getAllArtwokPendingByCreator(){
-//        return  responseHandler.response(200, "Get a Successful Creator's Pending Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.PENDING));
-//    }
-//
-//    @GetMapping("/artworkByCreator-reject")
-//    public ResponseEntity getAllArtwokRejectByCreator(){
-//        return  responseHandler.response(200, "Get a Successful Creator's Reject Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.REJECT));
-//    }
-//
-//    @GetMapping("/artworkByCreator-active")
-//    public ResponseEntity getAllArtwokActiveByCreator(){
-//        return  responseHandler.response(200, "Get a Successful Creator's Active Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.ACTIVE));
-//    }
+
+    @GetMapping("/artworkByCreator-pending")
+    public ResponseEntity getAllArtwokPendingByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Pending Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.PENDING));
+    }
+
+    @GetMapping("/artworkByCreator-reject")
+    public ResponseEntity getAllArtwokRejectByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Reject Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.REJECT));
+    }
+
+    @GetMapping("/artworkByCreator-active")
+    public ResponseEntity getAllArtwokActiveByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Active Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.ACTIVE));
+    }
+    @GetMapping("/artworkByCreator-cancel")
+    public ResponseEntity getAllArtwokCancelByCreator(){
+        return  responseHandler.response(200, "Get a Successful Creator's Cancel Artwork!", artworkService.getAllArtwokStatusByCreator(StatusEnum.CANCEL));
+    }
+
+
+    @GetMapping("/artworkByCreator/{id}")
+    public ResponseEntity ArtwokActiveByCreator(@PathVariable UUID id){
+        return  responseHandler.response(200, "Get a Successful Creator's Artwork!", artworkService.artwokStatusByCreator(id,StatusEnum.ACTIVE));
+    }
+
 
     @GetMapping("/artwork-detail/{id}")
     public ResponseEntity getArtwokDetaill(@PathVariable long id){

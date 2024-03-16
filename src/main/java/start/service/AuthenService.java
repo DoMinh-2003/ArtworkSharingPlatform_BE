@@ -95,6 +95,20 @@ public class AuthenService implements UserDetailsService {
     }
     }
 
+    public User signUpMod(SignUpRequestDTO signUpRequestDTO){
+        User user = new User();
+        user.setRole(RoleEnum.MOD);
+        user.setUsername(signUpRequestDTO.getUserName());
+        user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
+        user.setActive(true);
+        try{
+            return userRepository.save(user);
+        }catch (DataIntegrityViolationException e) {
+            if(e.getMessage().contains("user.username_UNIQUE") || e.getMessage().contains("user.UK_sb8bbouer5wak8vyiiy4pf2bx")) throw new DataIntegrityViolationException("Duplicate UserName");
+            else  throw new DataIntegrityViolationException("Duplicate Email");
+        }
+    }
+
     public User verifyAccount(VerifyRequestDTO verifyRequestDTO) {
          User user = userRepository.findUserById(verifyRequestDTO.getId());
          if(verifyRequestDTO.getEmail().equals(user.getEmail())){
