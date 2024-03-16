@@ -60,7 +60,7 @@ public class ArtworkController {
     }
 
 
-    @GetMapping("/artworkByCreator/{id}")
+    @GetMapping("/artworkActiveByCreator/{id}")
     public ResponseEntity ArtwokActiveByCreator(@PathVariable UUID id){
         return  responseHandler.response(200, "Get a Successful Creator's Artwork!", artworkService.artwokStatusByCreator(id,StatusEnum.ACTIVE));
     }
