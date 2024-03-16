@@ -19,6 +19,7 @@ import start.repository.UserRepository;
 import start.utils.AccountUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class OrderRequestService {
@@ -184,14 +185,16 @@ public class OrderRequestService {
         return listOrderRequest;
     }
 
-    public DemoRequest demoOrdeRequest(DemoOrderRequestDTO demoOrderRequestDTO) {
+    public OrderRequest demoOrdeRequest(DemoOrderRequestDTO demoOrderRequestDTO) {
         OrderRequest orderRequest = orderRequestRepository.findOrderRequestById(demoOrderRequestDTO.getOrderId());
         DemoRequest demoRequest = new DemoRequest();
         demoRequest.setImage(demoOrderRequestDTO.getImage());
         demoRequest.setComment(demoOrderRequestDTO.getComment());
         demoRequest.setDescription(demoOrderRequestDTO.getDescription());
         demoRequest.setOrderRequest(orderRequest);
-        return demoOrderRepository.save(demoRequest);
+        demoOrderRepository.save(demoRequest);
+        OrderRequest orderRequest1 = orderRequestRepository.findOrderRequestById(demoOrderRequestDTO.getOrderId());
+        return orderRequest1;
 
     }
 

@@ -147,14 +147,13 @@ public class OrderRequestController {
 
     @GetMapping("/getOrderRequestDetail/{id}")
     public ResponseEntity getOrderRequestDetail(@PathVariable long id){
-        System.out.println("cc");
         OrderResponseDTO responseDTO = orderRequestService.getOrderRequestDetail(id);
         return  responseHandler.response(200, "Get Order Detail Successfully!", responseDTO);
     }
     @PutMapping ("/demoOrdeRequest")
     public ResponseEntity demoOrdeRequest(@RequestBody DemoOrderRequestDTO demoOrderRequestDTO){
-        DemoRequest demoRequest = orderRequestService.demoOrdeRequest(demoOrderRequestDTO);
-        return  responseHandler.response(200, "Demo Order Successfully!", demoRequest);
+        OrderRequest orderRequest = orderRequestService.demoOrdeRequest(demoOrderRequestDTO);
+        return  responseHandler.response(200, "Demo Order Successfully!", orderRequest);
     }
 
     @PostMapping("/sendProduct")
