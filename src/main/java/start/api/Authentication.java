@@ -57,6 +57,13 @@ public class Authentication {
         return responseHandler.response(200, "Sign Up success!", user);
     }
 
+    @PostMapping("/signupMod")
+    public ResponseEntity signupMod(@RequestBody SignUpRequestDTO signUpRequestDTO){
+        User user = authenService.signUpMod(signUpRequestDTO);
+
+        return responseHandler.response(200, "Sign Up Mod success!", user);
+    }
+
     @PostMapping("/login-gg")
         private ResponseEntity checkLoginGoogle(@RequestBody LoginGoogleRequest loginGGRequest){
             return ResponseEntity.ok().body(userService.loginGoogle(loginGGRequest.getToken()));

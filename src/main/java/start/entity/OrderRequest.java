@@ -38,7 +38,7 @@ public class OrderRequest {
     private String productImage;
     private String productMessage;
 
-    @JsonIgnore
+//    @JsonIgnore
     @OneToMany(mappedBy = "orderRequest", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     Set<DemoRequest> demoRequests;
 
