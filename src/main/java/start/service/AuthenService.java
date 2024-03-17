@@ -58,7 +58,9 @@ public class AuthenService implements UserDetailsService {
             throw new NullPointerException("Wrong Id Or Password") ;
         }
         User user = (User) authentication.getPrincipal();
-
+        if(user.isDeActive()) {
+            throw new AccountNotVerify("Account has been blocked");
+        }
         if(!user.isActive()){
          throw new AccountNotVerify("Account has not been verified");
         }else{

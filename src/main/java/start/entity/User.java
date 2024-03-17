@@ -39,6 +39,7 @@ public class User implements UserDetails {
     private Integer postQuantity;
     private String avt;
     private boolean active;
+    private boolean deActive;
     @Enumerated(EnumType.STRING)
     RoleEnum role;
 
