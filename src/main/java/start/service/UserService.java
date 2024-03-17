@@ -142,4 +142,21 @@ public class UserService {
         List<User> listUser = userRepository.findTopCreatorsByArtworkCount(pageable);
         return listUser;
     }
+
+
+    public List<User> getAllUsersRole(RoleEnum roleEnum) {
+      return userRepository.findUserByRole(roleEnum);
+    }
+
+    public User deactiveUser(UUID id) {
+        User user = userRepository.findUserById(id);
+        user.setDeActive(true);
+      return  userRepository.save(user);
+    }
+
+    public User activeUser(UUID id) {
+        User user = userRepository.findUserById(id);
+        user.setDeActive(false);
+        return  userRepository.save(user);
+    }
 }

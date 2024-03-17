@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
+import start.enums.RoleEnum;
 import start.service.UserService;
 import start.utils.ResponseHandler;
 
@@ -55,8 +56,20 @@ public class UserController {
         List<User> user = userService.topCreator();
         return  responseHandler.response(200, "Get Top Creator Successfully!", user);
     }
+    @GetMapping("/usersRole")
+    public ResponseEntity getAllUsersRole(@RequestParam("role") RoleEnum roleEnum){
+        List<User> user = userService.getAllUsersRole(roleEnum);
+        return  responseHandler.response(200, "Get User Successfully!", user);
+    }
 
-
-
-
+    @PutMapping("/deactiveUser")
+    public ResponseEntity deactiveUser(@RequestParam("id") UUID id){
+       User user = userService.deactiveUser(id);
+        return  responseHandler.response(200, "DeActive User "+ user.getName()+ " Successfully!", user);
+    }
+    @PutMapping("/activeUser")
+    public ResponseEntity activeUser(@RequestParam("id") UUID id){
+       User user = userService.activeUser(id);
+        return  responseHandler.response(200, "Active User User "+ user.getName()+ " Successfully!", user);
+    }
 }
