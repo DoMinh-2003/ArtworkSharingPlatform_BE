@@ -15,9 +15,11 @@ import org.springframework.stereotype.Service;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
+import start.entity.Wallet;
 import start.enums.RoleEnum;
 import start.exception.exceptions.IncorrectPassword;
 import start.repository.UserRepository;
+import start.repository.WalletRepository;
 import start.utils.AccountUtils;
 
 import java.util.List;
@@ -40,12 +42,30 @@ public class UserService {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    @Autowired
+    WalletRepository walletRepository;
+
     public User loginGoogle (String token) {
         try{
             FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(token);
             String email = decodeToken.getEmail();
-             User user = userRepository.findByEmail(email);
-            return user;
+            User user = userRepository.findByEmail(email);
+             if(user == null){
+                 user.setEmail(email);
+                 user.setName(decodeToken.getName());
+                 user.setAvt(decodeToken.getPicture());
+                 user.setActive(true);
+                 user.setRole(RoleEnum.AUDIENCE);
+                 Wallet wallet = new Wallet();
+                 wallet.setUser(user);
+                 wallet.setBalance(0);
+                 wallet.setCocMoney(0);
+                 walletRepository.save(wallet);
+                 return userRepository.save(user);
+             }else{
+                 return user;
+             }
+
         } catch (FirebaseAuthException e)
         {
             e.printStackTrace();
