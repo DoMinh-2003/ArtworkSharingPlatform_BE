@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User>  findUserByRole(RoleEnum roleEnum);
     @Query("SELECT u, COUNT(a) AS artwork_count FROM User u LEFT JOIN u.artworks a GROUP BY u.id ORDER BY artwork_count DESC")
     List<User> findTopCreatorsByArtworkCount(Pageable pageable);
-
+    List<User> findUsersByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(String name, String email, String username);
 }
