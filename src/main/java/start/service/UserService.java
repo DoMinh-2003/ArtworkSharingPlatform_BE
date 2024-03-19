@@ -189,4 +189,8 @@ public class UserService {
         user.setDeActive(false);
         return  userRepository.save(user);
     }
+
+    public List<User> searchUser(String data) {
+        return  userRepository.findUsersByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(data,data,data);
+    }
 }

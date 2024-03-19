@@ -8,6 +8,7 @@ import start.dto.request.RechargeRequestDTO;
 import start.entity.Transaction;
 import start.entity.User;
 import start.entity.Wallet;
+import start.enums.RoleEnum;
 import start.enums.TransactionEnum;
 import start.repository.TransactionRepository;
 import start.repository.WalletRepository;
@@ -135,7 +136,15 @@ public class WalletService {
         String currency = "USD";
 
         String cancelUrl = "http://yourwebsite.com/cancel";
-        String successUrl = "http://mycremo.art/profile/wallet?id="+transactionReturn.getTransactionID();
+        String successUrl ="";
+User currentUser = accountUtils.getCurrentUser();
+
+if(currentUser.getRole().equals(RoleEnum.AUDIENCE)) {
+    successUrl= "http://mycremo.art/profile/wallet?id="+transactionReturn.getTransactionID();
+}
+if(currentUser.getRole().equals(RoleEnum.CREATOR)){
+    successUrl= "http://mycremo.art/creator-manage/wallet?id="+transactionReturn.getTransactionID();
+}
 
         Payment payment = payPalService.createPayment(
                 totalAmount,

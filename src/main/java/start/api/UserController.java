@@ -61,6 +61,11 @@ public class UserController {
     public ResponseEntity getAllUsersRole(@RequestParam("role") RoleEnum roleEnum){
         List<User> user = userService.getAllUsersRole(roleEnum);
         return  responseHandler.response(200, "Get User Successfully!", user);
+    }  
+    @GetMapping("/searchUser")
+    public ResponseEntity searchUser(@RequestParam("search") String data){
+        List<User> users = userService.searchUser(data);
+        return  responseHandler.response(200, "Get Users Successfully!", users);
     }
 
     @PutMapping("/deactiveUser")

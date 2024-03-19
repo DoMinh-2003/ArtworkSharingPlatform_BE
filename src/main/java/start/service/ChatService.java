@@ -1,16 +1,12 @@
 package start.service;
 
 
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.messaging.FirebaseMessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import start.dto.request.FcmNotification;
 import start.dto.request.GetRoomRequest;
 import start.dto.request.MessageRequest;
 import start.dto.request.RoomRequest;
-import start.dto.response.RoomResponseDTO;
 import start.entity.Message;
 import start.entity.Room;
 import start.entity.User;
@@ -115,7 +111,7 @@ public class ChatService {
     public void setTyping(int roomID, String name) {
         Room roomDTO = roomRepository.findRoomByRoomID(roomID);
         for (User account : roomDTO.getUsers()) {
-            messagingTemplate.convertAndSend("/topic/chat/" + account.getId(), "Typing: " + name);
+            messagingTemplate.convertAndSend("/topic/chat/" + account.getId(), name + " .is typing ... ") ;
         }
     }
 
