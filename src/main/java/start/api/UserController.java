@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import start.dto.request.DeActiveUserRequestDTO;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
@@ -63,8 +64,8 @@ public class UserController {
     }
 
     @PutMapping("/deactiveUser")
-    public ResponseEntity deactiveUser(@RequestParam("id") UUID id){
-       User user = userService.deactiveUser(id);
+    public ResponseEntity deactiveUser(@RequestBody DeActiveUserRequestDTO userRequestDTO){
+       User user = userService.deactiveUser(userRequestDTO);
         return  responseHandler.response(200, "DeActive User "+ user.getName()+ " Successfully!", user);
     }
     @PutMapping("/activeUser")

@@ -92,7 +92,8 @@ public class PostService {
         String formattedCreateDate = getDate();
         Artwork artwork = artworkRepository.findById(id);
       if(artwork.getStatus().equals(StatusEnum.ACTIVE)){
-          User audience = accountUtils.getCurrentUser();
+          User user = accountUtils.getCurrentUser();
+          User audience = userRepository.findUserById(user.getId());
           User creator = userRepository.findUserById(artwork.getUser().getId());
           Transaction transaction = new Transaction();
           transaction.setAmount(artwork.getPrice());

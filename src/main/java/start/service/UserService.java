@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import start.dto.request.DeActiveUserRequestDTO;
 import start.dto.request.UserRequestDTO;
 import start.dto.response.UserResponseDTO;
 import start.entity.User;
@@ -168,9 +169,18 @@ public class UserService {
       return userRepository.findUserByRole(roleEnum);
     }
 
-    public User deactiveUser(UUID id) {
-        User user = userRepository.findUserById(id);
+    public User deactiveUser(DeActiveUserRequestDTO userRequestDTO) {
+        User user = userRepository.findUserById(userRequestDTO.getId());
         user.setDeActive(true);
+        user.setReasonDeActive(userRequestDTO.getReasonDeActive());
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {emailService.sendMail(user,"Violates Cremo Policy","You have been banned from the website\n" + "Because: " + userRequestDTO.getReasonDeActive());
+            }
+
+        };
+        new Thread(r).start();
+
       return  userRepository.save(user);
     }
 
