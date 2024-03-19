@@ -10,10 +10,13 @@ import start.dto.request.ArtworkRequestDTO;
 import start.dto.response.ArtworkResponseDTO;
 import start.dto.response.LoginResponse;
 import start.entity.Artwork;
+import start.entity.User;
+import start.enums.RoleEnum;
 import start.enums.StatusEnum;
 import start.service.ArtworkService;
 import start.utils.ResponseHandler;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -86,5 +89,11 @@ public class ArtworkController {
     public ResponseEntity updateArtwork(@PathVariable long id,@RequestBody ArtworkRequestDTO artworkRequestDTO){
         Artwork artwork = artworkService.updateArtwork(id,artworkRequestDTO);
         return  responseHandler.response(200, "Update Artwork Successlly!", artwork);
+    }
+
+    @GetMapping("/searchArtwork")
+    public ResponseEntity searchArtwork(@RequestParam("search") String search){
+        List<Artwork> artworks = artworkService.searchArtwork(search);
+        return  responseHandler.response(200, "Get Search Artwork Successfully!", artworks);
     }
 }

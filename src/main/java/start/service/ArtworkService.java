@@ -246,4 +246,17 @@ public class ArtworkService  {
         }
         return artworkRepository.save(artwork);
     }
+
+    public List<Artwork> searchArtwork(String search) {
+
+        List<Artwork> list = artworkRepository.findByStatusAndTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                StatusEnum.ACTIVE, search
+        );
+
+        return list;
+
+
+
+
+    }
 }

@@ -40,6 +40,9 @@ public class User implements UserDetails {
     private String avt;
     private boolean active;
     private boolean deActive;
+
+    private String reasonDeActive;
+
     @Enumerated(EnumType.STRING)
     RoleEnum role;
 
