@@ -22,8 +22,8 @@ public class Wallet {
     private float balance;
     private float cocMoney;
 
-@JsonIgnore
-    @OneToOne(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", unique = true)
     private User user;
 
