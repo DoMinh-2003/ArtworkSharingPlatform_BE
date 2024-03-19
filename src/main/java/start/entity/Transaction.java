@@ -18,7 +18,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class    Transaction {
+public class Transaction {
     @Id
     @Type(type="org.hibernate.type.UUIDCharType")
     @GeneratedValue(generator = "uuid-hibernate-generator")

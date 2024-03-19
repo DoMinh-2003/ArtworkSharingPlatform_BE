@@ -2,14 +2,17 @@ package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import start.dto.response.TransactionResponseDTO;
 import start.entity.Transaction;
 import start.entity.User;
 
 import start.entity.Wallet;
 import start.repository.TransactionRepository;
+import start.repository.UserRepository;
 import start.repository.WalletRepository;
 import start.utils.AccountUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -23,25 +26,33 @@ public class TransactionService {
     @Autowired
     WalletRepository walletRepository;
 
+@Autowired
+UserRepository userRepository;
 
-    public List<Transaction> getTransactionById() {
-//        User user = accountUtils.getCurrentUser();
-//        List<Transaction> transactions = transactionRepository.findTransactionByUserId(user.getId());
-//        //List<OrderRequest> orderRequests = orderRequestRepository.findOrderRequestByUserId(user.getId());
-//        TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
-//       List<Artwork> artworks= new ArrayList<Artwork>();
-//        List<OrderRequest> orderRequests= new ArrayList<OrderRequest>();
-//        for (Transaction transaction : transactions) {
-//            OrderRequest orders = orderRequestRepository.findOrderRequestById(transaction.getOrderID());
-//            Artwork artwork = artworkRepository.findById(transaction.getArtworkID());
-//            artworks.add(artwork);
-//            OrderRequest orderRequest = orderRequestRepository.findOrderRequestByUserId(transaction.getOrderID());
-//            orderRequests.add(orderRequest);
-//            transactionResponseDTO.setTransaction(transaction);
-//            transactionResponseDTO.setArtwork(artwork);
-//            transactionResponseDTO.setOrderRequest(orders);
+    public List<TransactionResponseDTO> getTransactionById() {
+        List<TransactionResponseDTO> listTransactionResponseDTO = new ArrayList<>();
         User user = accountUtils.getCurrentUser();
         Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
-      return transactionRepository.findTransactionsByFrom_IdOrTo_Id(wallet.getWalletID());
+        List<Transaction> transactions = transactionRepository.findTransactionsByFrom_IdOrTo_Id(wallet.getWalletID());
+        for (Transaction transaction : transactions) {
+            TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
+            transactionResponseDTO.setTransactionID(transaction.getTransactionID());
+            transactionResponseDTO.setTransactionType(transaction.getTransactionType());
+            transactionResponseDTO.setAmount(transaction.getAmount());
+            transactionResponseDTO.setDescription(transaction.getDescription());
+            transactionResponseDTO.setTransactionDate(transaction.getTransactionDate());
+            transactionResponseDTO.setArtworkID(transaction.getArtworkID());
+            transactionResponseDTO.setOrderID(transaction.getOrderID());
+            transactionResponseDTO.setFrom(transaction.getFrom());
+            transactionResponseDTO.setTo(transaction.getTo());
+            if(transaction.getFrom() != null){
+                transactionResponseDTO.setUserFrom(transaction.getFrom().getUser());
+            }
+            if(transaction.getTo() != null){
+                transactionResponseDTO.setUserTo(transaction.getTo().getUser());
+            }
+            listTransactionResponseDTO.add(transactionResponseDTO);
+        }
+      return listTransactionResponseDTO;
     }
 }
