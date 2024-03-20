@@ -7,13 +7,13 @@ import start.entity.Transaction;
 import start.entity.User;
 
 import start.entity.Wallet;
-import start.repository.TransactionRepository;
-import start.repository.UserRepository;
-import start.repository.WalletRepository;
+import start.repository.*;
 import start.utils.AccountUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -25,6 +25,12 @@ public class TransactionService {
 
     @Autowired
     WalletRepository walletRepository;
+
+    @Autowired
+    OrderRequestRepository orderRequestRepository;
+
+    @Autowired
+    ArtworkRepository artworkRepository;
 
 @Autowired
 UserRepository userRepository;
@@ -41,8 +47,12 @@ UserRepository userRepository;
             transactionResponseDTO.setAmount(transaction.getAmount());
             transactionResponseDTO.setDescription(transaction.getDescription());
             transactionResponseDTO.setTransactionDate(transaction.getTransactionDate());
-            transactionResponseDTO.setArtworkID(transaction.getArtworkID());
-            transactionResponseDTO.setOrderID(transaction.getOrderID());
+            if(transaction.getOrderID() != null){
+                transactionResponseDTO.setOrder(orderRequestRepository.findOrderRequestById(transaction.getOrderID()));
+            }
+            if(transaction.getArtworkID() != null){
+                transactionResponseDTO.setArtwork(artworkRepository.findById((long)transaction.getArtworkID()));
+            }
             transactionResponseDTO.setFrom(transaction.getFrom());
             transactionResponseDTO.setTo(transaction.getTo());
             if(transaction.getFrom() != null){
@@ -53,6 +63,10 @@ UserRepository userRepository;
             }
             listTransactionResponseDTO.add(transactionResponseDTO);
         }
+        listTransactionResponseDTO = listTransactionResponseDTO.stream()
+                .sorted(Comparator.comparing(TransactionResponseDTO::getTransactionDate).reversed())
+                .collect(Collectors.toList());
+
       return listTransactionResponseDTO;
     }
 }

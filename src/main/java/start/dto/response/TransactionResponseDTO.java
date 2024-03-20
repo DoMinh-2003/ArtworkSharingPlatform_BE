@@ -31,9 +31,9 @@ public class TransactionResponseDTO {
 
     private String transactionDate;
 
-    private Long artworkID;
+    private Artwork artwork;
 
-    private Long orderID;
+    private OrderRequest order;
 
     Wallet from;
 
