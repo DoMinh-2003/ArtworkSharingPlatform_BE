@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     List<User> findUsersByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrUsernameContainingIgnoreCase(String name, String email, String username);
 
     User findByWallet_WalletID(int walletID);
+
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role = :role1 OR u.role = :role2")
+    int countByRole(RoleEnum role1, RoleEnum role2);
 }
