@@ -69,4 +69,37 @@ UserRepository userRepository;
 
       return listTransactionResponseDTO;
     }
+
+    public List<TransactionResponseDTO> allTransactions() {
+        List<TransactionResponseDTO> listTransactionResponseDTO = new ArrayList<>();
+        List<Transaction> transactions = transactionRepository.findAll();
+        for (Transaction transaction : transactions) {
+            TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
+            transactionResponseDTO.setTransactionID(transaction.getTransactionID());
+            transactionResponseDTO.setTransactionType(transaction.getTransactionType());
+            transactionResponseDTO.setAmount(transaction.getAmount());
+            transactionResponseDTO.setDescription(transaction.getDescription());
+            transactionResponseDTO.setTransactionDate(transaction.getTransactionDate());
+            if(transaction.getOrderID() != null){
+                transactionResponseDTO.setOrder(orderRequestRepository.findOrderRequestById(transaction.getOrderID()));
+            }
+            if(transaction.getArtworkID() != null){
+                transactionResponseDTO.setArtwork(artworkRepository.findById((long)transaction.getArtworkID()));
+            }
+            transactionResponseDTO.setFrom(transaction.getFrom());
+            transactionResponseDTO.setTo(transaction.getTo());
+            if(transaction.getFrom() != null){
+                transactionResponseDTO.setUserFrom(transaction.getFrom().getUser());
+            }
+            if(transaction.getTo() != null){
+                transactionResponseDTO.setUserTo(transaction.getTo().getUser());
+            }
+            listTransactionResponseDTO.add(transactionResponseDTO);
+        }
+        listTransactionResponseDTO = listTransactionResponseDTO.stream()
+                .sorted(Comparator.comparing(TransactionResponseDTO::getTransactionDate).reversed())
+                .collect(Collectors.toList());
+
+        return listTransactionResponseDTO;
+    }
 }
