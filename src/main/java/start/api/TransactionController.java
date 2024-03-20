@@ -29,4 +29,10 @@ public class TransactionController {
         List<TransactionResponseDTO> transaction = transactionService.getTransactionById();
         return  responseHandler.response(200, "Get Transaction  Successfully!", transaction);
     }
+
+    @GetMapping("/allTransactions")
+    public ResponseEntity transactions(){
+        List<TransactionResponseDTO> transaction = transactionService.allTransactions();
+        return  responseHandler.response(200, "Get All Transaction  Successfully!", transaction);
+    }
 }
