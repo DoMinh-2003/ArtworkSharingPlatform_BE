@@ -3,7 +3,7 @@ package start.enums;
 public enum TransactionEnum {
     RECHARGE,
     PENDING,
-    WITHDRAW,
+    WITHDRAW_PENDING,
     BUYPOST,
     ORDER,
     BUYARTWORK,
