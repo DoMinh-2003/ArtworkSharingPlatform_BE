@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import start.dto.ListSystemProfitMapByDTO;
 import start.entity.SystemProfit;
 
 import java.util.List;
@@ -16,6 +17,6 @@ import java.util.List;
 public class ProfitResponseDTO {
     int month;
     float revenuePortal;
-    List<SystemProfit> systemProfits;
+    List<ListSystemProfitMapByDTO> systemProfits;
 
 }

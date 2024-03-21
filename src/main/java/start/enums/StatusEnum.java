@@ -7,5 +7,6 @@ public enum StatusEnum {
     PROCESSING,
     DONE,
     GLOBAL,
-    CANCEL
+    CANCEL,
+    REPORTED,
 }

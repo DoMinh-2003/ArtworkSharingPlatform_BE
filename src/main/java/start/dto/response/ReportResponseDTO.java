@@ -1,31 +1,26 @@
-package start.entity;
-
+package start.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import start.entity.Artwork;
+import start.entity.OrderRequest;
+import start.entity.User;
 import start.enums.ReportEnum;
 
-import javax.persistence.*;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
-@Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Report {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ReportResponseDTO {
     Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "from_id")
     User from;
 
-    @ManyToOne
-    @JoinColumn(name = "to_id")
     User to;
 
     private String tittle;
@@ -36,14 +31,10 @@ public class Report {
 
     private String image;
 
-    private String reasonReject;
+    private Artwork artwork;
 
-    private Long artworkID;
-
-    private Long orderID;
-
+    private OrderRequest order;
 
     @Enumerated(EnumType.STRING)
     ReportEnum statusReport;
-
 }
