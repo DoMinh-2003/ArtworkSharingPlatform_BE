@@ -2,5 +2,9 @@ package start.enums;
 
 public enum ReportEnum {
 
-    PENDING
+    REPORTARTWORK,
+    REPORTORDER,
+
+    APPROVE,
+    REJECT
 }

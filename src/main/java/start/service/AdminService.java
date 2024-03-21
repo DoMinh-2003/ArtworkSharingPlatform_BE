@@ -4,6 +4,7 @@ package start.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import start.dto.ListSystemProfitMapByDTO;
 import start.dto.response.MemberToTalResponseDTO;
 
 import start.dto.response.ProfitResponseDTO;
@@ -47,6 +48,7 @@ public class AdminService {
 
 
         for(i = 1 ; i <= 12 ; i++){
+            List<ListSystemProfitMapByDTO> listSystemProfitMapByDTOS = new ArrayList<>();
             int month = i;
             try {
                 revenuePortal = systemProfitRepository.getProfitByMonth(month, year);
@@ -55,10 +57,27 @@ public class AdminService {
                 revenuePortal = 0;
                 systemProfits = new ArrayList<>();
             }
+            for(SystemProfit systemProfit :systemProfits){
+                ListSystemProfitMapByDTO listSystemProfitMapByDTO = new ListSystemProfitMapByDTO();
+                listSystemProfitMapByDTO.setId(systemProfit.getId());
+                listSystemProfitMapByDTO.setDescription(systemProfit.getDescription());
+                listSystemProfitMapByDTO.setBalance(systemProfit.getBalance());
+                listSystemProfitMapByDTO.setDate(systemProfit.getDate());
+                if(systemProfit.getTransaction() != null){
+                    listSystemProfitMapByDTO.setTransaction(systemProfit.getTransaction());
+                    if(systemProfit.getTransaction().getFrom() != null){
+                        listSystemProfitMapByDTO.setUserForm(systemProfit.getTransaction().getFrom().getUser());
+                    }
+                    if(systemProfit.getTransaction().getTo() != null){
+                        listSystemProfitMapByDTO.setUserTo(systemProfit.getTransaction().getTo().getUser());
+                    }
+                }
+                listSystemProfitMapByDTOS.add(listSystemProfitMapByDTO);
+            }
             ProfitResponseDTO responseDTO = new ProfitResponseDTO();
             responseDTO.setMonth(month);
             responseDTO.setRevenuePortal(revenuePortal);
-            responseDTO.setSystemProfits(systemProfits);
+            responseDTO.setSystemProfits(listSystemProfitMapByDTOS);
             list.add(responseDTO);
         }
 
