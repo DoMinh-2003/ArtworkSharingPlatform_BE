@@ -3,12 +3,12 @@ package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
+
 import start.dto.response.MemberToTalResponseDTO;
-=======
+
 import start.dto.response.ProfitResponseDTO;
 import start.entity.SystemProfit;
->>>>>>> dd79c51e3f4b528e68a01d19a3d0dc4c2245664a
+
 import start.enums.RoleEnum;
 import start.repository.SystemProfitRepository;
 import start.repository.UserRepository;
@@ -50,7 +50,7 @@ public class AdminService {
             int month = i;
             try {
                 revenuePortal = systemProfitRepository.getProfitByMonth(month, year);
-                systemProfits = systemProfitRepository.getAllHistorySystemProfit( month ,year);
+                systemProfits = systemProfitRepository.getAllHistorySystemProfit(month ,year);
             }catch(Exception e){
                 revenuePortal = 0;
                 systemProfits = new ArrayList<>();
@@ -61,6 +61,7 @@ public class AdminService {
             responseDTO.setSystemProfits(systemProfits);
             list.add(responseDTO);
         }
+
         return list;
     }
 
