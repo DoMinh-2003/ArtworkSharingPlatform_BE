@@ -7,11 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-<<<<<<< HEAD
 import start.dto.response.MemberToTalResponseDTO;
-=======
 import start.dto.response.ProfitResponseDTO;
->>>>>>> dd79c51e3f4b528e68a01d19a3d0dc4c2245664a
 import start.service.AdminService;
 import start.utils.ResponseHandler;
 

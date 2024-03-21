@@ -3,12 +3,9 @@ package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import start.dto.response.MemberToTalResponseDTO;
-=======
 import start.dto.response.ProfitResponseDTO;
 import start.entity.SystemProfit;
->>>>>>> dd79c51e3f4b528e68a01d19a3d0dc4c2245664a
 import start.enums.RoleEnum;
 import start.repository.SystemProfitRepository;
 import start.repository.UserRepository;
