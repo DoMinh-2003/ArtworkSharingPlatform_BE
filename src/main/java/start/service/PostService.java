@@ -79,6 +79,7 @@ public class PostService {
             systemProfit.setBalance(postRequestDTO.getMoney());
             systemProfit.setDescription("Buy Post");
             systemProfit.setDate(getDate());
+            systemProfit.setTransaction(transaction);
             systemProfitRepository.save(systemProfit);
             return userResponseDTO;
         }

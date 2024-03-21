@@ -23,6 +23,7 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin("*")
+@SecurityRequirement(name ="api")
 public class Authentication {
 
     @Autowired
@@ -57,10 +58,9 @@ public class Authentication {
         return responseHandler.response(200, "Sign Up success!", user);
     }
 
-    @PostMapping("/signupMod")
+    @PostMapping("/registerMod")
     public ResponseEntity signupMod(@RequestBody SignUpRequestDTO signUpRequestDTO){
         User user = authenService.signUpMod(signUpRequestDTO);
-
         return responseHandler.response(200, "Sign Up Mod success!", user);
     }
 
