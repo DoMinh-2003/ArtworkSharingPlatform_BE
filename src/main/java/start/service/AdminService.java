@@ -3,8 +3,12 @@ package start.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+import start.dto.response.MemberToTalResponseDTO;
+=======
 import start.dto.response.ProfitResponseDTO;
 import start.entity.SystemProfit;
+>>>>>>> dd79c51e3f4b528e68a01d19a3d0dc4c2245664a
 import start.enums.RoleEnum;
 import start.repository.SystemProfitRepository;
 import start.repository.UserRepository;
@@ -21,11 +25,17 @@ public class AdminService {
     @Autowired
     SystemProfitRepository systemProfitRepository;
 
-    public int countUser() {
-
-      int count = userRepository.countByRole(RoleEnum.CREATOR,RoleEnum.AUDIENCE);
-
-      return count;
+    public MemberToTalResponseDTO countUser() {
+            int creatorCount = userRepository.countByRole(RoleEnum.CREATOR);
+            int audienceCount = userRepository.countByRole(RoleEnum.AUDIENCE);
+            int modCount = userRepository.countByRole(RoleEnum.MOD);
+            int total = creatorCount + audienceCount + modCount;
+        MemberToTalResponseDTO memberToTalResponseDTO = new MemberToTalResponseDTO();
+        memberToTalResponseDTO.setAudienceQuantity(audienceCount);
+        memberToTalResponseDTO.setCreatorQuantity(creatorCount);
+        memberToTalResponseDTO.setModQuantity(modCount);
+        memberToTalResponseDTO.setTotalMember(total);
+        return memberToTalResponseDTO;
     }
 
 
