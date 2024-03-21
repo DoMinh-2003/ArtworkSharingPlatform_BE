@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import start.dto.response.MemberToTalResponseDTO;
-
 import start.dto.response.ProfitResponseDTO;
 import start.entity.SystemProfit;
 
