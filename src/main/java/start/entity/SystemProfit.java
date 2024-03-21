@@ -1,5 +1,6 @@
 package start.entity;
 
+        import com.fasterxml.jackson.annotation.JsonIgnore;
         import lombok.AllArgsConstructor;
         import lombok.Getter;
         import lombok.NoArgsConstructor;
@@ -21,6 +22,9 @@ public class SystemProfit {
     String description;
     String date;
 
-    @OneToOne(mappedBy = "systemProfit",cascade = CascadeType.ALL)
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "transaction_id")
     Transaction transaction;
 }

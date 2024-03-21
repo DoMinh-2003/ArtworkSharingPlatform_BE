@@ -5,6 +5,8 @@ import com.paypal.base.rest.PayPalRESTException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import start.dto.request.RechargeRequestDTO;
+import start.dto.request.WithDrawRequestDTO;
+import start.dto.response.TransactionResponseDTO;
 import start.entity.Transaction;
 import start.entity.User;
 import start.entity.Wallet;
@@ -22,9 +24,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class WalletService {
@@ -197,4 +197,50 @@ if(currentUser.getRole().equals(RoleEnum.CREATOR)){
         return  walletRepository.findWalletByUser_Id(id);
     }
 
+    public Wallet withDraw(WithDrawRequestDTO withDrawRequestDTO) {
+        User user = accountUtils.getCurrentUser();
+        Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
+
+        if (wallet.getBalance() >= (withDrawRequestDTO.getAmount())) {
+            Transaction transaction = new Transaction();
+            transaction.setAmount((withDrawRequestDTO.getAmount()));
+            transaction.setTransactionType(TransactionEnum.WITHDRAW_PENDING);
+            transaction.setFrom(wallet);
+            transaction.setDescription("WITHDRAW");
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+            transaction.setTransactionDate(now.format(formatter));
+            // Update wallet balance
+            wallet.setBalance(wallet.getBalance()-(withDrawRequestDTO.getAmount()));
+
+            // Save transaction and update wallet
+            transactionRepository.save(transaction);
+            return walletRepository.save(wallet);
+        } else {
+            throw new RuntimeException("Insufficient balance in wallet for withdrawal.");
+        }
+    }
+
+    public List<TransactionResponseDTO> requestWithDraw() {
+        List<TransactionResponseDTO> listTransactionResponseDTO = new ArrayList<>();
+         List<Transaction> transactions = transactionRepository.findTransactionByTransactionType(TransactionEnum.WITHDRAW_PENDING);
+        for (Transaction transaction : transactions) {
+            TransactionResponseDTO transactionResponseDTO = new TransactionResponseDTO();
+            transactionResponseDTO.setTransactionID(transaction.getTransactionID());
+            transactionResponseDTO.setTransactionType(transaction.getTransactionType());
+            transactionResponseDTO.setAmount(transaction.getAmount());
+            transactionResponseDTO.setDescription(transaction.getDescription());
+            transactionResponseDTO.setTransactionDate(transaction.getTransactionDate());
+            transactionResponseDTO.setFrom(transaction.getFrom());
+            transactionResponseDTO.setTo(transaction.getTo());
+            if(transaction.getFrom() != null){
+                transactionResponseDTO.setUserFrom(transaction.getFrom().getUser());
+            }
+            if(transaction.getTo() != null){
+                transactionResponseDTO.setUserTo(transaction.getTo().getUser());
+            }
+            listTransactionResponseDTO.add(transactionResponseDTO);
+        }
+        return  listTransactionResponseDTO;
+      }
 }

@@ -52,8 +52,7 @@ public class Transaction {
     Wallet to;
 
     @JsonIgnore
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "systemProfit_id")
+    @OneToOne(mappedBy = "transaction",cascade = CascadeType.ALL)
     private SystemProfit systemProfit;
 
 
