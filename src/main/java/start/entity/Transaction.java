@@ -1,6 +1,7 @@
 package start.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,6 +51,10 @@ public class Transaction {
     @JoinColumn(name = "to_id")
     Wallet to;
 
+    @JsonIgnore
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "systemProfit_id")
+    private SystemProfit systemProfit;
 
 
 }

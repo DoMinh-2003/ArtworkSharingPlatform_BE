@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import start.entity.SystemProfit;
 
+import java.util.List;
+
 @Repository
 public interface SystemProfitRepository extends JpaRepository<SystemProfit,Long> {
 
@@ -16,7 +18,8 @@ public interface SystemProfitRepository extends JpaRepository<SystemProfit,Long>
                 "AND FUNCTION('YEAR', sp.date) = :year")
         float getProfitByMonth(int month, int year);
 
-
-
+        @Query("SELECT sp FROM SystemProfit sp WHERE FUNCTION('MONTH', sp.date) = :month " +
+                "AND FUNCTION('YEAR', sp.date) = :year")
+        List<SystemProfit> getAllHistorySystemProfit(int month, int year);
 
 }

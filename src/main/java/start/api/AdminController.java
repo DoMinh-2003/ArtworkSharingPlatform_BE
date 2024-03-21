@@ -7,8 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import start.dto.response.ProfitResponseDTO;
 import start.service.AdminService;
 import start.utils.ResponseHandler;
+
+import java.util.List;
 
 
 @RestController
@@ -26,15 +29,10 @@ public class AdminController {
         return  responseHandler.response(200, "Get Count User Successfully!", countUser);
     }
 
-    @GetMapping("/revenuePortal")
-    public ResponseEntity revenuePortal(){
-        float  revenuePortal = adminService.revenuePortal();
-        return  responseHandler.response(200, "Get Revenue Portal Successfully!", revenuePortal);
-    }
 
     @GetMapping("/ProfitByMonth")
-    public ResponseEntity getProfitByMonth(@RequestParam("month") int month,@RequestParam("year") int year){
-        float  revenuePortal = adminService.getProfitByMonth(month, year);
+    public ResponseEntity getProfitByMonth(@RequestParam("year") int year){
+        List<ProfitResponseDTO> revenuePortal = adminService.getProfitByMonth(year);
         return  responseHandler.response(200, "Get ProfitByMonth Successfully!", revenuePortal);
     }
 
