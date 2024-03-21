@@ -21,6 +21,7 @@ import start.exception.exceptions.AccountNotVerify;
 import start.exception.exceptions.InValidEmail;
 import start.repository.UserRepository;
 import start.repository.WalletRepository;
+import start.utils.AccountUtils;
 import start.utils.TokenHandler;
 
 import java.util.UUID;
@@ -44,6 +45,9 @@ public class AuthenService implements UserDetailsService {
 
     @Autowired
     EmailService emailService;
+
+    @Autowired
+    AccountUtils accountUtils;
 
     public UserResponseDTO login(LoginRequestDTO loginRequestDTO){
         Authentication authentication = null;
@@ -102,17 +106,23 @@ public class AuthenService implements UserDetailsService {
     }
 
     public User signUpMod(SignUpRequestDTO signUpRequestDTO){
-        User user = new User();
-        user.setRole(RoleEnum.MOD);
-        user.setUsername(signUpRequestDTO.getUserName());
-        user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
-        user.setActive(true);
-        try{
-            return userRepository.save(user);
-        }catch (DataIntegrityViolationException e) {
-            if(e.getMessage().contains("user.username_UNIQUE") || e.getMessage().contains("user.UK_sb8bbouer5wak8vyiiy4pf2bx")) throw new DataIntegrityViolationException("Duplicate UserName");
-            else  throw new DataIntegrityViolationException("Duplicate Email");
+        User userAdmin = accountUtils.getCurrentUser();
+        if(userAdmin.getRole().equals(RoleEnum.ADMIN)){
+            User user = new User();
+            user.setRole(RoleEnum.MOD);
+            user.setUsername(signUpRequestDTO.getUserName());
+            user.setPassword(passwordEncoder.encode(signUpRequestDTO.getPassword()));
+            user.setActive(true);
+            try{
+                return userRepository.save(user);
+            }catch (DataIntegrityViolationException e) {
+                if(e.getMessage().contains("user.username_UNIQUE") || e.getMessage().contains("user.UK_sb8bbouer5wak8vyiiy4pf2bx")) throw new DataIntegrityViolationException("Duplicate UserName");
+                else  throw new DataIntegrityViolationException("Duplicate Email");
+            }
+        }else{
+            throw new RuntimeException("You are not an admin");
         }
+
     }
 
     public User verifyAccount(VerifyRequestDTO verifyRequestDTO) {

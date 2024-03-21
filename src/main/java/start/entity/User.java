@@ -75,6 +75,14 @@ public class User implements UserDetails {
     private Wallet wallet;
 
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "from", cascade = CascadeType.ALL)
+    private Set<Report> reportFrom;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "to", cascade = CascadeType.ALL)
+    private Set<Report> reportTo;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
