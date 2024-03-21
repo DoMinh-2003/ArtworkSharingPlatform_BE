@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import start.dto.request.RechargeRequestDTO;
 import start.dto.request.WithDrawRequestDTO;
 import start.dto.response.TransactionResponseDTO;
+import start.entity.Transaction;
 import start.entity.Wallet;
 import start.service.WalletService;
 import start.utils.ResponseHandler;
@@ -50,14 +51,28 @@ public class WalletController {
     }
     @PostMapping("/withDraw")
     public ResponseEntity withDraw(@RequestBody WithDrawRequestDTO withDrawRequestDTO) throws Exception {
-        Wallet wallet = walletService.withDraw(withDrawRequestDTO);
-        return  responseHandler.response(200, "Send Request Successfully!", wallet);
+        Transaction transaction = walletService.withDraw(withDrawRequestDTO);
+        return  responseHandler.response(200, "WithDraw Successfully!", transaction);
     }
-    @GetMapping("/requestWithDraw")
+    @GetMapping("/requestsWithDraw")
     public ResponseEntity requestWithDraw() throws Exception {
         List<TransactionResponseDTO> list = walletService.requestWithDraw();
         return  responseHandler.response(200, "Send Request Successfully!", list);
     }
+
+    @PutMapping("/acceptWithDraw")
+    public ResponseEntity acpWithDraw(@RequestParam("TransactionId") UUID id) throws Exception {
+        Transaction transaction = walletService.acpWithDraw(id);
+        return  responseHandler.response(200, "Recharge Successfully!", transaction);
+    }
+
+    @PutMapping("/rejectWithDraw")
+    public ResponseEntity rejectWithDraw(@RequestParam("TransactionId") UUID id, @RequestParam("reason") String reason) throws Exception {
+        Transaction transaction = walletService.rejectWithDraw(id,reason);
+        return  responseHandler.response(200, "Recharge Successfully!", transaction);
+    }
+
+
 
     @GetMapping("/walletDetail/{id}")
     public ResponseEntity walletDetail(@PathVariable UUID id) throws Exception {

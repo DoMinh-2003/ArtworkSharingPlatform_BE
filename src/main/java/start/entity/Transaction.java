@@ -39,8 +39,10 @@ public class Transaction {
     private Long artworkID;
 
     private Long orderID;
-
-
+    String accountNumber;
+    String accountName;
+    String bankName;
+String reasonWithdrawReject;
 
     @ManyToOne
     @JoinColumn(name = "from_id")

@@ -13,6 +13,7 @@ import start.entity.Wallet;
 import start.enums.RoleEnum;
 import start.enums.TransactionEnum;
 import start.repository.TransactionRepository;
+import start.repository.UserRepository;
 import start.repository.WalletRepository;
 import start.utils.AccountUtils;
 
@@ -43,6 +44,10 @@ public class WalletService {
     private PaypalService payPalService;
 
 
+    @Autowired
+  private   EmailService emailService;
+    @Autowired
+  private UserRepository userRepository;
 
       public String createUrl(RechargeRequestDTO rechargeRequestDTO) throws NoSuchAlgorithmException, InvalidKeyException, Exception{
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
@@ -197,25 +202,24 @@ if(currentUser.getRole().equals(RoleEnum.CREATOR)){
         return  walletRepository.findWalletByUser_Id(id);
     }
 
-    public Wallet withDraw(WithDrawRequestDTO withDrawRequestDTO) {
+    public Transaction withDraw(WithDrawRequestDTO withDrawRequestDTO) {
         User user = accountUtils.getCurrentUser();
         Wallet wallet = walletRepository.findWalletByUser_Id(user.getId());
-
         if (wallet.getBalance() >= (withDrawRequestDTO.getAmount())) {
             Transaction transaction = new Transaction();
             transaction.setAmount((withDrawRequestDTO.getAmount()));
             transaction.setTransactionType(TransactionEnum.WITHDRAW_PENDING);
             transaction.setFrom(wallet);
             transaction.setDescription("WITHDRAW");
+            transaction.setAccountName(withDrawRequestDTO.getAccountName());
+            transaction.setBankName(withDrawRequestDTO.getBankName());
+            transaction.setAccountNumber(withDrawRequestDTO.getAccountNumber());
             LocalDateTime now = LocalDateTime.now();
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
             transaction.setTransactionDate(now.format(formatter));
-            // Update wallet balance
             wallet.setBalance(wallet.getBalance()-(withDrawRequestDTO.getAmount()));
-
-            // Save transaction and update wallet
-            transactionRepository.save(transaction);
-            return walletRepository.save(wallet);
+            walletRepository.save(wallet);
+            return transactionRepository.save(transaction);
         } else {
             throw new RuntimeException("Insufficient balance in wallet for withdrawal.");
         }
@@ -243,4 +247,44 @@ if(currentUser.getRole().equals(RoleEnum.CREATOR)){
         }
         return  listTransactionResponseDTO;
       }
+
+    public Transaction acpWithDraw(UUID id) {
+        Transaction transaction = transactionRepository.findByTransactionID(id);
+        if (transaction != null) {
+            transaction.setTransactionType(TransactionEnum.WITHDRAW_SUCCESS);
+            threadSendMail(transaction.getFrom().getUser(), "Withdrawal Successfully", "Thank you for trusting and using Cremo");
+            transactionRepository.save(transaction);
+            return  transaction;
+        }
+        else{
+            return null;
+        }
+
+    }
+
+
+    public Transaction rejectWithDraw(UUID id, String reason) {
+        Transaction transaction = transactionRepository.findByTransactionID(id);
+        if (transaction != null) {
+            Wallet wallet = transaction.getFrom();
+            wallet.setBalance(wallet.getBalance()+ transaction.getAmount());
+            transaction.setTransactionType(TransactionEnum.WITHDRAW_REJECT);
+            transaction.setReasonWithdrawReject(reason);
+            threadSendMail(transaction.getFrom().getUser(), "Withdrawal failed", "You Cannot Withdraw Because: " + reason);
+            return transactionRepository.save(transaction);
+        } else {
+            return null;
+        }
+    }
+
+    public void threadSendMail(User user,String subject, String description){
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                emailService.sendMail(user,subject,description);
+            }
+
+        };
+        new Thread(r).start();
+    }
 }
