@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import start.dto.request.ApproveRequestDTO;
 import start.dto.request.ArtworkRequestDTO;
+import start.dto.request.ListCategoryNameDTO;
 import start.dto.response.ArtworkResponseDTO;
 import start.dto.response.LoginResponse;
 import start.entity.Artwork;
@@ -86,7 +87,7 @@ public class ArtworkController {
         return  responseHandler.response(200, "Delete Artwork Successlly!", artwork);
     }
     @PutMapping("/updateArtwork/{id}")
-    public ResponseEntity updateArtwork(@PathVariable long id,@RequestBody ArtworkRequestDTO artworkRequestDTO){
+    public ResponseEntity updateArtwork(@PathVariable long id, @RequestBody ArtworkRequestDTO artworkRequestDTO){
         Artwork artwork = artworkService.updateArtwork(id,artworkRequestDTO);
         return  responseHandler.response(200, "Update Artwork Successlly!", artwork);
     }
@@ -96,4 +97,12 @@ public class ArtworkController {
         List<Artwork> artworks = artworkService.searchArtwork(search);
         return  responseHandler.response(200, "Get Search Artwork Successfully!", artworks);
     }
+
+    @PostMapping("/artworkByCategory")
+    public ResponseEntity artworkByCategory(@RequestBody ListCategoryNameDTO listCategoryNameDTO){
+        List<String> categoryName = listCategoryNameDTO.getCategoryName();
+        List<ArtworkResponseDTO> artworks = artworkService.artworkByCategory(categoryName);
+        return  responseHandler.response(200, "Get Search Artwork By Category Successfully!", artworks);
+    }
+
 }
