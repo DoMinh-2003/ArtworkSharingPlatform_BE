@@ -42,7 +42,7 @@ public class Transaction {
     String accountNumber;
     String accountName;
     String bankName;
-String reasonWithdrawReject;
+    String reasonWithdrawReject;
 
     @ManyToOne
     @JoinColumn(name = "from_id")
