@@ -285,37 +285,39 @@ public class ArtworkService  {
         List<Artwork> artworks = artworkRepository.findByCategoriesNameIn(categoryName);
         List<ArtworkResponseDTO> listArtwork = new ArrayList<>();
         for(Artwork artwork : artworks){
-            int countLike = 0;
-            int countComment = 0;
-            ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
-            artworkResponseDTO.setId(artwork.getId());
-            artworkResponseDTO.setTitle(artwork.getTitle());
-            artworkResponseDTO.setImage(artwork.getImage());
-            artworkResponseDTO.setDescription(artwork.getDescription());
-            artworkResponseDTO.setCreateDate(artwork.getCreateDate());
-            artworkResponseDTO.setPrice(artwork.getPrice());
-            artworkResponseDTO.setStatus(artwork.getStatus());
-            artworkResponseDTO.setUser(artwork.getUser());
-            artworkResponseDTO.setCategories(artwork.getCategories());
-            for(Interaction interaction: artwork.getInteractions()){
-                if(interaction.getType().equals(TypeEnum.LIKE)){
-                    countLike += 1;
-                }else if (interaction.getType().equals(TypeEnum.COMMENT)){
-                    countComment += 1;
+            if(artwork.getStatus().equals(StatusEnum.ACTIVE)){
+                int countLike = 0;
+                int countComment = 0;
+                ArtworkResponseDTO artworkResponseDTO = new ArtworkResponseDTO();
+                artworkResponseDTO.setId(artwork.getId());
+                artworkResponseDTO.setTitle(artwork.getTitle());
+                artworkResponseDTO.setImage(artwork.getImage());
+                artworkResponseDTO.setDescription(artwork.getDescription());
+                artworkResponseDTO.setCreateDate(artwork.getCreateDate());
+                artworkResponseDTO.setPrice(artwork.getPrice());
+                artworkResponseDTO.setStatus(artwork.getStatus());
+                artworkResponseDTO.setUser(artwork.getUser());
+                artworkResponseDTO.setCategories(artwork.getCategories());
+                for(Interaction interaction: artwork.getInteractions()){
+                    if(interaction.getType().equals(TypeEnum.LIKE)){
+                        countLike += 1;
+                    }else if (interaction.getType().equals(TypeEnum.COMMENT)){
+                        countComment += 1;
+                    }
                 }
-            }
-            artworkResponseDTO.setCountLike(countLike);
-            artworkResponseDTO.setCountComment(countComment);
-            artworkResponseDTO.setInteractionLike( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.LIKE)).collect(Collectors.toSet()));
-            artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
-            boolean check = false;
-            for(ArtworkResponseDTO artworkResponseDTO1:listArtwork){
-                if(artworkResponseDTO1.getId() == artworkResponseDTO.getId()){
-                    check= true;
+                artworkResponseDTO.setCountLike(countLike);
+                artworkResponseDTO.setCountComment(countComment);
+                artworkResponseDTO.setInteractionLike( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.LIKE)).collect(Collectors.toSet()));
+                artworkResponseDTO.setInteractionComment( artwork.getInteractions().stream().filter(aw -> aw.getType().equals(TypeEnum.COMMENT)).collect(Collectors.toSet()));
+                boolean check = false;
+                for(ArtworkResponseDTO artworkResponseDTO1:listArtwork){
+                    if(artworkResponseDTO1.getId() == artworkResponseDTO.getId()){
+                        check= true;
+                    }
                 }
-            }
-            if(!check){
-                listArtwork.add(artworkResponseDTO);
+                if(!check){
+                    listArtwork.add(artworkResponseDTO);
+                }
             }
         }
         return listArtwork;
