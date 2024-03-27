@@ -22,6 +22,7 @@ import start.exception.exceptions.IncorrectPassword;
 import start.repository.UserRepository;
 import start.repository.WalletRepository;
 import start.utils.AccountUtils;
+import start.utils.TokenHandler;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,12 +47,17 @@ public class UserService {
     @Autowired
     WalletRepository walletRepository;
 
-    public User loginGoogle (String token) {
+
+    @Autowired
+    TokenHandler tokenHandler;
+
+    public UserResponseDTO loginGoogle (String token) {
         try{
+            UserResponseDTO userResponseDTO = new UserResponseDTO();
             FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(token);
             String email = decodeToken.getEmail();
             User user = userRepository.findByEmail(email);
-             if(user == null){
+             if(user == null) {
                  User user2 = new User();
                  user2.setEmail(email);
                  user2.setName(decodeToken.getName());
@@ -63,11 +69,18 @@ public class UserService {
                  wallet.setBalance(0);
                  wallet.setCocMoney(0);
                  walletRepository.save(wallet);
-                 return userRepository.save(user2);
-             }else{
-                 return user;
+                 user = userRepository.save(user2);
              }
-
+                 userResponseDTO.setRole(user.getRole());
+                 userResponseDTO.setToken(tokenHandler.generateToken(user));
+                 userResponseDTO.setId(user.getId());
+                 userResponseDTO.setName(user.getName());
+                 userResponseDTO.setEmail(user.getEmail());
+                 userResponseDTO.setAvt(user.getAvt());
+                 userResponseDTO.setPostQuantity(user.getPostQuantity());
+                 userResponseDTO.setArtworks(user.getArtworks());
+                 userResponseDTO.setWallet(user.getWallet());
+                 return userResponseDTO;
         } catch (FirebaseAuthException e)
         {
             e.printStackTrace();
