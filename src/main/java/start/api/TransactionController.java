@@ -35,4 +35,10 @@ public class TransactionController {
         List<TransactionResponseDTO> transaction = transactionService.allTransactions();
         return  responseHandler.response(200, "Get All Transaction  Successfully!", transaction);
     }
+
+    @GetMapping("/historyBuyArtworkById")
+    public ResponseEntity historyBuyArtworkById(){
+        List<TransactionResponseDTO> transaction = transactionService.historyBuyArtworkById();
+        return  responseHandler.response(200, "Get All History Buy Artwork  Successfully!", transaction);
+    }
 }
