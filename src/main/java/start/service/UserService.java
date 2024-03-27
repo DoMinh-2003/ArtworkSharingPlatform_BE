@@ -48,8 +48,6 @@ public class UserService {
 
     public User loginGoogle (String token) {
         try{
-            System.out.println("dmm");
-
             FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(token);
             String email = decodeToken.getEmail();
             User user = userRepository.findByEmail(email);
