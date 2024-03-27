@@ -63,6 +63,7 @@ public class UserService {
                  user2.setName(decodeToken.getName());
                  user2.setAvt(decodeToken.getPicture());
                  user2.setActive(true);
+                 user2.setPostQuantity(0);
                  user2.setRole(RoleEnum.AUDIENCE);
                  Wallet wallet = new Wallet();
                  wallet.setUser(user2);
