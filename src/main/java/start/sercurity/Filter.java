@@ -42,7 +42,6 @@ public class Filter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String uri = request.getRequestURI();
         if (uri.contains("/login") || uri.contains("/searchArtwork") || uri.contains("/artworkActiveByCreator") || uri.contains("/topCreator") || uri.contains("/getAllOrderRequest-global") || uri.contains("/getCreator-detail") || uri.contains("/websocket") || uri.contains("/vnpay-payment") || uri.contains("/forgotPassword") || uri.contains("/artworks") || uri.contains("/artwork-detail") || uri.contains("/verify-account") || uri.contains("/signup") || uri.contains("swagger-ui") || uri.contains("v3") || uri.contains("job")) {
-
             filterChain.doFilter(request, response);
         } else {
             String id;
