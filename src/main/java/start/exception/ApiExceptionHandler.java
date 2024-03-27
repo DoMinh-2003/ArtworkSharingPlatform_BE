@@ -16,6 +16,8 @@ public class ApiExceptionHandler {
         return new ResponseEntity<String>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> duplicate(Exception exception) {
         return new ResponseEntity<String>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
