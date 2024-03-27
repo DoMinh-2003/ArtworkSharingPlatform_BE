@@ -48,21 +48,24 @@ public class UserService {
 
     public User loginGoogle (String token) {
         try{
+            System.out.println("dmm");
+
             FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(token);
             String email = decodeToken.getEmail();
             User user = userRepository.findByEmail(email);
              if(user == null){
-                 user.setEmail(email);
-                 user.setName(decodeToken.getName());
-                 user.setAvt(decodeToken.getPicture());
-                 user.setActive(true);
-                 user.setRole(RoleEnum.AUDIENCE);
+                 User user2 = new User();
+                 user2.setEmail(email);
+                 user2.setName(decodeToken.getName());
+                 user2.setAvt(decodeToken.getPicture());
+                 user2.setActive(true);
+                 user2.setRole(RoleEnum.AUDIENCE);
                  Wallet wallet = new Wallet();
-                 wallet.setUser(user);
+                 wallet.setUser(user2);
                  wallet.setBalance(0);
                  wallet.setCocMoney(0);
                  walletRepository.save(wallet);
-                 return userRepository.save(user);
+                 return userRepository.save(user2);
              }else{
                  return user;
              }
