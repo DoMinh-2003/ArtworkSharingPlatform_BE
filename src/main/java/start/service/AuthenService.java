@@ -27,7 +27,7 @@ import start.utils.TokenHandler;
 import java.util.UUID;
 
 @Service
-public class AuthenService implements UserDetailsService {
+public class    AuthenService implements UserDetailsService {
 
     @Autowired
     AuthenticationManager authenticationManager;
