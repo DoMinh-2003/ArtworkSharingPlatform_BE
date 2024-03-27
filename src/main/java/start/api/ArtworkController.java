@@ -94,7 +94,7 @@ public class ArtworkController {
 
     @GetMapping("/searchArtwork")
     public ResponseEntity searchArtwork(@RequestParam("search") String search){
-        List<Artwork> artworks = artworkService.searchArtwork(search);
+        List<ArtworkResponseDTO> artworks = artworkService.searchArtwork(search);
         return  responseHandler.response(200, "Get Search Artwork Successfully!", artworks);
     }
 
