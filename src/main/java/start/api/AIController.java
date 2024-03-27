@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AIController {
     @GetMapping("/getKeyApi")
     public ResponseEntity getAllArtwok(){
-        return  ResponseEntity.ok("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");
+        return  ResponseEntity.ok("xILU1ELRYRR3zdvuUnSrT3BlbkFJ1XzW4xHVRf4Pt8w0UQn3");
     }
 }
