@@ -111,7 +111,7 @@ public class ChatService {
     public void setTyping(int roomID, String name) {
         Room roomDTO = roomRepository.findRoomByRoomID(roomID);
         for (User account : roomDTO.getUsers()) {
-            messagingTemplate.convertAndSend("/topic/chat/" + account.getId(), name + " .gitis typing ... ") ;
+            messagingTemplate.convertAndSend("/topic/chat/" + account.getId(), name + " is typing ... ") ;
         }
     }
 
