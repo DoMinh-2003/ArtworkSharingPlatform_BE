@@ -92,6 +92,7 @@ public class    AuthenService implements UserDetailsService {
         user.setName(signUpRequestDTO.getName());
         user.setAvt("https://png.pngtree.com/png-clipart/20200701/original/pngtree-character-default-avatar-png-image_5407167.jpg");
         user.setActive(false);
+        user.setPostQuantity(0);
         Wallet wallet = new Wallet();
         wallet.setUser(user);
         wallet.setBalance(0);
