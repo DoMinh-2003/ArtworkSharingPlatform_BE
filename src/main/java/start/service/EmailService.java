@@ -2,6 +2,7 @@ package start.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 @Service
+@EnableAutoConfiguration
 public class EmailService {
 
     @Autowired
@@ -23,15 +25,11 @@ public class EmailService {
     @Autowired
     private JavaMailSender javaMailSender;
     public void sendMailTemplate(User user){
-
         try{
             Context context = new Context();
-
             context.setVariable("name", user.getName());
             context.setVariable("email", "http://mycremo.art/confirm-success?id="+user.getId()+"&email="+user.getEmail());
-
             String text = templateEngine.process("emailtemplate", context);
-
             // Creating a simple mail message
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);

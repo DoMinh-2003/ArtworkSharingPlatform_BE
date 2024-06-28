@@ -37,7 +37,6 @@ public class ArtworkService  {
     UserRepository userRepository;
 
     public Artwork addNewArtwork(ArtworkRequestDTO artworkRequestDTO) {
-
         Set<Category> listCategoryID = new HashSet<>();
         for (String categoryName : artworkRequestDTO.getCategoriesName()) {
             Category category = categoryRepository.findAllByName(categoryName);

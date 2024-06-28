@@ -44,8 +44,6 @@ public class AdminService {
         List<ProfitResponseDTO> list =  new ArrayList<>();
         float revenuePortal;
         List<SystemProfit> systemProfits;
-
-
         for(i = 1 ; i <= 12 ; i++){
             List<ListSystemProfitMapByDTO> listSystemProfitMapByDTOS = new ArrayList<>();
             int month = i;

@@ -10,3 +10,4 @@ public class AccountUtils {
          return (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
      }
 }
+

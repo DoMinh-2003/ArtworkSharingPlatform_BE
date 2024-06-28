@@ -20,6 +20,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class User implements UserDetails {
 
     @Id
@@ -89,7 +90,7 @@ public class User implements UserDetails {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(this.role.toString()));
         return authorities;
-    }
+    }   
 
     @Override
     public boolean isAccountNonExpired() {

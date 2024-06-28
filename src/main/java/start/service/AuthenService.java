@@ -27,7 +27,7 @@ import start.utils.TokenHandler;
 import java.util.UUID;
 
 @Service
-public class    AuthenService implements UserDetailsService {
+public class  AuthenService implements UserDetailsService {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -65,9 +65,7 @@ public class    AuthenService implements UserDetailsService {
         if(user.isDeActive()) {
             throw new AccountNotVerify("Account has been blocked");
         }
-        if(!user.isActive()){
-         throw new AccountNotVerify("Account has not been verified");
-        }else{
+
             UserResponseDTO userResponseDTO = new UserResponseDTO();
             userResponseDTO.setUsername(user.getUsername());
             userResponseDTO.setRole(user.getRole());
@@ -80,7 +78,6 @@ public class    AuthenService implements UserDetailsService {
             userResponseDTO.setArtworks(user.getArtworks());
             userResponseDTO.setWallet(user.getWallet());
             return userResponseDTO;
-        }
     }
 
     public User signUp(SignUpRequestDTO signUpRequestDTO){
@@ -139,7 +136,7 @@ public class    AuthenService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByUsername(username);
+        User user = userRepository.findByUsernameOrEmail(username);
         return user;
     }
 

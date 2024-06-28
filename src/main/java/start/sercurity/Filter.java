@@ -40,30 +40,26 @@ public class Filter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String uri = request.getRequestURI();
-
+            String uri = request.getRequestURI();
         if (uri.contains("/login") || uri.contains("/creatorCategorys") || uri.contains("/login-gg")|| uri.contains("/artworkByCategory") || uri.contains("/searchArtwork") || uri.contains("/artworkActiveByCreator") || uri.contains("/topCreator") || uri.contains("/getAllOrderRequest-global") || uri.contains("/getCreator-detail") || uri.contains("/websocket") || uri.contains("/vnpay-payment") || uri.contains("/forgotPassword") || uri.contains("/artworks") || uri.contains("/artwork-detail") || uri.contains("/verify-account") || uri.contains("/signup") || uri.contains("swagger-ui") || uri.contains("v3") || uri.contains("job")) {
             filterChain.doFilter(request, response);
         } else {
-            String id;
+            String info;
             String token = getToken(request);
             if (token == null) {
                 responseHandler.responseResolver(request, response, new NotAllowException("Empty Token!"));
                 return;
             }
             try {
-                id = tokenHandler.getInfoByToken(token);
+                info = tokenHandler.getInfoByToken(token);
             } catch (ExpiredJwtException expiredJwtException) {
                 responseHandler.responseResolver(request, response, new NotAllowException("Expired Token!"));
                 return;
-            } catch (MalformedJwtException malformedJwtException) {
-                responseHandler.responseResolver(request, response, new NotAllowException("Invalid Token!"));
-                return;
             }
-            if (id != null) {
+            if (info != null) {
                 // token chuẩn
                 // tạo 1 đối tượng mà spring security hiểu
-                User user = userRepository.findUserByUsername(id);
+                User user = userRepository.findByUsernameOrEmail(info);
                 //token hop le
 
                 UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

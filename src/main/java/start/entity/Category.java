@@ -27,4 +27,5 @@ public class Category {
     @ManyToMany(mappedBy = "categories",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonBackReference
     Set<Artwork> artworks;
+
 }

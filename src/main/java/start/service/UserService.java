@@ -72,6 +72,7 @@ public class UserService {
                  walletRepository.save(wallet);
                  user = userRepository.save(user2);
              }
+                 user.setUsername(user.getEmail());
                  userResponseDTO.setRole(user.getRole());
                  userResponseDTO.setToken(tokenHandler.generateToken(user));
                  userResponseDTO.setId(user.getId());

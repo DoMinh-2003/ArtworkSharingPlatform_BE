@@ -21,6 +21,7 @@ public class TestController {
         return responseHandler.response(200, "Successfully get data!", null);
     }
 
+
     @GetMapping("all-user")
     @PreAuthorize("hasAuthority('CUSTOMER')")
     public ResponseEntity get(){

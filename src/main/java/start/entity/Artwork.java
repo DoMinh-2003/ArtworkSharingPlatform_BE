@@ -39,6 +39,7 @@ public class Artwork {
             joinColumns = @JoinColumn(name = "artwork_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     @JsonManagedReference
+
     Set<Category> categories;
 
     @JsonIgnore
